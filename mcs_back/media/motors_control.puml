@@ -1,0 +1,63 @@
+@startuml
+start
+
+:Update delays;
+:m_precharge_delay.update();
+:m_frg_permit_delay.update();
+
+:Force MDs OK (temp);
+:m_data.is_left_md_ok = true;
+:m_data.is_right_md_ok = true;
+
+:Check if TS ready;
+if (m_data.is_left_md_ok && m_data.is_right_md_ok) then (yes)
+    :TS ready = true;
+else
+    :TS ready = false;
+endif
+
+:m_tractive_system_ready_detector.update();
+if (m_tractive_system_ready_detector.is_triggered()) then (triggered)
+    if (m_data.is_tractive_system_ready_for_activation) then (ready)
+        :Send TS_Ready_For_Activation_Msg{true};
+    else
+        :Deactivate TS;
+        :Send TS_Ready_For_Activation_Msg{false};
+    endif
+endif
+
+:m_tractive_system_active_detector.update();
+if (m_tractive_system_active_detector.is_triggered()) then (triggered)
+    if (m_data.is_tractive_system_activated) then (TS activated)
+        :Send AIRs_Control_Msg{true};
+    else
+        :Send AIRs_Control_Msg{false};
+    endif
+endif
+
+:m_rfe_permit_detector.update(precharge_delay.output);
+if (m_rfe_permit_detector.is_triggered()) then (triggered)
+    if (m_precharge_delay.output()) then (precharged)
+        :Grant RFE permit;
+        :Send RFE_Permit_Msg{true};
+    else
+        :Revoke RFE permit;
+        :Send RFE_Permit_Msg{false};
+    endif
+endif
+
+:m_r2d_permit_detector.update();
+if (m_r2d_permit_detector.is_triggered()) then (triggered)
+    if (m_data.is_r2d_permit_granted) then (granted)
+        :Enter R2D mode;
+        :Send FRG_Permit_Msg{true};
+        :Send R2D_Activated_Msg{true};
+    else
+        :Exit R2D mode;
+        :Send FRG_Permit_Msg{false};
+        :Send R2D_Activated_Msg{false};
+    endif
+endif
+
+stop
+@enduml

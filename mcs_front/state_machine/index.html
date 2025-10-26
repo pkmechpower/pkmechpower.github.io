@@ -1,0 +1,994 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../../mcs_back/architecture/">
+      
+      
+      <link rel="icon" href="../../media/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
+    
+    
+      
+        <title>State Machine - PK MechPower Codebase</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/puml.css">
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/interaction.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#display-state-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PK MechPower Codebase" class="md-header__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PK MechPower Codebase
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              State Machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../library/torque_map/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../common/can/can/" class="md-tabs__link">
+          
+  
+  
+  Common
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Front
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mcs_back/architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Back
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PK MechPower Codebase" class="md-nav__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    PK MechPower Codebase
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Library
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Library
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/torque_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Torque Map
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Common
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Common
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CAN
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            CAN
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/can/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CAN
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/message_definition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Message definition guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    MCS_Front
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            MCS_Front
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    State Machine
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    State Machine
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#main-sm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main SM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calibration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#r2d" class="md-nav__link">
+    <span class="md-ellipsis">
+      R2D
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MCS_Back
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            MCS_Back
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#main-sm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Main SM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Calibration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Settings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#r2d" class="md-nav__link">
+    <span class="md-ellipsis">
+      R2D
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="display-state-machine">Display State Machine</h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Outdated</p>
+</div>
+<p>Display state machine (SM) consists of one main SM and few inner ones.</p>
+<h2 id="main-sm">Main SM</h2>
+<p>Main SM states are:</p>
+<ul>
+<li>Initialization,</li>
+<li>Idle,</li>
+<li>R2D.</li>
+</ul>
+<p><strong>Initialization</strong> is a state during which the calibration process happens.</p>
+<p><strong>Idle</strong> is a state, when device awaits inputs from the driver. Driver can then change settings of the car, and try to grant permissions for TS activation.</p>
+<p><strong>R2D</strong> is the Ready2Drive state. Driver can't change any previously set settings of the car. The car is ready for a race.</p>
+<h2 id="calibration">Calibration</h2>
+<h2 id="settings">Settings</h2>
+<h2 id="r2d">R2D</h2>
+<div class='puml-container'><div class="puml light" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="STATE" height="1280px" preserveAspectRatio="xMidYMid meet" style="width:3198px;height:1280px;background:#FFFFFF;" version="1.1" viewBox="0 0 3198 1280" width="3198px" zoomAndPan="magnify" class="diagram"><defs/><g><path d="M73.25,7 L610.7425,7 A12.5,12.5 0 0 1 623.2425,19.5 L623.2425,52.2656 L60.75,52.2656 L60.75,19.5 A12.5,12.5 0 0 1 73.25,7" fill="#F1F1F1"/><rect fill="none" height="1267.7613" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="562.4925" x="60.75" y="7"/><line style="stroke:#181818;stroke-width:0.5;" x1="60.75" x2="623.2425" y1="52.2656" y2="52.2656"/><line style="stroke:#181818;stroke-width:0.5;" x1="60.75" x2="623.2425" y1="33.2969" y2="33.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85.374" x="299.3093" y="24.9951">Initialization</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="162.8965" x="65.75" y="44.4355">ON EXIT: set initialized flag</text><path d="M173.17,340.7656 L596.7425,340.7656 A12.5,12.5 0 0 1 609.2425,353.2656 L609.2425,386.0313 L160.67,386.0313 L160.67,353.2656 A12.5,12.5 0 0 1 173.17,340.7656" fill="#F1F1F1"/><rect fill="none" height="820.7356" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="448.5725" x="160.67" y="340.7656"/><line style="stroke:#181818;stroke-width:0.5;" x1="160.67" x2="609.2425" y1="386.0313" y2="386.0313"/><line style="stroke:#181818;stroke-width:0.5;" x1="160.67" x2="609.2425" y1="367.0625" y2="367.0625"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76.1729" x="346.8698" y="358.7607">Calibration</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="238.248" x="165.67" y="378.2012">ON ENTER: Display &quot;Calibration&quot; screen</text><ellipse cx="374.1" cy="407.0313" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Initialization.Calibration.BrakeMin"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="365.2695" x="191.47" y="454.0313"/><line style="stroke:#181818;stroke-width:0.5;" x1="191.47" x2="556.7395" y1="480.3281" y2="480.3281"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65.502" x="341.3538" y="472.0264">BrakeMin</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="345.2695" x="196.47" y="496.4668">ON EXIT: Save current position of brake pedal as minimal</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="196.47" y="510.4355">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.BrakeMax"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="368.7852" x="189.71" y="571.2713"/><line style="stroke:#181818;stroke-width:0.5;" x1="189.71" x2="558.4952" y1="597.5681" y2="597.5681"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69.6035" x="339.3008" y="589.2664">BrakeMax</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="348.7852" x="194.71" y="613.7068">ON EXIT: Save current position of brake pedal as maximal</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="194.71" y="627.6755">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.AwaitBrakeRelease"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="369.1895" x="189.51" y="688.5013"/><line style="stroke:#181818;stroke-width:0.5;" x1="189.51" x2="558.6995" y1="714.7981" y2="714.7981"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134.9756" x="306.6169" y="706.4964">AwaitBrakeRelease</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="349.1895" x="194.51" y="730.9368">DURING: Display current position of brake pedal (0-100%)</text></g><g id="Initialization.Calibration.AcceleratorMin"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="398.9492" x="174.63" y="791.7713"/><line style="stroke:#181818;stroke-width:0.5;" x1="174.63" x2="573.5792" y1="818.0681" y2="818.0681"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105.0752" x="321.567" y="809.7664">AcceleratorMin</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="378.9492" x="179.63" y="834.2068">ON EXIT: Save current position of accelerator pedal as minimal</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="179.63" y="848.1755">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.AcceleratorMax"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="402.4648" x="172.87" y="909.0013"/><line style="stroke:#181818;stroke-width:0.5;" x1="172.87" x2="575.3348" y1="935.2981" y2="935.2981"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109.1768" x="319.514" y="926.9964">AcceleratorMax</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="382.4648" x="177.87" y="951.4368">ON EXIT: Save current position of accelerator pedal as maximal</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="177.87" y="965.4055">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.AwaitAcceleratorRelease"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="402.8691" x="172.67" y="1026.2313"/><line style="stroke:#181818;stroke-width:0.5;" x1="172.67" x2="575.5391" y1="1052.5281" y2="1052.5281"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="174.5488" x="286.8302" y="1044.2264">AwaitAcceleratorRelease</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="382.8691" x="177.67" y="1068.6668">DURING: Display current position of accelerator pedal (0-100%)</text></g><ellipse cx="374.1" cy="1140.5013" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="374.1" cy="1140.5013" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.Calibration" data-entity-2="BrakeMin" data-source-line="19" data-uid="lnk13" id="link_.start.Calibration_BrakeMin"><path d="M374.1,417.4913 C374.1,426.5013 374.1,434.5713 374.1,447.5613" fill="none" id="*start*Calibration-to-BrakeMin" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,453.5613,378.1,444.5613,374.1,448.5613,370.1,444.5613,374.1,453.5613" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="BrakeMin" data-entity-2="BrakeMax" data-source-line="22" data-uid="lnk15" id="link_BrakeMin_BrakeMax"><path d="M374.1,518.6413 C374.1,534.9013 374.1,548.6813 374.1,564.9313" fill="none" id="BrakeMin-to-BrakeMax" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,570.9313,378.1,561.9313,374.1,565.9313,370.1,561.9313,374.1,570.9313" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="549.3381">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="549.3381">button clicked</text></g><g class="link" data-entity-1="BrakeMax" data-entity-2="AwaitBrakeRelease" data-source-line="27" data-uid="lnk17" id="link_BrakeMax_AwaitBrakeRelease"><path d="M374.1,635.9813 C374.1,652.5813 374.1,666.6213 374.1,682.0513" fill="none" id="BrakeMax-to-AwaitBrakeRelease" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,688.0513,378.1,679.0513,374.1,683.0513,370.1,679.0513,374.1,688.0513" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="666.5681">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="666.5681">button clicked</text></g><g class="link" data-entity-1="BrakeMax" data-entity-2="BrakeMax" data-source-line="28" data-uid="lnk18" id="link_BrakeMax_BrakeMax"><path d="M558.96,595.8213 C569.92,597.6313 576.5,600.1513 576.5,603.3813 C576.5,606.6213 575.8407,608.1689 564.8807,609.9689" fill="none" id="BrakeMax-to-BrakeMax" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="558.96,610.9413,568.4893,613.4298,563.8939,610.1309,567.1928,605.5356,558.96,610.9413" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitBrakeRelease" data-entity-2="AwaitBrakeRelease" data-source-line="34" data-uid="lnk19" id="link_AwaitBrakeRelease_AwaitBrakeRelease"><path d="M559.14,706.9713 C570.12,708.5613 576.7,710.7813 576.7,713.6313 C576.7,716.4813 576.0581,717.8414 565.0781,719.4314" fill="none" id="AwaitBrakeRelease-to-AwaitBrakeRelease" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="559.14,720.2913,568.6204,722.9601,564.0884,719.5747,567.4738,715.0427,559.14,720.2913" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitBrakeRelease" data-entity-2="AcceleratorMin" data-source-line="35" data-uid="lnk21" id="link_AwaitBrakeRelease_AcceleratorMin"><path d="M374.1,739.2013 C374.1,754.6713 374.1,768.7813 374.1,785.4213" fill="none" id="AwaitBrakeRelease-to-AcceleratorMin" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,791.4213,378.1,782.4213,374.1,786.4213,370.1,782.4213,374.1,791.4213" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="175.9824" x="375.1" y="769.8381">brake_pedal_position == 0</text></g><g class="link" data-entity-1="AcceleratorMin" data-entity-2="AcceleratorMax" data-source-line="39" data-uid="lnk23" id="link_AcceleratorMin_AcceleratorMax"><path d="M374.1,856.3713 C374.1,872.6313 374.1,886.4113 374.1,902.6713" fill="none" id="AcceleratorMin-to-AcceleratorMax" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,908.6713,378.1,899.6713,374.1,903.6713,370.1,899.6713,374.1,908.6713" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="887.0681">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="887.0681">button clicked</text></g><g class="link" data-entity-1="AcceleratorMax" data-entity-2="AwaitAcceleratorRelease" data-source-line="44" data-uid="lnk25" id="link_AcceleratorMax_AwaitAcceleratorRelease"><path d="M374.1,973.7213 C374.1,990.3213 374.1,1004.3613 374.1,1019.7813" fill="none" id="AcceleratorMax-to-AwaitAcceleratorRelease" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,1025.7813,378.1,1016.7813,374.1,1020.7813,370.1,1016.7813,374.1,1025.7813" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="1004.2981">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="1004.2981">button clicked</text></g><g class="link" data-entity-1="AcceleratorMax" data-entity-2="AcceleratorMax" data-source-line="45" data-uid="lnk26" id="link_AcceleratorMax_AcceleratorMax"><path d="M575.58,933.7513 C586.71,935.5413 593.34,938.0013 593.34,941.1213 C593.34,944.2413 592.6339,945.7385 581.5039,947.5285" fill="none" id="AcceleratorMax-to-AcceleratorMax" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="575.58,948.4813,585.101,951.0014,580.5166,947.6873,583.8307,943.1029,575.58,948.4813" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitAcceleratorRelease" data-entity-2="AwaitAcceleratorRelease" data-source-line="51" data-uid="lnk27" id="link_AwaitAcceleratorRelease_AwaitAcceleratorRelease"><path d="M575.77,1044.8813 C586.91,1046.4613 593.54,1048.6213 593.54,1051.3713 C593.54,1054.1213 592.8505,1055.4387 581.7105,1057.0187" fill="none" id="AwaitAcceleratorRelease-to-AwaitAcceleratorRelease" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="575.77,1057.8613,585.2425,1060.5578,580.7205,1057.1591,584.1191,1052.6371,575.77,1057.8613" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitAcceleratorRelease" data-entity-2=".end.Calibration" data-source-line="53" data-uid="lnk29" id="link_AwaitAcceleratorRelease_.end.Calibration"><path d="M374.1,1076.6413 C374.1,1093.9613 374.1,1110.3813 374.1,1123.2313" fill="none" id="AwaitAcceleratorRelease-to-*end*Calibration" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="374.1,1129.2313,378.1,1120.2313,374.1,1124.2313,370.1,1120.2313,374.1,1129.2313" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="212.4688" x="375.1" y="1107.5681">accelerator_pedal_position == 0</text></g><ellipse cx="384.95" cy="73.2656" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Initialization.StartScreen"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="222.2715" x="273.82" y="120.2656"/><line style="stroke:#181818;stroke-width:0.5;" x1="273.82" x2="496.0915" y1="146.5625" y2="146.5625"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82.6396" x="343.6359" y="138.2607">StartScreen</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="202.2715" x="278.82" y="162.7012">ON ENTER: Display &quot;Start&quot; screen</text></g><g id="Initialization.CANStatusInit"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="279.4355" x="245.24" y="223.5256"/><line style="stroke:#181818;stroke-width:0.5;" x1="245.24" x2="524.6755" y1="249.8225" y2="249.8225"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96.8174" x="336.5491" y="241.5207">CANStatusInit</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="240.5742" x="250.24" y="265.9612">ON ENTER: Display &quot;CAN Status&quot; screen</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="259.4355" x="250.24" y="279.9299">DURING: Refresh &quot;CAN Status&quot; screen data</text></g><g id="Initialization.RestartCalibration"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="364.4082" x="72.75" y="1214.4956"/><line style="stroke:#181818;stroke-width:0.5;" x1="72.75" x2="437.1582" y1="1240.7925" y2="1240.7925"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127.1211" x="191.3936" y="1232.4907">RestartCalibration</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="344.4082" x="77.75" y="1256.9312">ON ENTER: Reset brake and accelerator pedals instances</text></g><ellipse cx="465.95" cy="1239.6356" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="465.95" cy="1239.6356" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.Initialization" data-entity-2="StartScreen" data-source-line="7" data-uid="lnk6" id="link_.start.Initialization_StartScreen"><path d="M384.95,83.7256 C384.95,92.9956 384.95,101.5156 384.95,114.0356" fill="none" id="*start*Initialization-to-StartScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="384.95,120.0356,388.95,111.0356,384.95,115.0356,380.95,111.0356,384.95,120.0356" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="StartScreen" data-entity-2="CANStatusInit" data-source-line="9" data-uid="lnk8" id="link_StartScreen_CANStatusInit"><path d="M384.95,170.9656 C384.95,186.4356 384.95,200.5456 384.95,217.1856" fill="none" id="StartScreen-to-CANStatusInit" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="384.95,223.1856,388.95,214.1856,384.95,218.1856,380.95,214.1856,384.95,223.1856" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="177.2837" x="385.95" y="201.5925">start_screen_delay elapsed</text></g><g class="link" data-entity-1="CANStatusInit" data-entity-2="Calibration" data-source-line="12" data-uid="lnk9" id="link_CANStatusInit_Calibration"><path d="M384.95,287.8956 C384.95,301.7656 384.95,313.6656 384.95,334.3156" fill="none" id="CANStatusInit-to-Calibration" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="384.95,340.3156,388.95,331.3156,384.95,335.3156,380.95,331.3156,384.95,340.3156" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="385.95" y="318.8325">&quot;DASH&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="438.972" y="318.8325">button clicked</text></g><g class="link" data-entity-1="CANStatusInit" data-entity-2="CANStatusInit" data-source-line="13" data-uid="lnk10" id="link_CANStatusInit_CANStatusInit"><path d="M525.17,247.3656 C536,249.1956 542.67,251.9556 542.67,255.6456 C542.67,259.3356 541.9161,261.1059 531.0861,262.9359" fill="none" id="CANStatusInit-to-CANStatusInit" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="525.17,263.9356,534.7107,266.3802,530.1001,263.1026,533.3777,258.492,525.17,263.9356" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="Calibration" data-entity-2="RestartCalibration" data-source-line="58" data-uid="lnk31" id="link_Calibration_RestartCalibration"><path d="M258.87,1161.8956 C257.84,1167.7956 256.87,1173.6656 255.95,1179.4956 C254.19,1190.7556 253.7194,1197.3758 253.8094,1208.0458" fill="none" id="Calibration-to-RestartCalibration" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="253.86,1214.0456,257.7839,1205.0122,253.8178,1209.0458,249.7842,1205.0797,253.86,1214.0456" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="16.6499" x="256.95" y="1192.5625">&quot;-&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="277.7322" y="1192.5625">button clicked</text></g><g class="link" data-entity-1="RestartCalibration" data-entity-2="Calibration" data-source-line="59" data-uid="lnk32" id="link_RestartCalibration_Calibration"><path d="M352.6,1214.0856 C359.64,1209.2456 365.93,1203.4356 370.95,1196.4956 C378.94,1185.4856 383.2003,1179.244 389.2203,1167.184" fill="none" id="RestartCalibration-to-Calibration" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="391.9,1161.8156,384.3015,1168.0817,389.6669,1166.2892,391.4593,1171.6546,391.9,1161.8156" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="Calibration" data-entity-2=".end.Initialization" data-source-line="60" data-uid="lnk34" id="link_Calibration_.end.Initialization"><path d="M453.16,1161.8156 C458.2,1192.0356 461.1451,1209.757 463.2551,1222.437" fill="none" id="Calibration-to-*end*Initialization" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="464.24,1228.3556,466.7084,1218.8211,463.4193,1223.4234,458.8169,1220.1343,464.24,1228.3556" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="457.95" y="1192.5625">&quot;DASH&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="510.972" y="1192.5625">button clicked</text></g><path d="M670.53,95.4 L2673.47,95.4 A12.5,12.5 0 0 1 2685.97,107.9 L2685.97,121.6969 L658.03,121.6969 L658.03,107.9 A12.5,12.5 0 0 1 670.53,95.4" fill="#F1F1F1"/><rect fill="none" height="1090.9569" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="2027.94" x="658.03" y="95.4"/><line style="stroke:#181818;stroke-width:0.5;" x1="658.03" x2="2685.97" y1="121.6969" y2="121.6969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="25.5186" x="1659.2407" y="113.3951">Idle</text><g class="entity" data-entity="IdleNote" data-source-line="66" data-uid="ent0005" id="entity_IdleNote"><path d="M1554.26,132.6969 L1554.26,188.0953 L1968.5227,188.0953 L1968.5227,142.6969 L1958.5227,132.6969 L1554.26,132.6969" fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M1958.5227,132.6969 L1958.5227,142.6969 L1968.5227,142.6969 L1958.5227,132.6969" fill="#FEFFDD" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="277.4878" x="1560.26" y="149.7638">Initial screen choice is implemented inside</text><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="34.0425" x="1841.8801" y="149.7638">Idle's</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="73.4678" x="1880.0549" y="149.7638">state class,</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="95.3862" x="1560.26" y="164.8966">as response to</text><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="44.0781" x="1659.7786" y="164.8966">'DASH'</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="137.5981" x="1707.989" y="164.8966">button clicked event.</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="56.6592" x="1560.26" y="180.0294">Thus the</text><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="114.0991" x="1621.0515" y="180.0294">CANStatusScreen</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116.5239" x="1739.2829" y="180.0294">is a 'virtual' state.</text></g><g id="Idle.CANStatusScreen"><rect fill="#FF00FF" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="260.5742" x="1746.1" y="225.0969"/><line style="stroke:#181818;stroke-width:0.5;" x1="1746.1" x2="2006.6742" y1="251.3938" y2="251.3938"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122.876" x="1814.9491" y="243.092">CANStatusScreen</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="240.5742" x="1751.1" y="267.5324">ON ENTER: Display &quot;CAN Status&quot; screen</text></g><g class="entity" data-entity="entryChoice" data-uid="ent0007" id="entity_entryChoice"><polygon fill="#F1F1F1" points="1526.39,238.2269,1538.39,250.2269,1526.39,262.2269,1514.39,250.2269,1526.39,238.2269" style="stroke:#181818;stroke-width:0.5;"/></g><path d="M682.53,328.3569 L2538.25,328.3569 A12.5,12.5 0 0 1 2550.75,340.8569 L2550.75,354.6538 L670.03,354.6538 L670.03,340.8569 A12.5,12.5 0 0 1 682.53,328.3569" fill="#F1F1F1"/><rect fill="none" height="788.9969" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="1880.72" x="670.03" y="328.3569"/><line style="stroke:#181818;stroke-width:0.5;" x1="670.03" x2="2550.75" y1="354.6538" y2="354.6538"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.7832" x="1565.4984" y="346.352">HomeScreen</text><path d="M694.53,598.2138 L1162.7211,598.2138 A12.5,12.5 0 0 1 1175.2211,610.7138 L1175.2211,624.5106 L682.03,624.5106 L682.03,610.7138 A12.5,12.5 0 0 1 694.53,598.2138" fill="#F1F1F1"/><rect fill="none" height="290.5669" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="493.1911" x="682.03" y="598.2138"/><line style="stroke:#181818;stroke-width:0.5;" x1="682.03" x2="1175.2211" y1="624.5106" y2="624.5106"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="44.5498" x="906.3506" y="616.2089">EditTS</text><g class="entity" data-entity="editTSchoice" data-uid="ent0010" id="entity_editTSchoice"><polygon fill="#F1F1F1" points="911.54,692.5106,923.54,704.5106,911.54,716.5106,899.54,704.5106,911.54,692.5106" style="stroke:#181818;stroke-width:0.5;"/></g><ellipse cx="911.54" cy="645.5106" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Idle.HomeScreen.EditTS.EnableTS"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="205.0156" x="694.03" y="769.5106"/><line style="stroke:#181818;stroke-width:0.5;" x1="694.03" x2="899.0456" y1="795.8075" y2="795.8075"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65.126" x="763.9748" y="787.5057">EnableTS</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="89.6074" x="699.03" y="811.9462">ON ENTER: Set</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65.25" x="792.4519" y="811.9462">ts_enabled</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="861.5163" y="811.9462">flag</text></g><ellipse cx="910.54" cy="867.7806" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="910.54" cy="867.7806" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g id="Idle.HomeScreen.EditTS.DisableTS"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="219.3711" x="946.85" y="769.5106"/><line style="stroke:#181818;stroke-width:0.5;" x1="946.85" x2="1166.2211" y1="795.8075" y2="795.8075"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69.3711" x="1021.85" y="787.5057">DisableTS</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="103.9629" x="951.85" y="811.9462">ON ENTER: Reset</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65.25" x="1059.6273" y="811.9462">ts_enabled</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="1128.6918" y="811.9462">flag</text></g><g class="link" data-entity-1=".start.EditTS" data-entity-2="editTSchoice" data-source-line="94" data-uid="lnk53" id="link_.start.EditTS_editTSchoice"><path d="M911.54,655.9306 C911.54,665.7906 911.54,675.3106 911.54,685.9206" fill="none" id="*start*EditTS-to-editTSchoice" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="911.54,691.9206,915.54,682.9206,911.54,686.9206,907.54,682.9206,911.54,691.9206" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="editTSchoice" data-entity-2="EnableTS" data-source-line="95" data-uid="lnk55" id="link_editTSchoice_EnableTS"><path d="M900.31,705.6006 C865.34,706.1206 759.49,709.7606 738.54,734.5106 C728.5,746.3706 732.4993,755.0988 745.9793,765.4388" fill="none" id="editTSchoice-to-EnableTS" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="750.74,769.0906,746.0334,760.4391,746.7727,766.0475,741.1644,766.7868,750.74,769.0906" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="324.5557" x="739.54" y="747.5775">NOT is_TS_enabled &amp;&amp; is_TS_ready_for_activation</text></g><g class="link" data-entity-1="EnableTS" data-entity-2=".end.EditTS" data-source-line="97" data-uid="lnk57" id="link_EnableTS_.end.EditTS"><path d="M835.77,820.1306 C859.21,834.7606 882.021,848.9822 896.191,857.8322" fill="none" id="EnableTS-to-*end*EditTS" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="901.28,861.0106,895.7654,852.8504,897.0392,858.362,891.5276,859.6357,901.28,861.0106" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="editTSchoice" data-entity-2="DisableTS" data-source-line="98" data-uid="lnk59" id="link_editTSchoice_DisableTS"><path d="M922.83,705.8706 C955.07,707.1406 1046.43,712.6506 1064.54,734.5106 C1072.4,744.0106 1072.9582,751.7049 1069.4482,763.3749" fill="none" id="editTSchoice-to-DisableTS" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1067.72,769.1206,1074.1427,761.6541,1069.1601,764.3325,1066.4817,759.3499,1067.72,769.1206" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91.895" x="1070.54" y="747.5775">is_TS_enabled</text></g><g class="link" data-entity-1="DisableTS" data-entity-2=".end.EditTS" data-source-line="100" data-uid="lnk60" id="link_DisableTS_.end.EditTS"><path d="M1006.29,820.1306 C975.11,835.3206 943.1742,850.8833 925.7642,859.3633" fill="none" id="DisableTS-to-*end*EditTS" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="920.37,861.9906,930.2128,861.6457,924.8651,859.8012,926.7097,854.4535,920.37,861.9906" style="stroke:#181818;stroke-width:1;"/></g><path d="M1205.37,598.2138 L1497.89,598.2138 A12.5,12.5 0 0 1 1510.39,610.7138 L1510.39,624.5106 L1192.87,624.5106 L1192.87,610.7138 A12.5,12.5 0 0 1 1205.37,598.2138" fill="#F1F1F1"/><rect fill="none" height="290.5669" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="317.52" x="1192.87" y="598.2138"/><line style="stroke:#181818;stroke-width:0.5;" x1="1192.87" x2="1510.39" y1="624.5106" y2="624.5106"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56.5264" x="1323.3668" y="616.2089">EditR2D</text><g class="entity" data-entity="editR2Dchoice" data-uid="ent0012" id="entity_editR2Dchoice"><polygon fill="#F1F1F1" points="1384.84,692.5106,1396.84,704.5106,1384.84,716.5106,1372.84,704.5106,1384.84,692.5106" style="stroke:#181818;stroke-width:0.5;"/></g><ellipse cx="1384.84" cy="645.5106" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Idle.HomeScreen.EditR2D.EnableR2D"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="221.9492" x="1204.87" y="769.5106"/><line style="stroke:#181818;stroke-width:0.5;" x1="1204.87" x2="1426.8192" y1="795.8075" y2="795.8075"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77.1025" x="1277.2933" y="787.5057">EnableR2D</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="89.6074" x="1209.87" y="811.9462">ON ENTER: Set</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="82.1836" x="1303.2919" y="811.9462">in_R2D_mode</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="1389.2899" y="811.9462">flag</text></g><ellipse cx="1414.84" cy="867.7806" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1414.84" cy="867.7806" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.EditR2D" data-entity-2="editR2Dchoice" data-source-line="107" data-uid="lnk63" id="link_.start.EditR2D_editR2Dchoice"><path d="M1384.84,655.9306 C1384.84,665.7906 1384.84,675.3106 1384.84,685.9206" fill="none" id="*start*EditR2D-to-editR2Dchoice" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1384.84,691.9206,1388.84,682.9206,1384.84,686.9206,1380.84,682.9206,1384.84,691.9206" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="editR2Dchoice" data-entity-2="EnableR2D" data-source-line="108" data-uid="lnk65" id="link_editR2Dchoice_EnableR2D"><path d="M1372.56,704.8706 C1350.9,704.5006 1306.25,707.2806 1285.84,734.5106 C1277.91,745.1106 1279.6026,753.289 1287.7826,764.399" fill="none" id="editR2Dchoice-to-EnableR2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1291.34,769.2306,1289.225,759.6115,1288.3755,765.2043,1282.7828,764.3548,1291.34,769.2306" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="183.2124" x="1286.84" y="747.5775">is_R2D_ready_for_activation</text></g><g class="link" data-entity-1="EnableR2D" data-entity-2=".end.EditR2D" data-source-line="110" data-uid="lnk67" id="link_EnableR2D_.end.EditR2D"><path d="M1349.91,820.1306 C1370.05,834.5906 1389.0972,848.2799 1401.5272,857.2099" fill="none" id="EnableR2D-to-*end*EditR2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1406.4,860.7106,1401.4246,852.2109,1402.3393,857.7933,1396.7569,858.708,1406.4,860.7106" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="editR2Dchoice" data-entity-2=".end.EditR2D" data-source-line="111" data-uid="lnk68" id="link_editR2Dchoice_.end.EditR2D"><path d="M1396.47,705.4806 C1415.69,706.1406 1453.66,710.5806 1470.84,734.5106 C1501.39,777.0506 1448.4561,834.6327 1426.8961,855.4527" fill="none" id="editR2Dchoice-to-*end*EditR2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1422.58,859.6206,1431.8327,856.2461,1426.1767,856.1474,1426.2755,850.4914,1422.58,859.6206" style="stroke:#181818;stroke-width:1;"/></g><path d="M1540.4,438.6538 L2426.8608,438.6538 A12.5,12.5 0 0 1 2439.3608,451.1538 L2439.3608,497.8881 L1527.9,497.8881 L1527.9,451.1538 A12.5,12.5 0 0 1 1540.4,438.6538" fill="#F1F1F1"/><rect fill="none" height="609.7044" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="911.4608" x="1527.9" y="438.6538"/><line style="stroke:#181818;stroke-width:0.5;" x1="1527.9" x2="2439.3608" y1="497.8881" y2="497.8881"/><line style="stroke:#181818;stroke-width:0.5;" x1="1527.9" x2="2439.3608" y1="464.9506" y2="464.9506"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72.1055" x="1947.5777" y="456.6489">ParamEdit</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="476.959" x="1532.9" y="476.0893">ON ENTER: Enable edition of parameters - display blue border around currently</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="346.5059" x="1532.9" y="490.058">ON EXIT: Disable edition of parameters - hide blue border</text><g class="entity" data-entity="TransitionNote" data-source-line="117" data-uid="ent0014" id="entity_TransitionNote"><path d="M2054.77,508.8881 L2054.77,579.4194 L2425.3608,579.4194 L2425.3608,518.8881 L2415.3608,508.8881 L2054.77,508.8881" fill="#FEFFDD" style="stroke:#181818;stroke-width:0.5;"/><path d="M2415.3608,508.8881 L2415.3608,518.8881 L2425.3608,518.8881 L2415.3608,508.8881" fill="#FEFFDD" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="349.5908" x="2060.77" y="525.955">Transitions between edits are colored as green or red</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="136.5" x="2064.9023" y="541.0878">Green - prompted by</text><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="57.7129" x="2205.5346" y="541.0878">'MODE+'</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.8784" x="2267.3799" y="541.0878">button</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="122.1289" x="2064.9023" y="556.2206">Red - prompted by</text><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="51.5112" x="2191.1636" y="556.2206">'MODE-'</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.8784" x="2246.8071" y="556.2206">button</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="125.6138" x="2064.9023" y="571.3535">Blue - prompted by</text><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="56.0879" x="2194.6484" y="571.3535">'SELECT'</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.8784" x="2254.8686" y="571.3535">button</text></g><ellipse cx="2027.06" cy="544.1581" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Idle.HomeScreen.ParamEdit.EditMAP"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="297.7109" x="1878.21" y="615.4181"/><line style="stroke:#181818;stroke-width:0.5;" x1="1878.21" x2="2175.9209" y1="641.715" y2="641.715"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57.21" x="1998.4605" y="633.4132">EditMAP</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1883.21" y="657.8537">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1905.4463" y="657.8537">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="211.5176" x="1930.3545" y="657.8537">BUTTON: current_map = next_map</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1883.21" y="671.8224">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="15.3691" x="1905.4463" y="671.8224">&quot;-&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="236.291" x="1924.6299" y="671.8224">BUTTON: current_map = previous_map</text></g><g id="Idle.HomeScreen.ParamEdit.EditTC"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="272.7207" x="1655.7" y="715.6581"/><line style="stroke:#181818;stroke-width:0.5;" x1="1655.7" x2="1928.4207" y1="741.955" y2="741.955"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45.4385" x="1769.3411" y="733.6532">EditTC</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1660.7" y="758.0937">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1682.9363" y="758.0937">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="180.8027" x="1707.8445" y="758.0937">BUTTON: current_tc = next_tc</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1660.7" y="772.0624">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1682.9363" y="772.0624">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="205.5762" x="1707.8445" y="772.0624">BUTTON: current_tc = previous_tc</text></g><g id="Idle.HomeScreen.ParamEdit.EditTSAC"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="294.207" x="1733.96" y="916.1281"/><line style="stroke:#181818;stroke-width:0.5;" x1="1733.96" x2="2028.167" y1="942.425" y2="942.425"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.9023" x="1849.1123" y="934.1232">EditTSAC</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1738.96" y="958.5637">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1761.1963" y="958.5637">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="208.0137" x="1786.1045" y="958.5637">BUTTON: current_tsac = next_tsac</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1738.96" y="972.5324">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="15.3691" x="1761.1963" y="972.5324">&quot;-&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="232.7871" x="1780.3799" y="972.5324">BUTTON: current_tsac = previous_tsac</text></g><ellipse cx="1793.06" cy="1027.3581" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1793.06" cy="1027.3581" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g id="Idle.HomeScreen.ParamEdit.EditDIFF"><rect fill="#F1F1F1" height="64.2344" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="360.0313" x="1612.05" y="815.8881"/><line style="stroke:#181818;stroke-width:0.5;" x1="1612.05" x2="1972.0813" y1="842.185" y2="842.185"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58.126" x="1763.0026" y="833.8832">EditDIFF</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1617.05" y="858.3237">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1639.2863" y="858.3237">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="292.8867" x="1664.1945" y="858.3237">BUTTON: current_diff += 10% (capped at 100%)</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1617.05" y="872.2924">ON</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1639.2863" y="872.2924">&quot;+&quot;</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="271.8926" x="1664.1945" y="872.2924">BUTTON: current_diff -= 10% (capped at 0%)</text></g><g class="link" data-entity-1=".start.ParamEdit" data-entity-2="EditMAP" data-source-line="122" data-uid="lnk72" id="link_.start.ParamEdit_EditMAP"><path d="M2027.06,554.5081 C2027.06,568.1381 2027.06,588.0981 2027.06,608.9781" fill="none" id="*start*ParamEdit-to-EditMAP" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2027.06,614.9781,2031.06,605.9781,2027.06,609.9781,2023.06,605.9781,2027.06,614.9781" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditMAP" data-source-line="126" data-uid="lnk73" id="link_EditMAP_EditMAP"><path d="M2176.2,633.5881 C2187.18,636.7181 2193.92,641.3681 2193.92,647.5381 C2193.92,653.7081 2192.9501,656.7133 2181.9701,659.8433" fill="none" id="EditMAP-to-EditMAP" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2176.2,661.4881,2185.9518,662.8676,2181.0084,660.1174,2183.7586,655.1741,2176.2,661.4881" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditTC" data-source-line="127" data-uid="lnk75" id="link_EditMAP_EditTC"><path d="M1945.39,680.0281 C1917.87,691.3081 1892.9787,701.6637 1866.5387,712.9437" fill="none" id="EditMAP-to-EditTC" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="1861.02,715.2981,1870.8678,715.4456,1865.619,713.3361,1867.7285,708.0873,1861.02,715.2981" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditTSAC" data-source-line="128" data-uid="lnk77" id="link_EditMAP_EditTSAC"><path d="M2025.86,680.0181 C2027.82,727.5981 2030.89,818.7581 1990.06,880.1281 C1980.4,894.6481 1971.5347,903.1611 1956.8147,912.5111" fill="none" id="EditMAP-to-EditTSAC" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1951.75,915.7281,1961.4917,914.279,1955.9705,913.0473,1957.2023,907.5262,1951.75,915.7281" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2=".end.ParamEdit" data-source-line="129" data-uid="lnk79" id="link_EditMAP_.end.ParamEdit"><path d="M2042.77,679.9081 C2072.63,744.4981 2128.33,893.5481 2055.06,980.3581 C2022.07,1019.4481 1856.0289,1025.2128 1810.2589,1026.0928" fill="none" id="EditMAP-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1804.26,1026.2081,1813.3352,1030.0344,1809.2591,1026.112,1813.1814,1022.0359,1804.26,1026.2081" style="stroke:#0000FF;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2="EditTC" data-source-line="134" data-uid="lnk80" id="link_EditTC_EditTC"><path d="M1928.55,733.3881 C1939.58,736.5181 1946.42,741.3081 1946.42,747.7681 C1946.42,754.2281 1945.3521,757.3902 1934.3221,760.5202" fill="none" id="EditTC-to-EditTC" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1928.55,762.1581,1938.3001,763.5493,1933.3601,760.7932,1936.1162,755.8531,1928.55,762.1581" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2="EditDIFF" data-source-line="135" data-uid="lnk82" id="link_EditTC_EditDIFF"><path d="M1785.72,780.1281 C1785.18,791.4681 1784.8949,798.2749 1785.4349,809.6249" fill="none" id="EditTC-to-EditDIFF" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="1785.72,815.6181,1789.2878,806.4382,1785.4824,810.6238,1781.2968,806.8184,1785.72,815.6181" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2="EditMAP" data-source-line="136" data-uid="lnk83" id="link_EditTC_EditMAP"><path d="M1873.71,715.2981 C1901.23,704.0181 1926.1209,693.6618 1952.5709,682.3818" fill="none" id="EditTC-to-EditMAP" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1958.09,680.0281,1948.2423,679.8793,1953.4908,681.9895,1951.3805,687.238,1958.09,680.0281" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2=".end.ParamEdit" data-source-line="137" data-uid="lnk84" id="link_EditTC_.end.ParamEdit"><path d="M1655.23,774.2281 C1634.73,783.9781 1616.12,797.3981 1603.06,815.8881 C1538.9,906.7681 1730.6153,998.7855 1777.7153,1019.6755" fill="none" id="EditTC-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1783.2,1022.1081,1776.5946,1014.8027,1778.6294,1020.0809,1773.3511,1022.1157,1783.2,1022.1081" style="stroke:#0000FF;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2="EditDIFF" data-source-line="142" data-uid="lnk85" id="link_EditDIFF_EditDIFF"><path d="M1972.34,834.9181 C1983.42,838.0181 1990.08,842.3781 1990.08,848.0081 C1990.08,853.6381 1989.1981,856.3815 1978.1181,859.4815" fill="none" id="EditDIFF-to-EditDIFF" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1972.34,861.0981,1982.0849,862.5253,1977.1551,859.7509,1979.9294,854.8211,1972.34,861.0981" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2="EditTSAC" data-source-line="143" data-uid="lnk86" id="link_EditDIFF_EditTSAC"><path d="M1814.13,880.3581 C1823.86,891.6981 1831.3181,900.1671 1842.1381,911.5071" fill="none" id="EditDIFF-to-EditTSAC" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="1846.28,915.8481,1842.9611,906.5753,1842.8284,912.2306,1837.1731,912.0979,1846.28,915.8481" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2="EditTC" data-source-line="144" data-uid="lnk87" id="link_EditDIFF_EditTC"><path d="M1798.41,815.6181 C1798.95,804.2681 1799.2407,797.4611 1798.6907,786.1211" fill="none" id="EditDIFF-to-EditTC" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1798.4,780.1281,1794.8407,789.3113,1798.6422,785.1223,1802.8313,788.9238,1798.4,780.1281" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2=".end.ParamEdit" data-source-line="145" data-uid="lnk88" id="link_EditDIFF_.end.ParamEdit"><path d="M1750.53,880.4881 C1740.25,890.6181 1730.6,902.7381 1725.06,916.1281 C1714.15,942.5081 1711.68,955.1381 1725.06,980.3581 C1737.29,1003.3981 1761.1659,1014.9178 1776.9859,1020.7978" fill="none" id="EditDIFF-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1782.61,1022.8881,1775.5674,1016.0032,1777.9233,1021.1462,1772.7803,1023.502,1782.61,1022.8881" style="stroke:#0000FF;stroke-width:1;"/></g><g class="link" data-entity-1="EditTSAC" data-entity-2="EditTSAC" data-source-line="150" data-uid="lnk89" id="link_EditTSAC_EditTSAC"><path d="M2028.63,937.2281 C2039.5,939.7081 2046.17,943.3781 2046.17,948.2381 C2046.17,953.1081 2045.3509,955.4486 2034.4809,957.9186" fill="none" id="EditTSAC-to-EditTSAC" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2028.63,959.2481,2038.2926,961.1545,2033.5057,958.1402,2036.5199,953.3533,2028.63,959.2481" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditTSAC" data-source-line="151" data-uid="lnk91" id="link_EditMAP_EditTSAC"><path d="M2038.4455,685.9263 C2046.8655,733.5063 2048.89,818.7581 2008.06,880.1281 C1998.4,894.6481 1984.47,906.3781 1969.32,915.7281" fill="none" id="EditMAP-backto-EditTSAC" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="2037.4,680.0181,2035.0295,689.5775,2038.2713,684.9416,2042.9071,688.1834,2037.4,680.0181" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTSAC" data-entity-2="EditDIFF" data-source-line="152" data-uid="lnk92" id="link_EditTSAC_EditDIFF"><path d="M1858.97,915.8481 C1849.23,904.5081 1841.7719,896.0391 1830.9519,884.6991" fill="none" id="EditTSAC-to-EditDIFF" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1826.81,880.3581,1830.1289,889.6309,1830.2616,883.9756,1835.9169,884.1083,1826.81,880.3581" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTSAC" data-entity-2=".end.ParamEdit" data-source-line="153" data-uid="lnk93" id="link_EditTSAC_.end.ParamEdit"><path d="M1845.02,980.8281 C1828.69,995.1381 1815.3624,1006.8136 1805.4124,1015.5336" fill="none" id="EditTSAC-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1800.9,1019.4881,1810.3049,1016.5645,1804.6603,1016.1927,1805.0322,1010.548,1800.9,1019.4881" style="stroke:#0000FF;stroke-width:1;"/></g><ellipse cx="1746.63" cy="375.6538" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1597.63" cy="1096.3538" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1597.63" cy="1096.3538" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.HomeScreen" data-entity-2=".end.HomeScreen" data-source-line="84" data-uid="lnk47" id="link_.start.HomeScreen_.end.HomeScreen"><path d="M1756.84,376.7438 C1839.7,377.5738 2399.67,385.1838 2448.63,438.6538 C2540.12,538.5838 2541.75,949.9438 2448.63,1048.3538 C2418.34,1080.3638 1713.3391,1093.402 1614.8891,1095.072" fill="none" id="*start*HomeScreen-to-*end*HomeScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1608.89,1095.1738,1617.9565,1099.0205,1613.8893,1095.0889,1617.8209,1091.0217,1608.89,1095.1738" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1=".start.HomeScreen" data-entity-2="EditTS" data-source-line="85" data-uid="lnk48" id="link_.start.HomeScreen_EditTS"><path d="M1736.23,376.7038 C1667.98,377.2438 1283.63,382.7638 1183.63,438.6538 C1116.29,476.2738 1062.6151,534.3031 1019.5451,593.1131" fill="none" id="*start*HomeScreen-to-EditTS" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1016,597.9538,1024.5448,593.0561,1018.9543,593.9199,1018.0905,588.3293,1016,597.9538" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="28.1519" x="1312.63" y="416.7206">&quot;TS&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1344.9142" y="416.7206">button clicked</text></g><g class="link" data-entity-1=".start.HomeScreen" data-entity-2="EditR2D" data-source-line="86" data-uid="lnk49" id="link_.start.HomeScreen_EditR2D"><path d="M1736.18,376.5838 C1701.22,376.9138 1586.6,382.4538 1518.63,438.6538 C1468.17,480.3638 1433.0143,536.0394 1406.3043,592.5394" fill="none" id="*start*HomeScreen-to-EditR2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1403.74,597.9638,1411.2028,591.5367,1405.877,593.4434,1403.9703,588.1176,1403.74,597.9638" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="38.0796" x="1580.63" y="416.7206">&quot;P2D&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1622.8419" y="416.7206">button clicked</text></g><g class="link" data-entity-1=".start.HomeScreen" data-entity-2="ParamEdit" data-source-line="87" data-uid="lnk50" id="link_.start.HomeScreen_ParamEdit"><path d="M1751.8,384.6338 C1758.36,394.7638 1767.4974,408.8683 1783.2874,433.2383" fill="none" id="*start*HomeScreen-to-ParamEdit" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1786.55,438.2738,1785.0131,428.5456,1783.8312,434.0776,1778.2992,432.8957,1786.55,438.2738" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="60.8994" x="1771.63" y="416.7206">&quot;SELECT&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1836.6617" y="416.7206">button clicked</text></g><g class="link" data-entity-1="ParamEdit" data-entity-2=".end.HomeScreen" data-source-line="88" data-uid="lnk51" id="link_ParamEdit_.end.HomeScreen"><path d="M1648.88,1048.7638 C1629.2,1066.6538 1618.3396,1076.5177 1609.7596,1084.3177" fill="none" id="ParamEdit-to-*end*HomeScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1605.32,1088.3538,1614.6702,1085.2595,1609.0197,1084.9904,1609.2888,1079.3399,1605.32,1088.3538" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditTS" data-entity-2=".end.HomeScreen" data-source-line="102" data-uid="lnk61" id="link_EditTS_.end.HomeScreen"><path d="M1014.54,888.9438 C1057.6,948.3038 1115.22,1011.6138 1183.63,1048.3538 C1256.28,1087.3638 1521.9109,1094.0692 1580.4609,1095.0892" fill="none" id="EditTS-to-*end*HomeScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1586.46,1095.1938,1577.531,1091.0376,1581.4608,1095.1067,1577.3917,1099.0364,1586.46,1095.1938" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="EditR2D" data-entity-2=".end.HomeScreen" data-source-line="113" data-uid="lnk69" id="link_EditR2D_.end.HomeScreen"><path d="M1411.35,889.1138 C1438.55,943.3438 1474.6,1002.7938 1518.63,1048.3538 C1539.14,1069.5838 1565.7183,1082.3738 1581.9583,1089.1138" fill="none" id="EditR2D-to-*end*HomeScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1587.5,1091.4138,1580.7208,1084.2694,1582.8819,1089.4971,1577.6542,1091.6583,1587.5,1091.4138" style="stroke:#181818;stroke-width:1;"/></g><ellipse cx="1526.39" cy="160.3969" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2094.39" cy="1165.3569" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2094.39" cy="1165.3569" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.Idle" data-entity-2="entryChoice" data-source-line="72" data-uid="lnk37" id="link_.start.Idle_entryChoice"><path d="M1526.39,170.7969 C1526.39,186.9869 1526.39,214.1069 1526.39,231.6869" fill="none" id="*start*Idle-to-entryChoice" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1526.39,237.6869,1530.39,228.6869,1526.39,232.6869,1522.39,228.6869,1526.39,237.6869" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="entryChoice" data-entity-2="HomeScreen" data-source-line="74" data-uid="lnk38" id="link_entryChoice_HomeScreen"><path d="M1521.55,257.9669 C1516.14,265.9569 1507.69,279.8969 1504.39,293.3569 C1502.59,300.6969 1503.44,302.8669 1504.39,310.3569 C1505.13,316.2169 1505.0773,316.1678 1505.9273,322.0878" fill="none" id="entryChoice-to-HomeScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1506.78,328.0269,1509.4603,318.5497,1506.0694,323.0776,1501.5415,319.6867,1506.78,328.0269" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="190.3662" x="1505.39" y="306.4238">screen_id == HOME_SCREEN</text></g><g class="link" data-entity-1="entryChoice" data-entity-2="CANStatusScreen" data-source-line="75" data-uid="lnk39" id="link_entryChoice_CANStatusScreen"><path d="M1538.85,250.2269 C1572.03,250.2269 1659.51,250.2269 1739.7,250.2269" fill="none" id="entryChoice-to-CANStatusScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1745.7,250.2269,1736.7,246.2269,1740.7,250.2269,1736.7,254.2269,1745.7,250.2269" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="176.9028" x="1554.25" y="243.2938">screen_id == CAN_STATUS</text></g><g class="link" data-entity-1="HomeScreen" data-entity-2="CANStatusScreen" data-source-line="77" data-uid="lnk40" id="link_HomeScreen_CANStatusScreen"><path d="M1690.33,328.1869 C1699.09,315.8269 1708.74,304.1469 1719.39,293.3569 C1727.12,285.5269 1730.8629,281.9621 1740.6029,276.6921" fill="none" id="HomeScreen-to-CANStatusScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1745.88,273.8369,1736.0609,274.6017,1741.4824,276.2163,1739.8679,281.6378,1745.88,273.8369" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="1720.39" y="306.4238">&quot;DASH&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1773.412" y="306.4238">button clicked</text></g><g class="link" data-entity-1="CANStatusScreen" data-entity-2="HomeScreen" data-source-line="78" data-uid="lnk41" id="link_CANStatusScreen_HomeScreen"><path d="M1874.42,275.6669 C1872.99,286.5469 1870.56,299.3569 1866.39,310.3569 C1864.16,316.2569 1864.0875,316.6078 1861.6875,322.5178" fill="none" id="CANStatusScreen-to-HomeScreen" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1859.43,328.0769,1866.5223,321.2432,1861.3113,323.4443,1859.1102,318.2332,1859.43,328.0769" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="1871.39" y="306.4238">&quot;DASH&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1924.412" y="306.4238">button clicked</text></g><g class="link" data-entity-1="HomeScreen" data-entity-2=".end.Idle" data-source-line="80" data-uid="lnk43" id="link_HomeScreen_.end.Idle"><path d="M2043.05,1117.6369 C2062.78,1135.5869 2073.4627,1145.3083 2082.0327,1153.1083" fill="none" id="HomeScreen-to-*end*Idle" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2086.47,1157.1469,2082.5065,1148.1308,2082.7723,1153.7814,2077.1216,1154.0472,2086.47,1157.1469" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="CANStatusScreen" data-entity-2=".end.Idle" data-source-line="81" data-uid="lnk44" id="link_CANStatusScreen_.end.Idle"><path d="M2007.09,256.7669 C2195.08,266.0869 2523.32,287.9769 2559.39,328.3569 C2676.21,459.1069 2676.97,987.2969 2559.39,1117.3569 C2527.9,1152.1969 2179.1082,1162.3105 2111.4882,1163.9605" fill="none" id="CANStatusScreen-to-*end*Idle" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2105.49,1164.1069,2114.5849,1167.8861,2110.4885,1163.9849,2114.3897,1159.8885,2105.49,1164.1069" style="stroke:#181818;stroke-width:1;"/></g><path d="M2873.92,479.13 L3144.0747,479.13 A12.5,12.5 0 0 1 3156.5747,491.63 L3156.5747,538.3644 L2861.42,538.3644 L2861.42,491.63 A12.5,12.5 0 0 1 2873.92,479.13" fill="#F1F1F1"/><rect fill="none" height="323.5044" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="295.1547" x="2861.42" y="479.13"/><line style="stroke:#181818;stroke-width:0.5;" x1="2861.42" x2="3156.5747" y1="538.3644" y2="538.3644"/><line style="stroke:#181818;stroke-width:0.5;" x1="2861.42" x2="3156.5747" y1="505.4269" y2="505.4269"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29.415" x="2994.2898" y="497.1251">R2D</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="191.7363" x="2866.42" y="516.5655">ON ENTER: Lock &quot;Home&quot; screen</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="164.1914" x="2866.42" y="530.5343">ON ENTER: Play R2D sound</text><g class="entity" data-entity="ChoiceR2D" data-uid="ent0016" id="entity_ChoiceR2D"><polygon fill="#F1F1F1" points="2894.42,606.3644,2906.42,618.3644,2894.42,630.3644,2882.42,618.3644,2894.42,606.3644" style="stroke:#181818;stroke-width:0.5;"/></g><ellipse cx="2894.42" cy="559.3644" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2890.42" cy="781.6344" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2890.42" cy="781.6344" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g id="R2D.ExitR2D"><rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="236.3047" x="2906.27" y="683.3644"/><line style="stroke:#181818;stroke-width:0.5;" x1="2906.27" x2="3142.5747" y1="709.6613" y2="709.6613"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55.9248" x="2996.4599" y="701.3595">ExitR2D</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="103.9629" x="2911.27" y="725.7999">ON ENTER: Reset</text><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="82.1836" x="3019.0473" y="725.7999">in_R2D_mode</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="3105.0454" y="725.7999">flag</text></g><g class="link" data-entity-1=".start.R2D" data-entity-2="ChoiceR2D" data-source-line="167" data-uid="lnk97" id="link_.start.R2D_ChoiceR2D"><path d="M2894.42,569.7844 C2894.42,579.6444 2894.42,589.1644 2894.42,599.7744" fill="none" id="*start*R2D-to-ChoiceR2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2894.42,605.7744,2898.42,596.7744,2894.42,600.7744,2890.42,596.7744,2894.42,605.7744" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="ChoiceR2D" data-entity-2=".end.R2D" data-source-line="168" data-uid="lnk99" id="link_ChoiceR2D_.end.R2D"><path d="M2894.14,630.7044 C2893.4,660.6744 2891.5404,735.6463 2890.8204,764.3663" fill="none" id="ChoiceR2D-to-*end*R2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2890.67,770.3644,2894.8943,761.4674,2890.7953,765.3659,2886.8968,761.267,2890.67,770.3644" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="ChoiceR2D" data-entity-2="ExitR2D" data-source-line="169" data-uid="lnk101" id="link_ChoiceR2D_ExitR2D"><path d="M2901.05,623.8644 C2916.88,634.5944 2952.884,659.0071 2983.294,679.6271" fill="none" id="ChoiceR2D-to-ExitR2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2988.26,682.9944,2983.0558,674.6328,2984.1217,680.1883,2978.5661,681.2541,2988.26,682.9944" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="38.0796" x="2960.42" y="661.4313">&quot;P2D&quot;</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="3002.6319" y="661.4313">button clicked</text></g><g class="link" data-entity-1="ExitR2D" data-entity-2=".end.R2D" data-source-line="170" data-uid="lnk102" id="link_ExitR2D_.end.R2D"><path d="M2978.3,733.9844 C2949.99,749.0144 2921.4488,764.1597 2905.2588,772.7597" fill="none" id="ExitR2D-to-*end*R2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2899.96,775.5744,2909.7847,774.8849,2904.3757,773.2288,2906.0318,767.8198,2899.96,775.5744" style="stroke:#181818;stroke-width:1;"/></g><ellipse cx="16" cy="640.88" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g class="link" data-entity-1=".start." data-entity-2="Initialization" data-source-line="3" data-uid="lnk3" id="link_.start._Initialization"><path d="M26.19,640.88 C37.6,640.88 43.01,640.88 54.42,640.88" fill="none" id="*start*-to-Initialization" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="60.42,640.88,51.42,636.88,55.42,640.88,51.42,644.88,60.42,640.88" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="Initialization" data-entity-2="Idle" data-source-line="63" data-uid="lnk35" id="link_Initialization_Idle"><path d="M623.52,640.88 C634.87,640.88 640.22,640.88 651.57,640.88" fill="none" id="Initialization-to-Idle" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="657.57,640.88,648.57,636.88,652.57,640.88,648.57,644.88,657.57,640.88" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="Idle" data-entity-2="Idle" data-source-line="158" data-uid="lnk94" id="link_Idle_Idle"><path d="M2686.42,546.64 C2708.63,573.24 2720.97,604.66 2720.97,640.88 C2720.97,677.1 2712.4747,703.9037 2690.2647,730.5137" fill="none" id="Idle-to-Idle" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2686.42,735.12,2695.2579,730.7736,2689.6239,731.2814,2689.1161,725.6474,2686.42,735.12" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="Idle" data-entity-2="R2D" data-source-line="159" data-uid="lnk95" id="link_Idle_R2D"><path d="M2686.3,660.46 C2700.36,660.61 2714.33,660.75 2728.2,660.88 C2768.64,661.26 2778.81,663 2819.2,660.88 C2832.76,660.17 2840.8706,659.6662 2854.9706,658.4962" fill="none" id="Idle-to-R2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2860.95,658,2851.65,654.758,2855.9671,658.4135,2852.3116,662.7306,2860.95,658" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="89.0322" x="2729.2" y="656.9469">in_R2D_mode</text></g><g class="link" data-entity-1="Idle" data-entity-2="R2D" data-source-line="174" data-uid="lnk105" id="link_Idle_R2D"><path d="M2692.2,640.88 C2757.97,640.88 2811.58,640.88 2861.16,640.88" fill="none" id="Idle-backto-R2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="2686.2,640.88,2695.2,644.88,2691.2,640.88,2695.2,636.88,2686.2,640.88" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="121.0625" x="2713.2" y="633.9469">NOT in_R2D_mode</text></g><g class="link" data-entity-1="R2D" data-entity-2="R2D" data-source-line="173" data-uid="lnk103" id="link_R2D_R2D"><path d="M3156.93,586.6 C3177.68,595.46 3191.58,613.55 3191.58,640.88 C3191.58,668.21 3183.198,683.9439 3162.448,692.8039" fill="none" id="R2D-to-R2D" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="3156.93,695.16,3166.7778,695.3045,3161.5284,693.1966,3163.6363,687.9471,3156.93,695.16" style="stroke:#181818;stroke-width:1;"/></g></g></svg></div><div class="puml dark" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="STATE" height="1280px" preserveAspectRatio="xMidYMid meet" style="width:3198px;height:1280px;background:#1B1B1B;" version="1.1" viewBox="0 0 3198 1280" width="3198px" zoomAndPan="magnify" class="diagram"><defs/><g><rect fill="#1B1B1B" height="1280" style="stroke:none;stroke-width:1;" width="3198" x="0" y="0"/><path d="M73.25,7 L610.7425,7 A12.5,12.5 0 0 1 623.2425,19.5 L623.2425,52.2656 L60.75,52.2656 L60.75,19.5 A12.5,12.5 0 0 1 73.25,7" fill="#313139"/><rect fill="none" height="1267.7613" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="562.4925" x="60.75" y="7"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="60.75" x2="623.2425" y1="52.2656" y2="52.2656"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="60.75" x2="623.2425" y1="33.2969" y2="33.2969"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85.374" x="299.3093" y="24.9951">Initialization</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="162.8965" x="65.75" y="44.4355">ON EXIT: set initialized flag</text><path d="M173.17,340.7656 L596.7425,340.7656 A12.5,12.5 0 0 1 609.2425,353.2656 L609.2425,386.0313 L160.67,386.0313 L160.67,353.2656 A12.5,12.5 0 0 1 173.17,340.7656" fill="#313139"/><rect fill="none" height="820.7356" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="448.5725" x="160.67" y="340.7656"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="160.67" x2="609.2425" y1="386.0313" y2="386.0313"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="160.67" x2="609.2425" y1="367.0625" y2="367.0625"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="76.1729" x="346.8698" y="358.7607">Calibration</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="238.248" x="165.67" y="378.2012">ON ENTER: Display &quot;Calibration&quot; screen</text><ellipse cx="374.1" cy="407.0313" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Initialization.Calibration.BrakeMin"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="365.2695" x="191.47" y="454.0313"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="191.47" x2="556.7395" y1="480.3281" y2="480.3281"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65.502" x="341.3538" y="472.0264">BrakeMin</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="345.2695" x="196.47" y="496.4668">ON EXIT: Save current position of brake pedal as minimal</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="196.47" y="510.4355">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.BrakeMax"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="368.7852" x="189.71" y="571.2713"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="189.71" x2="558.4952" y1="597.5681" y2="597.5681"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69.6035" x="339.3008" y="589.2664">BrakeMax</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="348.7852" x="194.71" y="613.7068">ON EXIT: Save current position of brake pedal as maximal</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="194.71" y="627.6755">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.AwaitBrakeRelease"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="369.1895" x="189.51" y="688.5013"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="189.51" x2="558.6995" y1="714.7981" y2="714.7981"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="134.9756" x="306.6169" y="706.4964">AwaitBrakeRelease</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="349.1895" x="194.51" y="730.9368">DURING: Display current position of brake pedal (0-100%)</text></g><g id="Initialization.Calibration.AcceleratorMin"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="398.9492" x="174.63" y="791.7713"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="174.63" x2="573.5792" y1="818.0681" y2="818.0681"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="105.0752" x="321.567" y="809.7664">AcceleratorMin</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="378.9492" x="179.63" y="834.2068">ON EXIT: Save current position of accelerator pedal as minimal</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="179.63" y="848.1755">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.AcceleratorMax"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="402.4648" x="172.87" y="909.0013"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="172.87" x2="575.3348" y1="935.2981" y2="935.2981"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="109.1768" x="319.514" y="926.9964">AcceleratorMax</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="382.4648" x="177.87" y="951.4368">ON EXIT: Save current position of accelerator pedal as maximal</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="223.0547" x="177.87" y="965.4055">ON EXIT: Update value on the screen</text></g><g id="Initialization.Calibration.AwaitAcceleratorRelease"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="402.8691" x="172.67" y="1026.2313"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="172.67" x2="575.5391" y1="1052.5281" y2="1052.5281"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="174.5488" x="286.8302" y="1044.2264">AwaitAcceleratorRelease</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="382.8691" x="177.67" y="1068.6668">DURING: Display current position of accelerator pedal (0-100%)</text></g><ellipse cx="374.1" cy="1140.5013" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="374.1" cy="1140.5013" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.Calibration" data-entity-2="BrakeMin" data-source-line="19" data-uid="lnk13" id="link_.start.Calibration_BrakeMin"><path d="M374.1,417.4913 C374.1,426.5013 374.1,434.5713 374.1,447.5613" fill="none" id="*start*Calibration-to-BrakeMin" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,453.5613,378.1,444.5613,374.1,448.5613,370.1,444.5613,374.1,453.5613" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="BrakeMin" data-entity-2="BrakeMax" data-source-line="22" data-uid="lnk15" id="link_BrakeMin_BrakeMax"><path d="M374.1,518.6413 C374.1,534.9013 374.1,548.6813 374.1,564.9313" fill="none" id="BrakeMin-to-BrakeMax" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,570.9313,378.1,561.9313,374.1,565.9313,370.1,561.9313,374.1,570.9313" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="549.3381">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="549.3381">button clicked</text></g><g class="link" data-entity-1="BrakeMax" data-entity-2="AwaitBrakeRelease" data-source-line="27" data-uid="lnk17" id="link_BrakeMax_AwaitBrakeRelease"><path d="M374.1,635.9813 C374.1,652.5813 374.1,666.6213 374.1,682.0513" fill="none" id="BrakeMax-to-AwaitBrakeRelease" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,688.0513,378.1,679.0513,374.1,683.0513,370.1,679.0513,374.1,688.0513" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="666.5681">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="666.5681">button clicked</text></g><g class="link" data-entity-1="BrakeMax" data-entity-2="BrakeMax" data-source-line="28" data-uid="lnk18" id="link_BrakeMax_BrakeMax"><path d="M558.96,595.8213 C569.92,597.6313 576.5,600.1513 576.5,603.3813 C576.5,606.6213 575.8407,608.1689 564.8807,609.9689" fill="none" id="BrakeMax-to-BrakeMax" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="558.96,610.9413,568.4893,613.4298,563.8939,610.1309,567.1928,605.5356,558.96,610.9413" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitBrakeRelease" data-entity-2="AwaitBrakeRelease" data-source-line="34" data-uid="lnk19" id="link_AwaitBrakeRelease_AwaitBrakeRelease"><path d="M559.14,706.9713 C570.12,708.5613 576.7,710.7813 576.7,713.6313 C576.7,716.4813 576.0581,717.8414 565.0781,719.4314" fill="none" id="AwaitBrakeRelease-to-AwaitBrakeRelease" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="559.14,720.2913,568.6204,722.9601,564.0884,719.5747,567.4738,715.0427,559.14,720.2913" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitBrakeRelease" data-entity-2="AcceleratorMin" data-source-line="35" data-uid="lnk21" id="link_AwaitBrakeRelease_AcceleratorMin"><path d="M374.1,739.2013 C374.1,754.6713 374.1,768.7813 374.1,785.4213" fill="none" id="AwaitBrakeRelease-to-AcceleratorMin" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,791.4213,378.1,782.4213,374.1,786.4213,370.1,782.4213,374.1,791.4213" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="175.9824" x="375.1" y="769.8381">brake_pedal_position == 0</text></g><g class="link" data-entity-1="AcceleratorMin" data-entity-2="AcceleratorMax" data-source-line="39" data-uid="lnk23" id="link_AcceleratorMin_AcceleratorMax"><path d="M374.1,856.3713 C374.1,872.6313 374.1,886.4113 374.1,902.6713" fill="none" id="AcceleratorMin-to-AcceleratorMax" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,908.6713,378.1,899.6713,374.1,903.6713,370.1,899.6713,374.1,908.6713" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="887.0681">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="887.0681">button clicked</text></g><g class="link" data-entity-1="AcceleratorMax" data-entity-2="AwaitAcceleratorRelease" data-source-line="44" data-uid="lnk25" id="link_AcceleratorMax_AwaitAcceleratorRelease"><path d="M374.1,973.7213 C374.1,990.3213 374.1,1004.3613 374.1,1019.7813" fill="none" id="AcceleratorMax-to-AwaitAcceleratorRelease" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,1025.7813,378.1,1016.7813,374.1,1020.7813,370.1,1016.7813,374.1,1025.7813" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="22.8516" x="375.1" y="1004.2981">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="402.0839" y="1004.2981">button clicked</text></g><g class="link" data-entity-1="AcceleratorMax" data-entity-2="AcceleratorMax" data-source-line="45" data-uid="lnk26" id="link_AcceleratorMax_AcceleratorMax"><path d="M575.58,933.7513 C586.71,935.5413 593.34,938.0013 593.34,941.1213 C593.34,944.2413 592.6339,945.7385 581.5039,947.5285" fill="none" id="AcceleratorMax-to-AcceleratorMax" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="575.58,948.4813,585.101,951.0014,580.5166,947.6873,583.8307,943.1029,575.58,948.4813" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitAcceleratorRelease" data-entity-2="AwaitAcceleratorRelease" data-source-line="51" data-uid="lnk27" id="link_AwaitAcceleratorRelease_AwaitAcceleratorRelease"><path d="M575.77,1044.8813 C586.91,1046.4613 593.54,1048.6213 593.54,1051.3713 C593.54,1054.1213 592.8505,1055.4387 581.7105,1057.0187" fill="none" id="AwaitAcceleratorRelease-to-AwaitAcceleratorRelease" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="575.77,1057.8613,585.2425,1060.5578,580.7205,1057.1591,584.1191,1052.6371,575.77,1057.8613" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="AwaitAcceleratorRelease" data-entity-2=".end.Calibration" data-source-line="53" data-uid="lnk29" id="link_AwaitAcceleratorRelease_.end.Calibration"><path d="M374.1,1076.6413 C374.1,1093.9613 374.1,1110.3813 374.1,1123.2313" fill="none" id="AwaitAcceleratorRelease-to-*end*Calibration" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="374.1,1129.2313,378.1,1120.2313,374.1,1124.2313,370.1,1120.2313,374.1,1129.2313" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="212.4688" x="375.1" y="1107.5681">accelerator_pedal_position == 0</text></g><ellipse cx="384.95" cy="73.2656" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Initialization.StartScreen"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="222.2715" x="273.82" y="120.2656"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="273.82" x2="496.0915" y1="146.5625" y2="146.5625"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="82.6396" x="343.6359" y="138.2607">StartScreen</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="202.2715" x="278.82" y="162.7012">ON ENTER: Display &quot;Start&quot; screen</text></g><g id="Initialization.CANStatusInit"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="279.4355" x="245.24" y="223.5256"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="245.24" x2="524.6755" y1="249.8225" y2="249.8225"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="96.8174" x="336.5491" y="241.5207">CANStatusInit</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="240.5742" x="250.24" y="265.9612">ON ENTER: Display &quot;CAN Status&quot; screen</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="259.4355" x="250.24" y="279.9299">DURING: Refresh &quot;CAN Status&quot; screen data</text></g><g id="Initialization.RestartCalibration"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="364.4082" x="72.75" y="1214.4956"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="72.75" x2="437.1582" y1="1240.7925" y2="1240.7925"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="127.1211" x="191.3936" y="1232.4907">RestartCalibration</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="344.4082" x="77.75" y="1256.9312">ON ENTER: Reset brake and accelerator pedals instances</text></g><ellipse cx="465.95" cy="1239.6356" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="465.95" cy="1239.6356" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.Initialization" data-entity-2="StartScreen" data-source-line="7" data-uid="lnk6" id="link_.start.Initialization_StartScreen"><path d="M384.95,83.7256 C384.95,92.9956 384.95,101.5156 384.95,114.0356" fill="none" id="*start*Initialization-to-StartScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="384.95,120.0356,388.95,111.0356,384.95,115.0356,380.95,111.0356,384.95,120.0356" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="StartScreen" data-entity-2="CANStatusInit" data-source-line="9" data-uid="lnk8" id="link_StartScreen_CANStatusInit"><path d="M384.95,170.9656 C384.95,186.4356 384.95,200.5456 384.95,217.1856" fill="none" id="StartScreen-to-CANStatusInit" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="384.95,223.1856,388.95,214.1856,384.95,218.1856,380.95,214.1856,384.95,223.1856" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="177.2837" x="385.95" y="201.5925">start_screen_delay elapsed</text></g><g class="link" data-entity-1="CANStatusInit" data-entity-2="Calibration" data-source-line="12" data-uid="lnk9" id="link_CANStatusInit_Calibration"><path d="M384.95,287.8956 C384.95,301.7656 384.95,313.6656 384.95,334.3156" fill="none" id="CANStatusInit-to-Calibration" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="384.95,340.3156,388.95,331.3156,384.95,335.3156,380.95,331.3156,384.95,340.3156" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="385.95" y="318.8325">&quot;DASH&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="438.972" y="318.8325">button clicked</text></g><g class="link" data-entity-1="CANStatusInit" data-entity-2="CANStatusInit" data-source-line="13" data-uid="lnk10" id="link_CANStatusInit_CANStatusInit"><path d="M525.17,247.3656 C536,249.1956 542.67,251.9556 542.67,255.6456 C542.67,259.3356 541.9161,261.1059 531.0861,262.9359" fill="none" id="CANStatusInit-to-CANStatusInit" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="525.17,263.9356,534.7107,266.3802,530.1001,263.1026,533.3777,258.492,525.17,263.9356" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="Calibration" data-entity-2="RestartCalibration" data-source-line="58" data-uid="lnk31" id="link_Calibration_RestartCalibration"><path d="M258.87,1161.8956 C257.84,1167.7956 256.87,1173.6656 255.95,1179.4956 C254.19,1190.7556 253.7194,1197.3758 253.8094,1208.0458" fill="none" id="Calibration-to-RestartCalibration" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="253.86,1214.0456,257.7839,1205.0122,253.8178,1209.0458,249.7842,1205.0797,253.86,1214.0456" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="16.6499" x="256.95" y="1192.5625">&quot;-&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="277.7322" y="1192.5625">button clicked</text></g><g class="link" data-entity-1="RestartCalibration" data-entity-2="Calibration" data-source-line="59" data-uid="lnk32" id="link_RestartCalibration_Calibration"><path d="M352.6,1214.0856 C359.64,1209.2456 365.93,1203.4356 370.95,1196.4956 C378.94,1185.4856 383.2003,1179.244 389.2203,1167.184" fill="none" id="RestartCalibration-to-Calibration" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="391.9,1161.8156,384.3015,1168.0817,389.6669,1166.2892,391.4593,1171.6546,391.9,1161.8156" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="Calibration" data-entity-2=".end.Initialization" data-source-line="60" data-uid="lnk34" id="link_Calibration_.end.Initialization"><path d="M453.16,1161.8156 C458.2,1192.0356 461.1451,1209.757 463.2551,1222.437" fill="none" id="Calibration-to-*end*Initialization" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="464.24,1228.3556,466.7084,1218.8211,463.4193,1223.4234,458.8169,1220.1343,464.24,1228.3556" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="457.95" y="1192.5625">&quot;DASH&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="510.972" y="1192.5625">button clicked</text></g><path d="M670.53,95.4 L2673.47,95.4 A12.5,12.5 0 0 1 2685.97,107.9 L2685.97,121.6969 L658.03,121.6969 L658.03,107.9 A12.5,12.5 0 0 1 670.53,95.4" fill="#313139"/><rect fill="none" height="1090.9569" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="2027.94" x="658.03" y="95.4"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="658.03" x2="2685.97" y1="121.6969" y2="121.6969"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="25.5186" x="1659.2407" y="113.3951">Idle</text><g class="entity" data-entity="IdleNote" data-source-line="66" data-uid="ent0005" id="entity_IdleNote"><path d="M1554.26,132.6969 L1554.26,188.0953 L1968.5227,188.0953 L1968.5227,142.6969 L1958.5227,132.6969 L1554.26,132.6969" fill="#714137" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M1958.5227,132.6969 L1958.5227,142.6969 L1968.5227,142.6969 L1958.5227,132.6969" fill="#714137" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="277.4878" x="1560.26" y="149.7638">Initial screen choice is implemented inside</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="34.0425" x="1841.8801" y="149.7638">Idle's</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="73.4678" x="1880.0549" y="149.7638">state class,</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="95.3862" x="1560.26" y="164.8966">as response to</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="44.0781" x="1659.7786" y="164.8966">'DASH'</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="137.5981" x="1707.989" y="164.8966">button clicked event.</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="56.6592" x="1560.26" y="180.0294">Thus the</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="114.0991" x="1621.0515" y="180.0294">CANStatusScreen</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="116.5239" x="1739.2829" y="180.0294">is a 'virtual' state.</text></g><g id="Idle.CANStatusScreen"><rect fill="#FF00FF" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="260.5742" x="1746.1" y="225.0969"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1746.1" x2="2006.6742" y1="251.3938" y2="251.3938"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122.876" x="1814.9491" y="243.092">CANStatusScreen</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="240.5742" x="1751.1" y="267.5324">ON ENTER: Display &quot;CAN Status&quot; screen</text></g><g class="entity" data-entity="entryChoice" data-uid="ent0007" id="entity_entryChoice"><polygon fill="#313139" points="1526.39,238.2269,1538.39,250.2269,1526.39,262.2269,1514.39,250.2269,1526.39,238.2269" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><path d="M682.53,328.3569 L2538.25,328.3569 A12.5,12.5 0 0 1 2550.75,340.8569 L2550.75,354.6538 L670.03,354.6538 L670.03,340.8569 A12.5,12.5 0 0 1 682.53,328.3569" fill="#313139"/><rect fill="none" height="788.9969" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="1880.72" x="670.03" y="328.3569"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="670.03" x2="2550.75" y1="354.6538" y2="354.6538"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.7832" x="1565.4984" y="346.352">HomeScreen</text><path d="M694.53,598.2138 L1162.7211,598.2138 A12.5,12.5 0 0 1 1175.2211,610.7138 L1175.2211,624.5106 L682.03,624.5106 L682.03,610.7138 A12.5,12.5 0 0 1 694.53,598.2138" fill="#313139"/><rect fill="none" height="290.5669" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="493.1911" x="682.03" y="598.2138"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="682.03" x2="1175.2211" y1="624.5106" y2="624.5106"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="44.5498" x="906.3506" y="616.2089">EditTS</text><g class="entity" data-entity="editTSchoice" data-uid="ent0010" id="entity_editTSchoice"><polygon fill="#313139" points="911.54,692.5106,923.54,704.5106,911.54,716.5106,899.54,704.5106,911.54,692.5106" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><ellipse cx="911.54" cy="645.5106" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Idle.HomeScreen.EditTS.EnableTS"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="205.0156" x="694.03" y="769.5106"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="694.03" x2="899.0456" y1="795.8075" y2="795.8075"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="65.126" x="763.9748" y="787.5057">EnableTS</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="89.6074" x="699.03" y="811.9462">ON ENTER: Set</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65.25" x="792.4519" y="811.9462">ts_enabled</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="861.5163" y="811.9462">flag</text></g><ellipse cx="910.54" cy="867.7806" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="910.54" cy="867.7806" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g id="Idle.HomeScreen.EditTS.DisableTS"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="219.3711" x="946.85" y="769.5106"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="946.85" x2="1166.2211" y1="795.8075" y2="795.8075"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69.3711" x="1021.85" y="787.5057">DisableTS</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="103.9629" x="951.85" y="811.9462">ON ENTER: Reset</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65.25" x="1059.6273" y="811.9462">ts_enabled</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="1128.6918" y="811.9462">flag</text></g><g class="link" data-entity-1=".start.EditTS" data-entity-2="editTSchoice" data-source-line="94" data-uid="lnk53" id="link_.start.EditTS_editTSchoice"><path d="M911.54,655.9306 C911.54,665.7906 911.54,675.3106 911.54,685.9206" fill="none" id="*start*EditTS-to-editTSchoice" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="911.54,691.9206,915.54,682.9206,911.54,686.9206,907.54,682.9206,911.54,691.9206" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="editTSchoice" data-entity-2="EnableTS" data-source-line="95" data-uid="lnk55" id="link_editTSchoice_EnableTS"><path d="M900.31,705.6006 C865.34,706.1206 759.49,709.7606 738.54,734.5106 C728.5,746.3706 732.4993,755.0988 745.9793,765.4388" fill="none" id="editTSchoice-to-EnableTS" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="750.74,769.0906,746.0334,760.4391,746.7727,766.0475,741.1644,766.7868,750.74,769.0906" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="324.5557" x="739.54" y="747.5775">NOT is_TS_enabled &amp;&amp; is_TS_ready_for_activation</text></g><g class="link" data-entity-1="EnableTS" data-entity-2=".end.EditTS" data-source-line="97" data-uid="lnk57" id="link_EnableTS_.end.EditTS"><path d="M835.77,820.1306 C859.21,834.7606 882.021,848.9822 896.191,857.8322" fill="none" id="EnableTS-to-*end*EditTS" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="901.28,861.0106,895.7654,852.8504,897.0392,858.362,891.5276,859.6357,901.28,861.0106" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="editTSchoice" data-entity-2="DisableTS" data-source-line="98" data-uid="lnk59" id="link_editTSchoice_DisableTS"><path d="M922.83,705.8706 C955.07,707.1406 1046.43,712.6506 1064.54,734.5106 C1072.4,744.0106 1072.9582,751.7049 1069.4482,763.3749" fill="none" id="editTSchoice-to-DisableTS" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1067.72,769.1206,1074.1427,761.6541,1069.1601,764.3325,1066.4817,759.3499,1067.72,769.1206" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91.895" x="1070.54" y="747.5775">is_TS_enabled</text></g><g class="link" data-entity-1="DisableTS" data-entity-2=".end.EditTS" data-source-line="100" data-uid="lnk60" id="link_DisableTS_.end.EditTS"><path d="M1006.29,820.1306 C975.11,835.3206 943.1742,850.8833 925.7642,859.3633" fill="none" id="DisableTS-to-*end*EditTS" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="920.37,861.9906,930.2128,861.6457,924.8651,859.8012,926.7097,854.4535,920.37,861.9906" style="stroke:#E7E7E7;stroke-width:1;"/></g><path d="M1205.37,598.2138 L1497.89,598.2138 A12.5,12.5 0 0 1 1510.39,610.7138 L1510.39,624.5106 L1192.87,624.5106 L1192.87,610.7138 A12.5,12.5 0 0 1 1205.37,598.2138" fill="#313139"/><rect fill="none" height="290.5669" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="317.52" x="1192.87" y="598.2138"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1192.87" x2="1510.39" y1="624.5106" y2="624.5106"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="56.5264" x="1323.3668" y="616.2089">EditR2D</text><g class="entity" data-entity="editR2Dchoice" data-uid="ent0012" id="entity_editR2Dchoice"><polygon fill="#313139" points="1384.84,692.5106,1396.84,704.5106,1384.84,716.5106,1372.84,704.5106,1384.84,692.5106" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><ellipse cx="1384.84" cy="645.5106" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Idle.HomeScreen.EditR2D.EnableR2D"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="221.9492" x="1204.87" y="769.5106"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1204.87" x2="1426.8192" y1="795.8075" y2="795.8075"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77.1025" x="1277.2933" y="787.5057">EnableR2D</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="89.6074" x="1209.87" y="811.9462">ON ENTER: Set</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="82.1836" x="1303.2919" y="811.9462">in_R2D_mode</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="1389.2899" y="811.9462">flag</text></g><ellipse cx="1414.84" cy="867.7806" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1414.84" cy="867.7806" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.EditR2D" data-entity-2="editR2Dchoice" data-source-line="107" data-uid="lnk63" id="link_.start.EditR2D_editR2Dchoice"><path d="M1384.84,655.9306 C1384.84,665.7906 1384.84,675.3106 1384.84,685.9206" fill="none" id="*start*EditR2D-to-editR2Dchoice" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1384.84,691.9206,1388.84,682.9206,1384.84,686.9206,1380.84,682.9206,1384.84,691.9206" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="editR2Dchoice" data-entity-2="EnableR2D" data-source-line="108" data-uid="lnk65" id="link_editR2Dchoice_EnableR2D"><path d="M1372.56,704.8706 C1350.9,704.5006 1306.25,707.2806 1285.84,734.5106 C1277.91,745.1106 1279.6026,753.289 1287.7826,764.399" fill="none" id="editR2Dchoice-to-EnableR2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1291.34,769.2306,1289.225,759.6115,1288.3755,765.2043,1282.7828,764.3548,1291.34,769.2306" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="183.2124" x="1286.84" y="747.5775">is_R2D_ready_for_activation</text></g><g class="link" data-entity-1="EnableR2D" data-entity-2=".end.EditR2D" data-source-line="110" data-uid="lnk67" id="link_EnableR2D_.end.EditR2D"><path d="M1349.91,820.1306 C1370.05,834.5906 1389.0972,848.2799 1401.5272,857.2099" fill="none" id="EnableR2D-to-*end*EditR2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1406.4,860.7106,1401.4246,852.2109,1402.3393,857.7933,1396.7569,858.708,1406.4,860.7106" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="editR2Dchoice" data-entity-2=".end.EditR2D" data-source-line="111" data-uid="lnk68" id="link_editR2Dchoice_.end.EditR2D"><path d="M1396.47,705.4806 C1415.69,706.1406 1453.66,710.5806 1470.84,734.5106 C1501.39,777.0506 1448.4561,834.6327 1426.8961,855.4527" fill="none" id="editR2Dchoice-to-*end*EditR2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1422.58,859.6206,1431.8327,856.2461,1426.1767,856.1474,1426.2755,850.4914,1422.58,859.6206" style="stroke:#E7E7E7;stroke-width:1;"/></g><path d="M1540.4,438.6538 L2426.8608,438.6538 A12.5,12.5 0 0 1 2439.3608,451.1538 L2439.3608,497.8881 L1527.9,497.8881 L1527.9,451.1538 A12.5,12.5 0 0 1 1540.4,438.6538" fill="#313139"/><rect fill="none" height="609.7044" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="911.4608" x="1527.9" y="438.6538"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1527.9" x2="2439.3608" y1="497.8881" y2="497.8881"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1527.9" x2="2439.3608" y1="464.9506" y2="464.9506"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="72.1055" x="1947.5777" y="456.6489">ParamEdit</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="476.959" x="1532.9" y="476.0893">ON ENTER: Enable edition of parameters - display blue border around currently</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="346.5059" x="1532.9" y="490.058">ON EXIT: Disable edition of parameters - hide blue border</text><g class="entity" data-entity="TransitionNote" data-source-line="117" data-uid="ent0014" id="entity_TransitionNote"><path d="M2054.77,508.8881 L2054.77,579.4194 L2425.3608,579.4194 L2425.3608,518.8881 L2415.3608,508.8881 L2054.77,508.8881" fill="#714137" style="stroke:#E7E7E7;stroke-width:0.5;"/><path d="M2415.3608,508.8881 L2415.3608,518.8881 L2425.3608,518.8881 L2415.3608,508.8881" fill="#714137" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="349.5908" x="2060.77" y="525.955">Transitions between edits are colored as green or red</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="136.5" x="2064.9023" y="541.0878">Green - prompted by</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="57.7129" x="2205.5346" y="541.0878">'MODE+'</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.8784" x="2267.3799" y="541.0878">button</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="122.1289" x="2064.9023" y="556.2206">Red - prompted by</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="51.5112" x="2191.1636" y="556.2206">'MODE-'</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.8784" x="2246.8071" y="556.2206">button</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="125.6138" x="2064.9023" y="571.3535">Blue - prompted by</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="56.0879" x="2194.6484" y="571.3535">'SELECT'</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.8784" x="2254.8686" y="571.3535">button</text></g><ellipse cx="2027.06" cy="544.1581" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g id="Idle.HomeScreen.ParamEdit.EditMAP"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="297.7109" x="1878.21" y="615.4181"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1878.21" x2="2175.9209" y1="641.715" y2="641.715"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="57.21" x="1998.4605" y="633.4132">EditMAP</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1883.21" y="657.8537">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1905.4463" y="657.8537">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="211.5176" x="1930.3545" y="657.8537">BUTTON: current_map = next_map</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1883.21" y="671.8224">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="15.3691" x="1905.4463" y="671.8224">&quot;-&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="236.291" x="1924.6299" y="671.8224">BUTTON: current_map = previous_map</text></g><g id="Idle.HomeScreen.ParamEdit.EditTC"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="272.7207" x="1655.7" y="715.6581"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1655.7" x2="1928.4207" y1="741.955" y2="741.955"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45.4385" x="1769.3411" y="733.6532">EditTC</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1660.7" y="758.0937">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1682.9363" y="758.0937">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="180.8027" x="1707.8445" y="758.0937">BUTTON: current_tc = next_tc</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1660.7" y="772.0624">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1682.9363" y="772.0624">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="205.5762" x="1707.8445" y="772.0624">BUTTON: current_tc = previous_tc</text></g><g id="Idle.HomeScreen.ParamEdit.EditTSAC"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="294.207" x="1733.96" y="916.1281"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1733.96" x2="2028.167" y1="942.425" y2="942.425"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="63.9023" x="1849.1123" y="934.1232">EditTSAC</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1738.96" y="958.5637">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1761.1963" y="958.5637">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="208.0137" x="1786.1045" y="958.5637">BUTTON: current_tsac = next_tsac</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1738.96" y="972.5324">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="15.3691" x="1761.1963" y="972.5324">&quot;-&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="232.7871" x="1780.3799" y="972.5324">BUTTON: current_tsac = previous_tsac</text></g><ellipse cx="1793.06" cy="1027.3581" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1793.06" cy="1027.3581" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g id="Idle.HomeScreen.ParamEdit.EditDIFF"><rect fill="#313139" height="64.2344" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="360.0313" x="1612.05" y="815.8881"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="1612.05" x2="1972.0813" y1="842.185" y2="842.185"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58.126" x="1763.0026" y="833.8832">EditDIFF</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1617.05" y="858.3237">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1639.2863" y="858.3237">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="292.8867" x="1664.1945" y="858.3237">BUTTON: current_diff += 10% (capped at 100%)</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="18.4219" x="1617.05" y="872.2924">ON</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="21.0938" x="1639.2863" y="872.2924">&quot;+&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="271.8926" x="1664.1945" y="872.2924">BUTTON: current_diff -= 10% (capped at 0%)</text></g><g class="link" data-entity-1=".start.ParamEdit" data-entity-2="EditMAP" data-source-line="122" data-uid="lnk72" id="link_.start.ParamEdit_EditMAP"><path d="M2027.06,554.5081 C2027.06,568.1381 2027.06,588.0981 2027.06,608.9781" fill="none" id="*start*ParamEdit-to-EditMAP" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2027.06,614.9781,2031.06,605.9781,2027.06,609.9781,2023.06,605.9781,2027.06,614.9781" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditMAP" data-source-line="126" data-uid="lnk73" id="link_EditMAP_EditMAP"><path d="M2176.2,633.5881 C2187.18,636.7181 2193.92,641.3681 2193.92,647.5381 C2193.92,653.7081 2192.9501,656.7133 2181.9701,659.8433" fill="none" id="EditMAP-to-EditMAP" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2176.2,661.4881,2185.9518,662.8676,2181.0084,660.1174,2183.7586,655.1741,2176.2,661.4881" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditTC" data-source-line="127" data-uid="lnk75" id="link_EditMAP_EditTC"><path d="M1945.39,680.0281 C1917.87,691.3081 1892.9787,701.6637 1866.5387,712.9437" fill="none" id="EditMAP-to-EditTC" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="1861.02,715.2981,1870.8678,715.4456,1865.619,713.3361,1867.7285,708.0873,1861.02,715.2981" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditTSAC" data-source-line="128" data-uid="lnk77" id="link_EditMAP_EditTSAC"><path d="M2025.86,680.0181 C2027.82,727.5981 2030.89,818.7581 1990.06,880.1281 C1980.4,894.6481 1971.5347,903.1611 1956.8147,912.5111" fill="none" id="EditMAP-to-EditTSAC" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1951.75,915.7281,1961.4917,914.279,1955.9705,913.0473,1957.2023,907.5262,1951.75,915.7281" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2=".end.ParamEdit" data-source-line="129" data-uid="lnk79" id="link_EditMAP_.end.ParamEdit"><path d="M2042.77,679.9081 C2072.63,744.4981 2128.33,893.5481 2055.06,980.3581 C2022.07,1019.4481 1856.0289,1025.2128 1810.2589,1026.0928" fill="none" id="EditMAP-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1804.26,1026.2081,1813.3352,1030.0344,1809.2591,1026.112,1813.1814,1022.0359,1804.26,1026.2081" style="stroke:#0000FF;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2="EditTC" data-source-line="134" data-uid="lnk80" id="link_EditTC_EditTC"><path d="M1928.55,733.3881 C1939.58,736.5181 1946.42,741.3081 1946.42,747.7681 C1946.42,754.2281 1945.3521,757.3902 1934.3221,760.5202" fill="none" id="EditTC-to-EditTC" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1928.55,762.1581,1938.3001,763.5493,1933.3601,760.7932,1936.1162,755.8531,1928.55,762.1581" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2="EditDIFF" data-source-line="135" data-uid="lnk82" id="link_EditTC_EditDIFF"><path d="M1785.72,780.1281 C1785.18,791.4681 1784.8949,798.2749 1785.4349,809.6249" fill="none" id="EditTC-to-EditDIFF" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="1785.72,815.6181,1789.2878,806.4382,1785.4824,810.6238,1781.2968,806.8184,1785.72,815.6181" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2="EditMAP" data-source-line="136" data-uid="lnk83" id="link_EditTC_EditMAP"><path d="M1873.71,715.2981 C1901.23,704.0181 1926.1209,693.6618 1952.5709,682.3818" fill="none" id="EditTC-to-EditMAP" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1958.09,680.0281,1948.2423,679.8793,1953.4908,681.9895,1951.3805,687.238,1958.09,680.0281" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTC" data-entity-2=".end.ParamEdit" data-source-line="137" data-uid="lnk84" id="link_EditTC_.end.ParamEdit"><path d="M1655.23,774.2281 C1634.73,783.9781 1616.12,797.3981 1603.06,815.8881 C1538.9,906.7681 1730.6153,998.7855 1777.7153,1019.6755" fill="none" id="EditTC-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1783.2,1022.1081,1776.5946,1014.8027,1778.6294,1020.0809,1773.3511,1022.1157,1783.2,1022.1081" style="stroke:#0000FF;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2="EditDIFF" data-source-line="142" data-uid="lnk85" id="link_EditDIFF_EditDIFF"><path d="M1972.34,834.9181 C1983.42,838.0181 1990.08,842.3781 1990.08,848.0081 C1990.08,853.6381 1989.1981,856.3815 1978.1181,859.4815" fill="none" id="EditDIFF-to-EditDIFF" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1972.34,861.0981,1982.0849,862.5253,1977.1551,859.7509,1979.9294,854.8211,1972.34,861.0981" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2="EditTSAC" data-source-line="143" data-uid="lnk86" id="link_EditDIFF_EditTSAC"><path d="M1814.13,880.3581 C1823.86,891.6981 1831.3181,900.1671 1842.1381,911.5071" fill="none" id="EditDIFF-to-EditTSAC" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="1846.28,915.8481,1842.9611,906.5753,1842.8284,912.2306,1837.1731,912.0979,1846.28,915.8481" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2="EditTC" data-source-line="144" data-uid="lnk87" id="link_EditDIFF_EditTC"><path d="M1798.41,815.6181 C1798.95,804.2681 1799.2407,797.4611 1798.6907,786.1211" fill="none" id="EditDIFF-to-EditTC" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1798.4,780.1281,1794.8407,789.3113,1798.6422,785.1223,1802.8313,788.9238,1798.4,780.1281" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditDIFF" data-entity-2=".end.ParamEdit" data-source-line="145" data-uid="lnk88" id="link_EditDIFF_.end.ParamEdit"><path d="M1750.53,880.4881 C1740.25,890.6181 1730.6,902.7381 1725.06,916.1281 C1714.15,942.5081 1711.68,955.1381 1725.06,980.3581 C1737.29,1003.3981 1761.1659,1014.9178 1776.9859,1020.7978" fill="none" id="EditDIFF-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1782.61,1022.8881,1775.5674,1016.0032,1777.9233,1021.1462,1772.7803,1023.502,1782.61,1022.8881" style="stroke:#0000FF;stroke-width:1;"/></g><g class="link" data-entity-1="EditTSAC" data-entity-2="EditTSAC" data-source-line="150" data-uid="lnk89" id="link_EditTSAC_EditTSAC"><path d="M2028.63,937.2281 C2039.5,939.7081 2046.17,943.3781 2046.17,948.2381 C2046.17,953.1081 2045.3509,955.4486 2034.4809,957.9186" fill="none" id="EditTSAC-to-EditTSAC" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2028.63,959.2481,2038.2926,961.1545,2033.5057,958.1402,2036.5199,953.3533,2028.63,959.2481" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditMAP" data-entity-2="EditTSAC" data-source-line="151" data-uid="lnk91" id="link_EditMAP_EditTSAC"><path d="M2038.4455,685.9263 C2046.8655,733.5063 2048.89,818.7581 2008.06,880.1281 C1998.4,894.6481 1984.47,906.3781 1969.32,915.7281" fill="none" id="EditMAP-backto-EditTSAC" style="stroke:#008000;stroke-width:1;"/><polygon fill="#008000" points="2037.4,680.0181,2035.0295,689.5775,2038.2713,684.9416,2042.9071,688.1834,2037.4,680.0181" style="stroke:#008000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTSAC" data-entity-2="EditDIFF" data-source-line="152" data-uid="lnk92" id="link_EditTSAC_EditDIFF"><path d="M1858.97,915.8481 C1849.23,904.5081 1841.7719,896.0391 1830.9519,884.6991" fill="none" id="EditTSAC-to-EditDIFF" style="stroke:#FF0000;stroke-width:1;"/><polygon fill="#FF0000" points="1826.81,880.3581,1830.1289,889.6309,1830.2616,883.9756,1835.9169,884.1083,1826.81,880.3581" style="stroke:#FF0000;stroke-width:1;"/></g><g class="link" data-entity-1="EditTSAC" data-entity-2=".end.ParamEdit" data-source-line="153" data-uid="lnk93" id="link_EditTSAC_.end.ParamEdit"><path d="M1845.02,980.8281 C1828.69,995.1381 1815.3624,1006.8136 1805.4124,1015.5336" fill="none" id="EditTSAC-to-*end*ParamEdit" style="stroke:#0000FF;stroke-width:1;"/><polygon fill="#0000FF" points="1800.9,1019.4881,1810.3049,1016.5645,1804.6603,1016.1927,1805.0322,1010.548,1800.9,1019.4881" style="stroke:#0000FF;stroke-width:1;"/></g><ellipse cx="1746.63" cy="375.6538" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1597.63" cy="1096.3538" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="1597.63" cy="1096.3538" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.HomeScreen" data-entity-2=".end.HomeScreen" data-source-line="84" data-uid="lnk47" id="link_.start.HomeScreen_.end.HomeScreen"><path d="M1756.84,376.7438 C1839.7,377.5738 2399.67,385.1838 2448.63,438.6538 C2540.12,538.5838 2541.75,949.9438 2448.63,1048.3538 C2418.34,1080.3638 1713.3391,1093.402 1614.8891,1095.072" fill="none" id="*start*HomeScreen-to-*end*HomeScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1608.89,1095.1738,1617.9565,1099.0205,1613.8893,1095.0889,1617.8209,1091.0217,1608.89,1095.1738" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1=".start.HomeScreen" data-entity-2="EditTS" data-source-line="85" data-uid="lnk48" id="link_.start.HomeScreen_EditTS"><path d="M1736.23,376.7038 C1667.98,377.2438 1283.63,382.7638 1183.63,438.6538 C1116.29,476.2738 1062.6151,534.3031 1019.5451,593.1131" fill="none" id="*start*HomeScreen-to-EditTS" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1016,597.9538,1024.5448,593.0561,1018.9543,593.9199,1018.0905,588.3293,1016,597.9538" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="28.1519" x="1312.63" y="416.7206">&quot;TS&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1344.9142" y="416.7206">button clicked</text></g><g class="link" data-entity-1=".start.HomeScreen" data-entity-2="EditR2D" data-source-line="86" data-uid="lnk49" id="link_.start.HomeScreen_EditR2D"><path d="M1736.18,376.5838 C1701.22,376.9138 1586.6,382.4538 1518.63,438.6538 C1468.17,480.3638 1433.0143,536.0394 1406.3043,592.5394" fill="none" id="*start*HomeScreen-to-EditR2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1403.74,597.9638,1411.2028,591.5367,1405.877,593.4434,1403.9703,588.1176,1403.74,597.9638" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="38.0796" x="1580.63" y="416.7206">&quot;P2D&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1622.8419" y="416.7206">button clicked</text></g><g class="link" data-entity-1=".start.HomeScreen" data-entity-2="ParamEdit" data-source-line="87" data-uid="lnk50" id="link_.start.HomeScreen_ParamEdit"><path d="M1751.8,384.6338 C1758.36,394.7638 1767.4974,408.8683 1783.2874,433.2383" fill="none" id="*start*HomeScreen-to-ParamEdit" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1786.55,438.2738,1785.0131,428.5456,1783.8312,434.0776,1778.2992,432.8957,1786.55,438.2738" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="60.8994" x="1771.63" y="416.7206">&quot;SELECT&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1836.6617" y="416.7206">button clicked</text></g><g class="link" data-entity-1="ParamEdit" data-entity-2=".end.HomeScreen" data-source-line="88" data-uid="lnk51" id="link_ParamEdit_.end.HomeScreen"><path d="M1648.88,1048.7638 C1629.2,1066.6538 1618.3396,1076.5177 1609.7596,1084.3177" fill="none" id="ParamEdit-to-*end*HomeScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1605.32,1088.3538,1614.6702,1085.2595,1609.0197,1084.9904,1609.2888,1079.3399,1605.32,1088.3538" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditTS" data-entity-2=".end.HomeScreen" data-source-line="102" data-uid="lnk61" id="link_EditTS_.end.HomeScreen"><path d="M1014.54,888.9438 C1057.6,948.3038 1115.22,1011.6138 1183.63,1048.3538 C1256.28,1087.3638 1521.9109,1094.0692 1580.4609,1095.0892" fill="none" id="EditTS-to-*end*HomeScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1586.46,1095.1938,1577.531,1091.0376,1581.4608,1095.1067,1577.3917,1099.0364,1586.46,1095.1938" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="EditR2D" data-entity-2=".end.HomeScreen" data-source-line="113" data-uid="lnk69" id="link_EditR2D_.end.HomeScreen"><path d="M1411.35,889.1138 C1438.55,943.3438 1474.6,1002.7938 1518.63,1048.3538 C1539.14,1069.5838 1565.7183,1082.3738 1581.9583,1089.1138" fill="none" id="EditR2D-to-*end*HomeScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1587.5,1091.4138,1580.7208,1084.2694,1582.8819,1089.4971,1577.6542,1091.6583,1587.5,1091.4138" style="stroke:#E7E7E7;stroke-width:1;"/></g><ellipse cx="1526.39" cy="160.3969" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2094.39" cy="1165.3569" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2094.39" cy="1165.3569" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g class="link" data-entity-1=".start.Idle" data-entity-2="entryChoice" data-source-line="72" data-uid="lnk37" id="link_.start.Idle_entryChoice"><path d="M1526.39,170.7969 C1526.39,186.9869 1526.39,214.1069 1526.39,231.6869" fill="none" id="*start*Idle-to-entryChoice" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1526.39,237.6869,1530.39,228.6869,1526.39,232.6869,1522.39,228.6869,1526.39,237.6869" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="entryChoice" data-entity-2="HomeScreen" data-source-line="74" data-uid="lnk38" id="link_entryChoice_HomeScreen"><path d="M1521.55,257.9669 C1516.14,265.9569 1507.69,279.8969 1504.39,293.3569 C1502.59,300.6969 1503.44,302.8669 1504.39,310.3569 C1505.13,316.2169 1505.0773,316.1678 1505.9273,322.0878" fill="none" id="entryChoice-to-HomeScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1506.78,328.0269,1509.4603,318.5497,1506.0694,323.0776,1501.5415,319.6867,1506.78,328.0269" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="190.3662" x="1505.39" y="306.4238">screen_id == HOME_SCREEN</text></g><g class="link" data-entity-1="entryChoice" data-entity-2="CANStatusScreen" data-source-line="75" data-uid="lnk39" id="link_entryChoice_CANStatusScreen"><path d="M1538.85,250.2269 C1572.03,250.2269 1659.51,250.2269 1739.7,250.2269" fill="none" id="entryChoice-to-CANStatusScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1745.7,250.2269,1736.7,246.2269,1740.7,250.2269,1736.7,254.2269,1745.7,250.2269" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="176.9028" x="1554.25" y="243.2938">screen_id == CAN_STATUS</text></g><g class="link" data-entity-1="HomeScreen" data-entity-2="CANStatusScreen" data-source-line="77" data-uid="lnk40" id="link_HomeScreen_CANStatusScreen"><path d="M1690.33,328.1869 C1699.09,315.8269 1708.74,304.1469 1719.39,293.3569 C1727.12,285.5269 1730.8629,281.9621 1740.6029,276.6921" fill="none" id="HomeScreen-to-CANStatusScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1745.88,273.8369,1736.0609,274.6017,1741.4824,276.2163,1739.8679,281.6378,1745.88,273.8369" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="1720.39" y="306.4238">&quot;DASH&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1773.412" y="306.4238">button clicked</text></g><g class="link" data-entity-1="CANStatusScreen" data-entity-2="HomeScreen" data-source-line="78" data-uid="lnk41" id="link_CANStatusScreen_HomeScreen"><path d="M1874.42,275.6669 C1872.99,286.5469 1870.56,299.3569 1866.39,310.3569 C1864.16,316.2569 1864.0875,316.6078 1861.6875,322.5178" fill="none" id="CANStatusScreen-to-HomeScreen" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1859.43,328.0769,1866.5223,321.2432,1861.3113,323.4443,1859.1102,318.2332,1859.43,328.0769" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="48.8896" x="1871.39" y="306.4238">&quot;DASH&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="1924.412" y="306.4238">button clicked</text></g><g class="link" data-entity-1="HomeScreen" data-entity-2=".end.Idle" data-source-line="80" data-uid="lnk43" id="link_HomeScreen_.end.Idle"><path d="M2043.05,1117.6369 C2062.78,1135.5869 2073.4627,1145.3083 2082.0327,1153.1083" fill="none" id="HomeScreen-to-*end*Idle" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2086.47,1157.1469,2082.5065,1148.1308,2082.7723,1153.7814,2077.1216,1154.0472,2086.47,1157.1469" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="CANStatusScreen" data-entity-2=".end.Idle" data-source-line="81" data-uid="lnk44" id="link_CANStatusScreen_.end.Idle"><path d="M2007.09,256.7669 C2195.08,266.0869 2523.32,287.9769 2559.39,328.3569 C2676.21,459.1069 2676.97,987.2969 2559.39,1117.3569 C2527.9,1152.1969 2179.1082,1162.3105 2111.4882,1163.9605" fill="none" id="CANStatusScreen-to-*end*Idle" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2105.49,1164.1069,2114.5849,1167.8861,2110.4885,1163.9849,2114.3897,1159.8885,2105.49,1164.1069" style="stroke:#E7E7E7;stroke-width:1;"/></g><path d="M2873.92,479.13 L3144.0747,479.13 A12.5,12.5 0 0 1 3156.5747,491.63 L3156.5747,538.3644 L2861.42,538.3644 L2861.42,491.63 A12.5,12.5 0 0 1 2873.92,479.13" fill="#313139"/><rect fill="none" height="323.5044" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="295.1547" x="2861.42" y="479.13"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="2861.42" x2="3156.5747" y1="538.3644" y2="538.3644"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="2861.42" x2="3156.5747" y1="505.4269" y2="505.4269"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29.415" x="2994.2898" y="497.1251">R2D</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="191.7363" x="2866.42" y="516.5655">ON ENTER: Lock &quot;Home&quot; screen</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="164.1914" x="2866.42" y="530.5343">ON ENTER: Play R2D sound</text><g class="entity" data-entity="ChoiceR2D" data-uid="ent0016" id="entity_ChoiceR2D"><polygon fill="#313139" points="2894.42,606.3644,2906.42,618.3644,2894.42,630.3644,2882.42,618.3644,2894.42,606.3644" style="stroke:#E7E7E7;stroke-width:0.5;"/></g><ellipse cx="2894.42" cy="559.3644" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2890.42" cy="781.6344" fill="none" rx="11" ry="11" style="stroke:#222222;stroke-width:0.5;"/><ellipse cx="2890.42" cy="781.6344" fill="#222222" rx="6" ry="6" style="stroke:#222222;stroke-width:1;"/><g id="R2D.ExitR2D"><rect fill="#313139" height="50.2656" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="236.3047" x="2906.27" y="683.3644"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="2906.27" x2="3142.5747" y1="709.6613" y2="709.6613"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55.9248" x="2996.4599" y="701.3595">ExitR2D</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="103.9629" x="2911.27" y="725.7999">ON ENTER: Reset</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="82.1836" x="3019.0473" y="725.7999">in_R2D_mode</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="22.5293" x="3105.0454" y="725.7999">flag</text></g><g class="link" data-entity-1=".start.R2D" data-entity-2="ChoiceR2D" data-source-line="167" data-uid="lnk97" id="link_.start.R2D_ChoiceR2D"><path d="M2894.42,569.7844 C2894.42,579.6444 2894.42,589.1644 2894.42,599.7744" fill="none" id="*start*R2D-to-ChoiceR2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2894.42,605.7744,2898.42,596.7744,2894.42,600.7744,2890.42,596.7744,2894.42,605.7744" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="ChoiceR2D" data-entity-2=".end.R2D" data-source-line="168" data-uid="lnk99" id="link_ChoiceR2D_.end.R2D"><path d="M2894.14,630.7044 C2893.4,660.6744 2891.5404,735.6463 2890.8204,764.3663" fill="none" id="ChoiceR2D-to-*end*R2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2890.67,770.3644,2894.8943,761.4674,2890.7953,765.3659,2886.8968,761.267,2890.67,770.3644" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="ChoiceR2D" data-entity-2="ExitR2D" data-source-line="169" data-uid="lnk101" id="link_ChoiceR2D_ExitR2D"><path d="M2901.05,623.8644 C2916.88,634.5944 2952.884,659.0071 2983.294,679.6271" fill="none" id="ChoiceR2D-to-ExitR2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2988.26,682.9944,2983.0558,674.6328,2984.1217,680.1883,2978.5661,681.2541,2988.26,682.9944" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" font-style="italic" lengthAdjust="spacing" textLength="38.0796" x="2960.42" y="661.4313">&quot;P2D&quot;</text><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="92.3076" x="3002.6319" y="661.4313">button clicked</text></g><g class="link" data-entity-1="ExitR2D" data-entity-2=".end.R2D" data-source-line="170" data-uid="lnk102" id="link_ExitR2D_.end.R2D"><path d="M2978.3,733.9844 C2949.99,749.0144 2921.4488,764.1597 2905.2588,772.7597" fill="none" id="ExitR2D-to-*end*R2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2899.96,775.5744,2909.7847,774.8849,2904.3757,773.2288,2906.0318,767.8198,2899.96,775.5744" style="stroke:#E7E7E7;stroke-width:1;"/></g><ellipse cx="16" cy="640.88" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g class="link" data-entity-1=".start." data-entity-2="Initialization" data-source-line="3" data-uid="lnk3" id="link_.start._Initialization"><path d="M26.19,640.88 C37.6,640.88 43.01,640.88 54.42,640.88" fill="none" id="*start*-to-Initialization" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="60.42,640.88,51.42,636.88,55.42,640.88,51.42,644.88,60.42,640.88" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="Initialization" data-entity-2="Idle" data-source-line="63" data-uid="lnk35" id="link_Initialization_Idle"><path d="M623.52,640.88 C634.87,640.88 640.22,640.88 651.57,640.88" fill="none" id="Initialization-to-Idle" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="657.57,640.88,648.57,636.88,652.57,640.88,648.57,644.88,657.57,640.88" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="Idle" data-entity-2="Idle" data-source-line="158" data-uid="lnk94" id="link_Idle_Idle"><path d="M2686.42,546.64 C2708.63,573.24 2720.97,604.66 2720.97,640.88 C2720.97,677.1 2712.4747,703.9037 2690.2647,730.5137" fill="none" id="Idle-to-Idle" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2686.42,735.12,2695.2579,730.7736,2689.6239,731.2814,2689.1161,725.6474,2686.42,735.12" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="Idle" data-entity-2="R2D" data-source-line="159" data-uid="lnk95" id="link_Idle_R2D"><path d="M2686.3,660.46 C2700.36,660.61 2714.33,660.75 2728.2,660.88 C2768.64,661.26 2778.81,663 2819.2,660.88 C2832.76,660.17 2840.8706,659.6662 2854.9706,658.4962" fill="none" id="Idle-to-R2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2860.95,658,2851.65,654.758,2855.9671,658.4135,2852.3116,662.7306,2860.95,658" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="89.0322" x="2729.2" y="656.9469">in_R2D_mode</text></g><g class="link" data-entity-1="Idle" data-entity-2="R2D" data-source-line="174" data-uid="lnk105" id="link_Idle_R2D"><path d="M2692.2,640.88 C2757.97,640.88 2811.58,640.88 2861.16,640.88" fill="none" id="Idle-backto-R2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="2686.2,640.88,2695.2,644.88,2691.2,640.88,2695.2,636.88,2686.2,640.88" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="121.0625" x="2713.2" y="633.9469">NOT in_R2D_mode</text></g><g class="link" data-entity-1="R2D" data-entity-2="R2D" data-source-line="173" data-uid="lnk103" id="link_R2D_R2D"><path d="M3156.93,586.6 C3177.68,595.46 3191.58,613.55 3191.58,640.88 C3191.58,668.21 3183.198,683.9439 3162.448,692.8039" fill="none" id="R2D-to-R2D" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="3156.93,695.16,3166.7778,695.3045,3161.5284,693.1966,3163.6363,687.9471,3156.93,695.16" style="stroke:#E7E7E7;stroke-width:1;"/></g></g></svg></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 PK MechPower
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/puml.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/interaction.js"></script>
+      
+    
+  </body>
+</html>
