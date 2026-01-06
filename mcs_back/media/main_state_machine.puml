@@ -1,0 +1,97 @@
+@startuml sm-mcs-back
+
+[*] --> Init
+
+Init --> TS_ReadyForActivation: TS_Initialized() received
+
+state Init as "Initialization" #YellowGreen {
+    ' ON ENTER
+    'Init: ON ENTER: Request period fault status messages from motor drivers
+    'Init: ON ENTER: Schedule periodic handshakes to all connected nodes
+    ' ON UPDATE
+    'Init: ON UPDATE: is_initialized = received responses to all handshakes
+    ' ON EXIT
+}
+
+TS_ReadyForActivation --> Precharge : TS_Activate(true) requested && has_run_once
+TS_ReadyForActivation -r-> Error : Error_Free(false) received
+TS_ReadyForActivation --> TS_ReadyForActivation : Update() received
+
+state TS_ReadyForActivation as "TS Ready for Activation" #YellowGreen {
+    ' ON ENTER
+    TS_ReadyForActivation: ON ENTER: Take motor driver permits (both)
+    TS_ReadyForActivation: ON ENTER: Open AIRs
+    TS_ReadyForActivation: ON ENTER: Set is_ts_ready_for_activation
+    TS_ReadyForActivation: ON ENTER: Reset is_ts_active
+    TS_ReadyForActivation: ON ENTER: Reset is_precharged
+    TS_ReadyForActivation: ON ENTER: Disable water cooling
+    ' ON UPDATE
+    TS_ReadyForActivation: ON UPDATE: has_run_once = true
+    ' ON EXIT
+    TS_ReadyForActivation: ON EXIT: has_run_once = false
+}
+
+Precharge --> RFE : is_precharged
+Precharge -r-> Error : Error_Free(false) received
+Precharge --> TS_ReadyForActivation : TS_Activate(false) requested
+Precharge --> Precharge : Update() received
+
+state Precharge as "Pre-charging" #Gold {
+    ' ON ENTER
+    Precharge: ON ENTER: Grant permit to AIRs - begin pre-charging DC links
+    Precharge: ON ENTER: Enable water cooling
+    Precharge: ON ENTER: Set is_ts_active
+    ' ON UPDATE
+    Precharge: ON UPDATE: Check if is_precharged
+    ' ON EXIT
+}
+
+RFE --> Ready2Drive : R2D_Activate(true) requested && FRG delay elapsed
+RFE -r-> Error : Error_Free(false) received
+RFE --> TS_ReadyForActivation : TS_Activate(false) requested
+RFE --> RFE : Update() received
+
+state RFE as "Rotating Field Enabled" #Gold {
+    ' ON ENTER
+    RFE: ON ENTER: Grant RFE permit to motor drivers
+    RFE: ON ENTER: Start FRG permit timer
+    ' ON UPDATE
+    RFE: ON UPDATE: Update FRG permit delay
+    ' ON EXIT
+    RFE: ON EXIT: Reset FRG permit delay
+}
+
+Ready2Drive -r-> Error : Error_Free(false) received
+Ready2Drive --> TS_ReadyForActivation : TS_Activate(false) requested
+Ready2Drive --> RFE : R2D_Activate(false) requested
+
+state Ready2Drive as "Ready to Drive" #Gold {
+    ' ON ENTER
+    Ready2Drive: ON ENTER: Grant FRG permit to motor drivers
+    Ready2Drive: ON ENTER: Enable Torque Controller
+    Ready2Drive: ON ENTER: Set is_ready_to_drive
+    'Ready2Drive: ON ENTER: Play R2D sound
+    ' ON UPDATE
+    ' ON EXIT
+    Ready2Drive: ON EXIT: Take FRG permit from motor drivers
+    Ready2Drive: ON EXIT: Disable Torque Controller
+    Ready2Drive: ON EXIT: Reset is_ready_to_drive
+}
+
+Error --> TS_ReadyForActivation: error_free for >1 s
+Error --> Error : Update() received
+
+state Error #tomato{
+    ' ON ENTER
+    Error: ON ENTER: Take motor driver permits
+    Error: ON ENTER: Open AIRs
+    Error: ON ENTER: Reset is_ts_active
+    Error: ON ENTER: Reset is_ts_ready_for_activation
+    Error: ON ENTER: Disable water cooling
+    Error: ON ENTER: Reset is_precharged
+    ' ON UPDATE
+    Error: ON UPDATE: Update error free delay
+    ' ON EXIT
+}
+
+@enduml
