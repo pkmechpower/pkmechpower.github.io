@@ -1,0 +1,57 @@
+```puml
+@startuml message-forwarding-from-etl
+
+participant CAN_Peripheral
+participant ISR
+participant CAN_Handler
+participant ETL_Bus
+participant Active_Bus
+participant Scheduler
+participant Task_A
+participant COM_Task
+participant CAN_to_ETL_Message_Forwarder
+
+' ISR
+group Interrupt Service Routine
+CAN_Peripheral -> CAN_Handler
+
+note over CAN_Handler: Receive CAN frame using HAL function
+note over CAN_Handler: Enqueue raw CAN frame
+end
+
+Scheduler -> COM_Task: Process task
+
+COM_Task -> CAN_Handler: Pop CAN frame from the queue
+CAN_Handler -> COM_Task
+
+COM_Task -> CAN_to_ETL_Message_Forwarder: Try forwarding the frame
+
+group Message SHOULD be forwarded to internal bus
+note over CAN_to_ETL_Message_Forwarder: Decode the CAN frame back to message
+
+CAN_to_ETL_Message_Forwarder -> Active_Bus: Send the message
+Active_Bus -> ETL_Bus:
+note over ETL_Bus: Check if any of connected routers expects the message
+
+group Message is expected by Task_A
+ETL_Bus -> Task_A: Receive the message
+
+note over Task_A: Enqueue the message
+
+Task_A -> ETL_Bus
+end
+ETL_Bus -> Active_Bus
+Active_Bus -> CAN_to_ETL_Message_Forwarder
+end
+
+CAN_to_ETL_Message_Forwarder -> COM_Task
+COM_Task -> Scheduler
+
+Scheduler -> Task_A: Process task
+
+note over Task_A: Process queued messages
+note over Task_A: Do some calculation...
+
+
+@enduml
+```

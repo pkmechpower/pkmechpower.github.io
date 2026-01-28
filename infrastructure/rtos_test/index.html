@@ -1,0 +1,2890 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../github_actions/">
+      
+      
+        <link rel="next" href="../unit_test/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../media/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>RTOS Test - PK MechPower Codebase</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/puml.css">
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/interaction.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rtos_test-class" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PK MechPower Codebase" class="md-header__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PK MechPower Codebase
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RTOS Test
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../library/torque_map/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../github_actions/" class="md-tabs__link">
+          
+  
+  
+  Infrastructure
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../common/network_manager/" class="md-tabs__link">
+          
+  
+  
+  Common
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mcs_front/architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Front
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mcs_back/architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Back
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PK MechPower Codebase" class="md-nav__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    PK MechPower Codebase
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Library
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/torque_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torque Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Infrastructure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Github Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RTOS Test
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RTOS Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Location
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Class Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Configurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-and-teardown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup and Teardown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Simulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulate_for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        simulate_for()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulate_until" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        simulate_until()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_simulation_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_simulation_time()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_tracked_task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_tracked_task()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queue-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Queue Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Queue Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_tracked_queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_tracked_queue()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_queue()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-buffer-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Buffer Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Message Buffer Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_tracked_message_buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_tracked_message_buffer()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupt-service-routines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interrupt Service Routines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interrupt Service Routines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register_isr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_isr()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger_isr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trigger_isr()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAN Communication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CAN Communication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#receive_can_message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        receive_CAN_message()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_can_mock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_can_mock()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulation-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulation Updates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulation Updates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register_simulation_update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_simulation_update()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Test Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-can-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing CAN Communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-with-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing with Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#periodic-simulation-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Periodic Simulation Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resource-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-granularity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Granularity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread Safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Common
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/network_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/message_forwarders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Forwarders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CAN
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CAN
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/can/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CAN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/message_definition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message definition guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCS_Front
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCS_Front
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_front/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_front/state_machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCS_Back
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCS_Back
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/state_machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/mcs_back_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Location
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Class Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Configurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-and-teardown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup and Teardown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-simulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Simulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Time Simulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulate_for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        simulate_for()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulate_until" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        simulate_until()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_simulation_time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_simulation_time()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Task Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_tracked_task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_tracked_task()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#queue-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Queue Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Queue Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_tracked_queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_tracked_queue()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_queue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_queue()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-buffer-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Message Buffer Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Message Buffer Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create_tracked_message_buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create_tracked_message_buffer()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupt-service-routines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interrupt Service Routines
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interrupt Service Routines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register_isr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_isr()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger_isr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trigger_isr()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CAN Communication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CAN Communication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#receive_can_message" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        receive_CAN_message()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get_can_mock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_can_mock()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulation-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulation Updates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Simulation Updates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#register_simulation_update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_simulation_update()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Test Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-can-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing CAN Communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-with-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing with Conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#periodic-simulation-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Periodic Simulation Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Important Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resource-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#time-granularity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Time Granularity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread Safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rtos_test-class">RTOS_Test Class</h1>
+<h2 id="overview">Overview</h2>
+<p><code>RTOS_Test</code> is a base test class for integration testing FreeRTOS-based embedded systems in a simulated Windows environment. It provides infrastructure for creating tasks, managing queues, triggering interrupts, and simulating CAN communication without requiring actual hardware.</p>
+<h2 id="location">Location</h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>software/tests/_test_helpers/freertos/mp_rtos_test.h
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>software/tests/_test_helpers/freertos/mp_rtos_test.cpp
+</code></pre></div></td></tr></table></div>
+<h2 id="key-features">Key Features</h2>
+<ul>
+<li>
+<p><strong>Task Management</strong>: Create and track FreeRTOS tasks that are automatically cleaned up</p>
+</li>
+<li>
+<p><strong>Queue Management</strong>: Create named queues with automatic lifecycle management</p>
+</li>
+<li>
+<p><strong>Message Buffers</strong>: Manage FreeRTOS message buffers</p>
+</li>
+<li>
+<p><strong>ISR Simulation</strong>: Register and trigger interrupt service routines</p>
+</li>
+<li>
+<p><strong>CAN Communication</strong>: Mock CAN interfaces for testing multi-node systems</p>
+</li>
+<li>
+<p><strong>Time Control</strong>: Precisely control simulation time progression</p>
+</li>
+<li>
+<p><strong>Interface Mocking</strong>: Configure which hardware interfaces (CAN, ADC, etc.) are enabled</p>
+</li>
+</ul>
+<h2 id="class-hierarchy">Class Hierarchy</h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>::testing::Test (Google Test)
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>    └── UnitTest
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>        └── RTOS_Test
+</code></pre></div></td></tr></table></div>
+<h2 id="test-configuration">Test Configuration</h2>
+<h3 id="configuration-structure">Configuration Structure</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span>
+<span class="normal"><a href="#__codelineno-2-6">6</a></span>
+<span class="normal"><a href="#__codelineno-2-7">7</a></span>
+<span class="normal"><a href="#__codelineno-2-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Test_Configuration</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">Interfaces</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">CAN_Interface</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">            </span><span class="kt">bool</span><span class="w"> </span><span class="n">can_1_enabled</span><span class="p">{</span><span class="nb">false</span><span class="p">};</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">            </span><span class="kt">bool</span><span class="w"> </span><span class="n">can_2_enabled</span><span class="p">{</span><span class="nb">false</span><span class="p">};</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">can</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="n">interfaces</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="p">};</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="creating-configurations">Creating Configurations</h3>
+<p>Use the static factory method to create board-specific configurations:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="n">Test_Configuration</span><span class="w"> </span><span class="nf">make_test_configuration</span><span class="p">(</span><span class="n">Board_Names</span><span class="w"> </span><span class="n">board_name</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Supported board names:</p>
+<ul>
+<li>
+<p><code>Board_Names::GENERIC</code> - Single CAN interface</p>
+</li>
+<li>
+<p><code>Board_Names::MCS_FRONT</code> - Single CAN interface</p>
+</li>
+<li>
+<p><code>Board_Names::MCS_BACK</code> - Dual CAN interfaces</p>
+</li>
+</ul>
+<h2 id="core-methods">Core Methods</h2>
+<h3 id="setup-and-teardown">Setup and Teardown</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
+<span class="normal"><a href="#__codelineno-4-2">2</a></span>
+<span class="normal"><a href="#__codelineno-4-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="k">protected</span><span class="o">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">SetUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">TearDown</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>SetUp()</strong>: Called before each test. Initializes interfaces based on configuration.</p>
+<p><strong>TearDown()</strong>: Called after each test. Cleans up all tracked resources (tasks, queues, message buffers, ISR vectors).</p>
+<h3 id="time-simulation">Time Simulation</h3>
+<h4 id="simulate_for">simulate_for()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">simulate_for</span><span class="p">(</span><span class="n">SI</span><span class="o">::</span><span class="n">Time</span><span class="w"> </span><span class="n">time</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Advances simulation by a specified duration with 1ms time steps.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>time</code>: Duration to simulate (in seconds, using SI units)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
+<span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="c1">// Simulate for 0.5 seconds</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="n">simulate_for</span><span class="p">(</span><span class="mf">0.5f</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="simulate_until">simulate_until()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">simulate_until</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">bool</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="n">SI</span><span class="o">::</span><span class="n">Time</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Advances simulation until a condition is met or timeout occurs.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<p><code>condition</code>: Lambda function returning <code>true</code> when desired state is reached</p>
+</li>
+<li>
+<p><code>timeout</code>: Maximum time to wait (default: 1.0 second)</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="c1">// Wait until CAN message is received</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="k">auto</span><span class="w"> </span><span class="n">message_received</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">can_mock</span><span class="o">-&gt;</span><span class="n">get_rx_queue_size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="n">simulate_until</span><span class="p">(</span><span class="n">message_received</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0f</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="get_simulation_time">get_simulation_time()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">SI</span><span class="o">::</span><span class="n">Time</span><span class="w"> </span><span class="nf">get_simulation_time</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p>Returns the current simulation time in seconds.</p>
+<h3 id="task-management">Task Management</h3>
+<h4 id="create_tracked_task">create_tracked_task()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span>
+<span class="normal"><a href="#__codelineno-10-4">4</a></span>
+<span class="normal"><a href="#__codelineno-10-5">5</a></span>
+<span class="normal"><a href="#__codelineno-10-6">6</a></span>
+<span class="normal"><a href="#__codelineno-10-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">create_tracked_task</span><span class="p">(</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">    </span><span class="n">TaskFunction_t</span><span class="w"> </span><span class="n">fn</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">    </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">stack</span><span class="p">,</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">params</span><span class="p">,</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">    </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">prio</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Creates a FreeRTOS task that is automatically deleted during teardown.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<p><code>fn</code>: Task function pointer</p>
+</li>
+<li>
+<p><code>name</code>: Task name for debugging</p>
+</li>
+<li>
+<p><code>stack</code>: Stack size in words</p>
+</li>
+<li>
+<p><code>params</code>: Task parameters</p>
+</li>
+<li>
+<p><code>prio</code>: Task priority (0 = lowest, configMAX_PRIORITIES-1 = highest)</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span>
+<span class="normal"><a href="#__codelineno-11-4">4</a></span>
+<span class="normal"><a href="#__codelineno-11-5">5</a></span>
+<span class="normal"><a href="#__codelineno-11-6">6</a></span>
+<span class="normal"><a href="#__codelineno-11-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">create_tracked_task</span><span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="w">    </span><span class="n">Application_Task</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="w">    </span><span class="s">&quot;app_task&quot;</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="w">    </span><span class="mi">10</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">configMINIMAL_STACK_SIZE</span><span class="p">,</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a><span class="w">    </span><span class="o">&amp;</span><span class="n">task_args</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="w">    </span><span class="n">configMAX_PRIORITIES</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="queue-management">Queue Management</h3>
+<h4 id="create_tracked_queue">create_tracked_queue()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span>
+<span class="normal"><a href="#__codelineno-12-3">3</a></span>
+<span class="normal"><a href="#__codelineno-12-4">4</a></span>
+<span class="normal"><a href="#__codelineno-12-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">create_tracked_queue</span><span class="p">(</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">length</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">name</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Creates a named FreeRTOS queue that is automatically deleted during teardown.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<p><code>length</code>: Maximum number of items in the queue</p>
+</li>
+<li>
+<p><code>size</code>: Size of each item in bytes</p>
+</li>
+<li>
+<p><code>name</code>: Unique identifier for retrieving the queue</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="n">create_tracked_queue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;adc_queue&quot;</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="get_queue">get_queue()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="n">QueueHandle_t</span><span class="w"> </span><span class="nf">get_queue</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Retrieves a previously created queue by name.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="n">QueueHandle_t</span><span class="w"> </span><span class="n">adc_queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_queue</span><span class="p">(</span><span class="s">&quot;adc_queue&quot;</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="message-buffer-management">Message Buffer Management</h3>
+<h4 id="create_tracked_message_buffer">create_tracked_message_buffer()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="n">MessageBufferHandle_t</span><span class="w"> </span><span class="nf">create_tracked_message_buffer</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Creates a FreeRTOS message buffer that is automatically deleted during teardown.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>size</code>: Buffer size in bytes</li>
+</ul>
+<p><strong>Returns:</strong> Handle to the created message buffer</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="n">MessageBufferHandle_t</span><span class="w"> </span><span class="n">tx_buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">create_tracked_message_buffer</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="interrupt-service-routines">Interrupt Service Routines</h3>
+<h4 id="register_isr">register_isr()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">register_isr</span><span class="p">(</span><span class="n">Simulator</span><span class="o">::</span><span class="n">Interrupt_Vector</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">Simulator</span><span class="o">::</span><span class="n">Interrupt_Service_Routine</span><span class="w"> </span><span class="n">isr</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Registers an interrupt service routine for simulation.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<p><code>id</code>: Interrupt vector identifier</p>
+</li>
+<li>
+<p><code>isr</code>: Function pointer to ISR (must return <code>uint32_t</code>)</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="n">register_isr</span><span class="p">(</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="w">    </span><span class="n">Simulator</span><span class="o">::</span><span class="n">Interrupt_Vector</span><span class="o">::</span><span class="n">MCS_BACK_ADC_DMA</span><span class="p">,</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="w">    </span><span class="n">Simulator</span><span class="o">::</span><span class="n">HAL_ADC_ConvCpltCallback_ISR_Mock</span><span class="o">&lt;</span><span class="n">Operation</span><span class="o">::</span><span class="n">MCS_Back</span><span class="o">::</span><span class="n">ADC_Data</span><span class="o">&gt;</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="trigger_isr">trigger_isr()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">trigger_isr</span><span class="p">(</span><span class="n">Simulator</span><span class="o">::</span><span class="n">Interrupt_Vector</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Manually triggers a registered interrupt.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="n">trigger_isr</span><span class="p">(</span><span class="n">Simulator</span><span class="o">::</span><span class="n">Interrupt_Vector</span><span class="o">::</span><span class="n">MCS_BACK_ADC_DMA</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="can-communication">CAN Communication</h3>
+<h4 id="receive_can_message">receive_CAN_message()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span>
+<span class="normal"><a href="#__codelineno-22-3">3</a></span>
+<span class="normal"><a href="#__codelineno-22-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">receive_CAN_message</span><span class="p">(</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="w">    </span><span class="n">Operation</span><span class="o">::</span><span class="n">CAN_Instance</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">can_instance</span><span class="p">,</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="w">    </span><span class="n">Firmware</span><span class="o">::</span><span class="n">CAN_Frame</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">frame</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Simulates receiving a CAN message on a specific interface.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<p><code>can_instance</code>: CAN interface (CAN_1 or CAN_2)</p>
+</li>
+<li>
+<p><code>frame</code>: CAN frame to receive</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span>
+<span class="normal"><a href="#__codelineno-23-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="n">TS_Activate_Msg</span><span class="w"> </span><span class="n">msg</span><span class="p">{</span><span class="nb">true</span><span class="p">};</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="k">auto</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CAN_Message_Traits</span><span class="o">&lt;</span><span class="n">TS_Activate_Msg</span><span class="o">&gt;::</span><span class="n">encode</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="n">receive_CAN_message</span><span class="p">(</span><span class="n">Operation</span><span class="o">::</span><span class="n">CAN_Instance</span><span class="o">::</span><span class="n">CAN_1</span><span class="p">,</span><span class="w"> </span><span class="n">frame</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="get_can_mock">get_can_mock()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="n">Simulator</span><span class="o">::</span><span class="n">CAN_Handler_Mock</span><span class="o">*</span><span class="w"> </span><span class="nf">get_can_mock</span><span class="p">(</span><span class="n">Operation</span><span class="o">::</span><span class="n">CAN_Instance</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">can_instance</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Retrieves the CAN mock for direct manipulation or inspection.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1">1</a></span>
+<span class="normal"><a href="#__codelineno-25-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="k">auto</span><span class="w"> </span><span class="n">can_mock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_can_mock</span><span class="p">(</span><span class="n">Operation</span><span class="o">::</span><span class="n">CAN_Instance</span><span class="o">::</span><span class="n">CAN_1</span><span class="p">);</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="n">EXPECT_EQ</span><span class="p">(</span><span class="n">can_mock</span><span class="o">-&gt;</span><span class="n">get_tx_queue_size</span><span class="p">(),</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="simulation-updates">Simulation Updates</h3>
+<h4 id="register_simulation_update">register_simulation_update()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">register_simulation_update</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="n">callback</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Registers a callback that is executed every simulation step (1ms).</p>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>
+<p>Periodic sensor updates</p>
+</li>
+<li>
+<p>Simulated hardware behavior</p>
+</li>
+<li>
+<p>Test state tracking</p>
+</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1">1</a></span>
+<span class="normal"><a href="#__codelineno-27-2">2</a></span>
+<span class="normal"><a href="#__codelineno-27-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="n">register_simulation_update</span><span class="p">([</span><span class="k">this</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2"></a><span class="w">    </span><span class="n">adc_periodic_hook</span><span class="p">.</span><span class="n">update</span><span class="p">();</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="p">});</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="usage-patterns">Usage Patterns</h2>
+<h3 id="basic-test-structure">Basic Test Structure</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-28-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-28-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-28-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-28-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-28-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-28-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-28-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-28-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-28-10">10</a></span>
+<span class="normal"><a href="#__codelineno-28-11">11</a></span>
+<span class="normal"><a href="#__codelineno-28-12">12</a></span>
+<span class="normal"><a href="#__codelineno-28-13">13</a></span>
+<span class="normal"><a href="#__codelineno-28-14">14</a></span>
+<span class="normal"><a href="#__codelineno-28-15">15</a></span>
+<span class="normal"><a href="#__codelineno-28-16">16</a></span>
+<span class="normal"><a href="#__codelineno-28-17">17</a></span>
+<span class="normal"><a href="#__codelineno-28-18">18</a></span>
+<span class="normal"><a href="#__codelineno-28-19">19</a></span>
+<span class="normal"><a href="#__codelineno-28-20">20</a></span>
+<span class="normal"><a href="#__codelineno-28-21">21</a></span>
+<span class="normal"><a href="#__codelineno-28-22">22</a></span>
+<span class="normal"><a href="#__codelineno-28-23">23</a></span>
+<span class="normal"><a href="#__codelineno-28-24">24</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MySystemTest</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">RTOS_Test</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2"></a><span class="k">public</span><span class="o">:</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3"></a><span class="w">    </span><span class="n">MySystemTest</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RTOS_Test</span><span class="p">(</span><span class="n">make_test_configuration</span><span class="p">(</span><span class="n">Board_Names</span><span class="o">::</span><span class="n">MCS_BACK</span><span class="p">))</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4"></a>
+<a id="__codelineno-28-5" name="__codelineno-28-5"></a><span class="k">protected</span><span class="o">:</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">SetUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7"></a><span class="w">        </span><span class="n">Base</span><span class="o">::</span><span class="n">SetUp</span><span class="p">();</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8"></a>
+<a id="__codelineno-28-9" name="__codelineno-28-9"></a><span class="w">        </span><span class="c1">// Create resources</span>
+<a id="__codelineno-28-10" name="__codelineno-28-10"></a><span class="w">        </span><span class="n">create_tracked_task</span><span class="p">(</span><span class="n">MyTask</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_task&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">configMINIMAL_STACK_SIZE</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-28-11" name="__codelineno-28-11"></a><span class="w">        </span><span class="n">create_tracked_queue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;my_queue&quot;</span><span class="p">);</span>
+<a id="__codelineno-28-12" name="__codelineno-28-12"></a>
+<a id="__codelineno-28-13" name="__codelineno-28-13"></a><span class="w">        </span><span class="c1">// Register ISRs</span>
+<a id="__codelineno-28-14" name="__codelineno-28-14"></a><span class="w">        </span><span class="n">register_isr</span><span class="p">(</span><span class="n">Simulator</span><span class="o">::</span><span class="n">Interrupt_Vector</span><span class="o">::</span><span class="n">CAN_1_RX</span><span class="p">,</span><span class="w"> </span><span class="n">CAN_1_Rx_ISR_Mock</span><span class="p">);</span>
+<a id="__codelineno-28-15" name="__codelineno-28-15"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-28-16" name="__codelineno-28-16"></a><span class="p">};</span>
+<a id="__codelineno-28-17" name="__codelineno-28-17"></a>
+<a id="__codelineno-28-18" name="__codelineno-28-18"></a><span class="n">TEST_F</span><span class="p">(</span><span class="n">MySystemTest</span><span class="p">,</span><span class="w"> </span><span class="n">BasicOperation</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-28-19" name="__codelineno-28-19"></a><span class="w">    </span><span class="c1">// Simulate for 100ms</span>
+<a id="__codelineno-28-20" name="__codelineno-28-20"></a><span class="w">    </span><span class="n">simulate_for</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">);</span>
+<a id="__codelineno-28-21" name="__codelineno-28-21"></a>
+<a id="__codelineno-28-22" name="__codelineno-28-22"></a><span class="w">    </span><span class="c1">// Verify expected behavior</span>
+<a id="__codelineno-28-23" name="__codelineno-28-23"></a><span class="w">    </span><span class="n">EXPECT_EQ</span><span class="p">(</span><span class="n">get_queue</span><span class="p">(</span><span class="s">&quot;my_queue&quot;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">uxMessagesWaiting</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-28-24" name="__codelineno-28-24"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="testing-can-communication">Testing CAN Communication</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-29-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-29-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-29-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-29-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-29-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-29-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-29-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-29-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-29-10">10</a></span>
+<span class="normal"><a href="#__codelineno-29-11">11</a></span>
+<span class="normal"><a href="#__codelineno-29-12">12</a></span>
+<span class="normal"><a href="#__codelineno-29-13">13</a></span>
+<span class="normal"><a href="#__codelineno-29-14">14</a></span>
+<span class="normal"><a href="#__codelineno-29-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="n">TEST_F</span><span class="p">(</span><span class="n">MySystemTest</span><span class="p">,</span><span class="w"> </span><span class="n">ReceivesCANMessage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2"></a><span class="w">    </span><span class="c1">// Create and encode message</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3"></a><span class="w">    </span><span class="n">SomeMessage</span><span class="w"> </span><span class="n">msg</span><span class="p">{</span><span class="mi">42</span><span class="p">};</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CAN_Message_Traits</span><span class="o">&lt;</span><span class="n">SomeMessage</span><span class="o">&gt;::</span><span class="n">encode</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5"></a>
+<a id="__codelineno-29-6" name="__codelineno-29-6"></a><span class="w">    </span><span class="c1">// Simulate receiving</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7"></a><span class="w">    </span><span class="n">receive_CAN_message</span><span class="p">(</span><span class="n">Operation</span><span class="o">::</span><span class="n">CAN_Instance</span><span class="o">::</span><span class="n">CAN_1</span><span class="p">,</span><span class="w"> </span><span class="n">frame</span><span class="p">);</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8"></a>
+<a id="__codelineno-29-9" name="__codelineno-29-9"></a><span class="w">    </span><span class="c1">// Wait for processing</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10"></a><span class="w">    </span><span class="n">simulate_for</span><span class="p">(</span><span class="mf">0.01f</span><span class="p">);</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11"></a>
+<a id="__codelineno-29-12" name="__codelineno-29-12"></a><span class="w">    </span><span class="c1">// Verify response</span>
+<a id="__codelineno-29-13" name="__codelineno-29-13"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">can_mock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_can_mock</span><span class="p">(</span><span class="n">Operation</span><span class="o">::</span><span class="n">CAN_Instance</span><span class="o">::</span><span class="n">CAN_1</span><span class="p">);</span>
+<a id="__codelineno-29-14" name="__codelineno-29-14"></a><span class="w">    </span><span class="n">EXPECT_GT</span><span class="p">(</span><span class="n">can_mock</span><span class="o">-&gt;</span><span class="n">get_tx_queue_size</span><span class="p">(),</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-29-15" name="__codelineno-29-15"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="testing-with-conditions">Testing with Conditions</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-30-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-30-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-30-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-30-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-30-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-30-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-30-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-30-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-30-10">10</a></span>
+<span class="normal"><a href="#__codelineno-30-11">11</a></span>
+<span class="normal"><a href="#__codelineno-30-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="n">TEST_F</span><span class="p">(</span><span class="n">MySystemTest</span><span class="p">,</span><span class="w"> </span><span class="n">WaitsForCondition</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2"></a><span class="w">    </span><span class="c1">// Define success condition</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">is_ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">system_state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">READY</span><span class="p">;</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6"></a>
+<a id="__codelineno-30-7" name="__codelineno-30-7"></a><span class="w">    </span><span class="c1">// Wait up to 1 second for condition</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8"></a><span class="w">    </span><span class="n">simulate_until</span><span class="p">(</span><span class="n">is_ready</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9"></a>
+<a id="__codelineno-30-10" name="__codelineno-30-10"></a><span class="w">    </span><span class="c1">// Condition should be met (assertion in simulate_until)</span>
+<a id="__codelineno-30-11" name="__codelineno-30-11"></a><span class="w">    </span><span class="n">EXPECT_EQ</span><span class="p">(</span><span class="n">system_state</span><span class="p">,</span><span class="w"> </span><span class="n">READY</span><span class="p">);</span>
+<a id="__codelineno-30-12" name="__codelineno-30-12"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="periodic-simulation-updates">Periodic Simulation Updates</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-31-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-31-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-31-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-31-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-31-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-31-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-31-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-31-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-31-10">10</a></span>
+<span class="normal"><a href="#__codelineno-31-11">11</a></span>
+<span class="normal"><a href="#__codelineno-31-12">12</a></span>
+<span class="normal"><a href="#__codelineno-31-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">SetUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2"></a><span class="w">    </span><span class="n">Base</span><span class="o">::</span><span class="n">SetUp</span><span class="p">();</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4"></a><span class="w">    </span><span class="c1">// Register ADC update hook</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5"></a><span class="w">    </span><span class="n">register_simulation_update</span><span class="p">([</span><span class="k">this</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6"></a><span class="w">        </span><span class="n">m_adc_hook</span><span class="p">.</span><span class="n">update</span><span class="p">();</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7"></a><span class="w">    </span><span class="p">});</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8"></a>
+<a id="__codelineno-31-9" name="__codelineno-31-9"></a><span class="w">    </span><span class="c1">// Register state logger</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10"></a><span class="w">    </span><span class="n">register_simulation_update</span><span class="p">([</span><span class="k">this</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11"></a><span class="w">        </span><span class="n">log_system_state</span><span class="p">();</span>
+<a id="__codelineno-31-12" name="__codelineno-31-12"></a><span class="w">    </span><span class="p">});</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="important-notes">Important Notes</h2>
+<h3 id="resource-management">Resource Management</h3>
+<p>All resources created through tracked methods are <strong>automatically cleaned up</strong> during <code>TearDown()</code>:</p>
+<ul>
+<li>
+<p>Tasks are deleted</p>
+</li>
+<li>
+<p>Queues are deleted</p>
+</li>
+<li>
+<p>Message buffers are deleted</p>
+</li>
+<li>
+<p>ISR vectors are cleared</p>
+</li>
+</ul>
+<h3 id="time-granularity">Time Granularity</h3>
+<p>Simulation progresses in <strong>1ms steps</strong>. This is hardcoded in <code>simulate_for()</code>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1"></a><span class="k">static</span><span class="w"> </span><span class="n">SI</span><span class="o">::</span><span class="n">Time</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">step</span><span class="p">{</span><span class="mf">1e-3f</span><span class="p">};</span><span class="w">  </span><span class="c1">// 1ms</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="thread-safety">Thread Safety</h3>
+<p>The test framework uses FreeRTOS running in a separate thread. Be aware of:</p>
+<ul>
+<li>
+<p>Race conditions between test thread and RTOS tasks</p>
+</li>
+<li>
+<p>Need for proper synchronization when accessing shared state</p>
+</li>
+<li>
+<p>Use of <code>vTaskDelay()</code> for timing in the test thread</p>
+</li>
+</ul>
+<h3 id="configuration-requirements">Configuration Requirements</h3>
+<p>Interface configuration must be done in the constructor:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span>
+<span class="normal"><a href="#__codelineno-33-2">2</a></span>
+<span class="normal"><a href="#__codelineno-33-3">3</a></span>
+<span class="normal"><a href="#__codelineno-33-4">4</a></span>
+<span class="normal"><a href="#__codelineno-33-5">5</a></span>
+<span class="normal"><a href="#__codelineno-33-6">6</a></span>
+<span class="normal"><a href="#__codelineno-33-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1"></a><span class="c1">// CORRECT</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2"></a><span class="n">MyTest</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">RTOS_Test</span><span class="p">(</span><span class="n">make_test_configuration</span><span class="p">(</span><span class="n">Board_Names</span><span class="o">::</span><span class="n">MCS_BACK</span><span class="p">))</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3"></a>
+<a id="__codelineno-33-4" name="__codelineno-33-4"></a><span class="c1">// INCORRECT - too late</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5"></a><span class="kt">void</span><span class="w"> </span><span class="n">SetUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-33-6" name="__codelineno-33-6"></a><span class="w">    </span><span class="c1">// Configuration already locked</span>
+<a id="__codelineno-33-7" name="__codelineno-33-7"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Always call base methods</strong>: When overriding <code>SetUp()</code> or <code>TearDown()</code>, call the base class version</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span>
+<span class="normal"><a href="#__codelineno-34-2">2</a></span>
+<span class="normal"><a href="#__codelineno-34-3">3</a></span>
+<span class="normal"><a href="#__codelineno-34-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">SetUp</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2"></a><span class="w">    </span><span class="n">Base</span><span class="o">::</span><span class="n">SetUp</span><span class="p">();</span><span class="w">  </span><span class="c1">// Essential!</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3"></a><span class="w">    </span><span class="c1">// Your setup code</span>
+<a id="__codelineno-34-4" name="__codelineno-34-4"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li><strong>Use descriptive names</strong>: Queue names should be descriptive and unique</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1"></a><span class="n">create_tracked_queue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">Data</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;sensor_data_queue&quot;</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li><strong>Check simulation time</strong>: Be aware of how long tests take</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span>
+<span class="normal"><a href="#__codelineno-36-2">2</a></span>
+<span class="normal"><a href="#__codelineno-36-3">3</a></span>
+<span class="normal"><a href="#__codelineno-36-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1"></a><span class="k">auto</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_simulation_time</span><span class="p">();</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2"></a><span class="n">simulate_until</span><span class="p">(</span><span class="n">condition</span><span class="p">);</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3"></a><span class="k">auto</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_simulation_time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4"></a><span class="n">print_info</span><span class="p">(</span><span class="s">&quot;Test took &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li><strong>Use condition-based waiting</strong>: Prefer <code>simulate_until()</code> over fixed delays</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span>
+<span class="normal"><a href="#__codelineno-37-2">2</a></span>
+<span class="normal"><a href="#__codelineno-37-3">3</a></span>
+<span class="normal"><a href="#__codelineno-37-4">4</a></span>
+<span class="normal"><a href="#__codelineno-37-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1"></a><span class="c1">// GOOD</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2"></a><span class="n">simulate_until</span><span class="p">([</span><span class="o">&amp;</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">data_received</span><span class="p">;</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3"></a>
+<a id="__codelineno-37-4" name="__codelineno-37-4"></a><span class="c1">// LESS GOOD</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5"></a><span class="n">simulate_for</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">);</span><span class="w">  </span><span class="c1">// May be too short or too long</span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li><strong>Clean up state between tests</strong>: Ensure test independence by resetting mock counters</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1">1</a></span>
+<span class="normal"><a href="#__codelineno-38-2">2</a></span>
+<span class="normal"><a href="#__codelineno-38-3">3</a></span>
+<span class="normal"><a href="#__codelineno-38-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">TearDown</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2"></a><span class="w">    </span><span class="n">get_can_mock</span><span class="p">(</span><span class="n">CAN_Instance</span><span class="o">::</span><span class="n">CAN_1</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">reset_no_transmitted_messages</span><span class="p">();</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3"></a><span class="w">    </span><span class="n">Base</span><span class="o">::</span><span class="n">TearDown</span><span class="p">();</span>
+<a id="__codelineno-38-4" name="__codelineno-38-4"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>
+<p><strong>No hardware access</strong>: Tests run in simulation only</p>
+</li>
+<li>
+<p><strong>Timing accuracy</strong>: Limited by Windows thread scheduler (typically ±1-2ms)</p>
+</li>
+<li>
+<p><strong>Single core</strong>: No true multi-core testing (SMP config not supported)</p>
+</li>
+<li>
+<p><strong>ISR fidelity</strong>: Simulated ISRs don't have hardware timing characteristics</p>
+</li>
+<li>
+<p><strong>No DMA</strong>: Direct memory access must be explicitly simulated</p>
+</li>
+</ul>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li>
+<p><a href="../../mcs_back/mcs_back_test/">MCS_Back_Test</a> - Specialized test class for MCS_Back board</p>
+</li>
+<li>
+<p><a href="../unit_test/">UnitTest</a> - Base class providing logging functionality</p>
+</li>
+<li>
+<p>Google Test documentation for assertion macros and test structure</p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 PK MechPower
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/puml.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/interaction.js"></script>
+      
+    
+  </body>
+</html>

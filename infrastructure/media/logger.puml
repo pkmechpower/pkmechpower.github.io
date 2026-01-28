@@ -1,0 +1,22 @@
+@startuml logger-architecture
+
+class UnitTest {
+    loggers_map
+}
+
+class Logger {
+    m_log_file
+}
+
+class LoggerProxy {
+    logger_ref
+}
+
+class "std::ofstream" as Ofstream
+
+UnitTest --> Logger : loggers_map
+Logger --> LoggerProxy : get_logger_proxy
+Logger --> Ofstream : m_log_file
+LoggerProxy --> Ofstream
+
+@enduml

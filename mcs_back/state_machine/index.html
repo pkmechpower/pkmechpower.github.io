@@ -1,0 +1,1307 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../mcs_back_test/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../media/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>State Machine - PK MechPower Codebase</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/puml.css">
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/interaction.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#state-machine" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PK MechPower Codebase" class="md-header__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PK MechPower Codebase
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              State Machine
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../library/torque_map/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../infrastructure/github_actions/" class="md-tabs__link">
+          
+  
+  
+  Infrastructure
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../common/network_manager/" class="md-tabs__link">
+          
+  
+  
+  Common
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mcs_front/architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Front
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Back
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PK MechPower Codebase" class="md-nav__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    PK MechPower Codebase
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Library
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/torque_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torque Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Infrastructure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../infrastructure/github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Github Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../infrastructure/rtos_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RTOS Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../infrastructure/unit_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../infrastructure/logger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Common
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/network_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/message_forwarders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Forwarders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CAN
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CAN
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/can/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CAN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/message_definition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message definition guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCS_Front
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCS_Front
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_front/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_front/state_machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCS_Back
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCS_Back
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mcs_back_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="state-machine">State Machine</h1>
+<h2 id="diagram">Diagram</h2>
+<div class='puml-container'><div class="puml light" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="STATE" height="917px" preserveAspectRatio="xMidYMid meet" style="width:1417px;height:917px;background:#FFFFFF;" version="1.1" viewBox="0 0 1417 917" width="1417px" zoomAndPan="magnify" class="diagram"><defs/><g><g><rect fill="#9ACD32" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="105.374" x="585.1" y="87"/><line style="stroke:#181818;stroke-width:0.5;" x1="585.1" x2="690.474" y1="113.2969" y2="113.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85.374" x="595.1" y="104.9951">Initialization</text></g><g><rect fill="#9ACD32" height="148.0469" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="288.0371" x="493.77" y="214"/><line style="stroke:#181818;stroke-width:0.5;" x1="493.77" x2="781.8071" y1="240.2969" y2="240.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="164.4658" x="555.5556" y="231.9951">TS Ready for Activation</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="268.0371" x="498.77" y="256.4355">ON ENTER: Take motor driver permits (both)</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="132.1055" x="498.77" y="270.4043">ON ENTER: Open AIRs</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="248.2852" x="498.77" y="284.373">ON ENTER: Set is_ts_ready_for_activation</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="176.7949" x="498.77" y="298.3418">ON ENTER: Reset is_ts_active</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="192.4043" x="498.77" y="312.3105">ON ENTER: Reset is_precharged</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.4063" x="498.77" y="326.2793">ON ENTER: Disable water cooling</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="203.0684" x="498.77" y="340.248">ON UPDATE: has_run_once = true</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="185.2793" x="498.77" y="354.2168">ON EXIT: has_run_once = false</text></g><g><rect fill="#FFD700" height="92.1719" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="392.2695" x="520.65" y="439.05"/><line style="stroke:#181818;stroke-width:0.5;" x1="520.65" x2="912.9195" y1="465.3469" y2="465.3469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.3047" x="672.1324" y="457.0451">Pre-charging</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="372.2695" x="525.65" y="481.4855">ON ENTER: Grant permit to AIRs - begin pre-charging DC links</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="195.7676" x="525.65" y="495.4543">ON ENTER: Enable water cooling</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="162.4395" x="525.65" y="509.423">ON ENTER: Set is_ts_active</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="215.2031" x="525.65" y="523.3918">ON UPDATE: Check if is_precharged</text></g><g><rect fill="#FFD700" height="92.1719" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="294.9688" x="309.3" y="608.22"/><line style="stroke:#181818;stroke-width:0.5;" x1="309.3" x2="604.2688" y1="634.5169" y2="634.5169"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158.3066" x="377.6311" y="626.2151">Rotating Field Enabled</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="274.9688" x="314.3" y="650.6555">ON ENTER: Grant RFE permit to motor drivers</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="206.9063" x="314.3" y="664.6243">ON ENTER: Start FRG permit timer</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="230.3672" x="314.3" y="678.593">ON UPDATE: Update FRG permit delay</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.2598" x="314.3" y="692.5618">ON EXIT: Reset FRG permit delay</text></g><g><rect fill="#FFD700" height="120.1094" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="296.6855" x="85.44" y="784.38"/><line style="stroke:#181818;stroke-width:0.5;" x1="85.44" x2="382.1255" y1="810.6769" y2="810.6769"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="104.3711" x="181.5972" y="802.3751">Ready to Drive</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="276.6855" x="90.44" y="826.8155">ON ENTER: Grant FRG permit to motor drivers</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="219.9082" x="90.44" y="840.7843">ON ENTER: Enable Torque Controller</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="197.8125" x="90.44" y="854.753">ON ENTER: Set is_ready_to_drive</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="274.8105" x="90.44" y="868.7218">ON EXIT: Take FRG permit from motor drivers</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="210.4102" x="90.44" y="882.6905">ON EXIT: Disable Torque Controller</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.0313" x="90.44" y="896.6593">ON EXIT: Reset is_ready_to_drive</text></g><g><rect fill="#FF6347" height="134.0781" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="282.6406" x="748.46" y="777.39"/><line style="stroke:#181818;stroke-width:0.5;" x1="748.46" x2="1031.1006" y1="803.6869" y2="803.6869"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="34.6787" x="872.441" y="795.3851">Error</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="227.5898" x="753.46" y="819.8255">ON ENTER: Take motor driver permits</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="132.1055" x="753.46" y="833.7943">ON ENTER: Open AIRs</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="176.7949" x="753.46" y="847.763">ON ENTER: Reset is_ts_active</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="262.6406" x="753.46" y="861.7318">ON ENTER: Reset is_ts_ready_for_activation</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.4063" x="753.46" y="875.7005">ON ENTER: Disable water cooling</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="192.4043" x="753.46" y="889.6693">ON ENTER: Reset is_precharged</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="219.6152" x="753.46" y="903.638">ON UPDATE: Update error free delay</text></g><ellipse cx="637.79" cy="16" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g class="link" data-entity-1="ent0002" data-entity-2="ent0002" data-link-type="dependency" data-source-line="3" id="lnk3"><path d="M637.79,26.36 C637.79,40.29 637.79,60.95 637.79,80.65" fill="none" id="*start*-to-Init" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="637.79,86.65,641.79,77.65,637.79,81.65,633.79,77.65,637.79,86.65" style="stroke:#181818;stroke-width:1;"/></g><g class="link" data-entity-1="ent0002" data-entity-2="ent0003" data-link-type="dependency" data-source-line="5" id="lnk4"><path d="M637.79,137.2 C637.79,157.09 637.79,180.36 637.79,207.77" fill="none" id="Init-to-TS_ReadyForActivation" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="637.79,213.77,641.79,204.77,637.79,208.77,633.79,204.77,637.79,213.77" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="155.6699" x="638.79" y="180.0669">TS_Initialized() received</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0004" data-link-type="dependency" data-source-line="16" id="lnk5"><path d="M493.39,338.43 C461.62,357.25 442.88,381.03 463.79,409.05 C472.79,421.12 488.2102,429.9202 514.5602,439.3402" fill="none" id="TS_ReadyForActivation-to-Precharge" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="520.21,441.36,513.0818,434.5638,515.5018,439.6768,510.3887,442.0969,520.21,441.36" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="300.7837" x="464.79" y="405.1169">TS_Activate(true) requested &amp;&amp; has_run_once</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0003" data-link-type="dependency" data-source-line="36" id="lnk10"><path d="M762.73,438.9 C772.26,424.19 777.39,407.63 769.79,392.05 C764.56,381.34 761.5707,375.9258 753.6007,366.8158" fill="none" id="Precharge-to-TS_ReadyForActivation" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="749.65,362.3,752.5655,371.7074,752.9422,366.0631,758.5865,366.4399,749.65,362.3" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187.3511" x="774.79" y="405.1169">TS_Activate(false) requested</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0007" data-link-type="dependency" data-source-line="17" id="lnk6"><path d="M782.02,305.35 C909.19,322.11 1082.72,351.47 1138.79,392.05 C1209,442.86 1213.48,477.47 1235.79,561.22 C1257.26,641.85 1252.05,650.21 1138.79,747.39 C1108.02,773.79 1074.8,791.2321 1037.02,805.5621" fill="none" id="TS_ReadyForActivation-to-Error" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1031.41,807.69,1041.2436,808.2382,1036.085,805.9168,1038.4064,800.7582,1031.41,807.69" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="1240.79" y="574.2869">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0007" data-entity-2="ent0003" data-link-type="dependency" data-source-line="81" id="lnk19"><path d="M961.09,777.04 C1041.02,694.35 1150.49,550.39 1077.79,439.05 C1044.44,387.99 902.9747,346.2863 787.8747,319.5763" fill="none" id="Error-to-TS_ReadyForActivation" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="782.03,318.22,789.8928,324.1509,786.9006,319.3503,791.7012,316.358,782.03,318.22" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="120.6118" x="1096.79" y="574.2869">error_free for &gt;1 s</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0003" data-link-type="dependency" data-source-line="18" id="lnk7"><path d="M782.12,269.04 C802.86,272.08 816.8,278.41 816.8,288.02 C816.8,297.64 808.7966,303.0998 788.0566,306.1398" fill="none" id="TS_ReadyForActivation-to-TS_ReadyForActivation" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="782.12,307.01,791.605,309.6625,787.0671,306.2849,790.4447,301.747,782.12,307.01" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="822.8" y="292.5869">Update() received</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0005" data-link-type="dependency" data-source-line="34" id="lnk8"><path d="M646.08,531.59 C609.24,555.28 569.3566,580.9248 532.5166,604.6148" fill="none" id="Precharge-to-RFE" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="527.47,607.86,537.2034,606.3566,531.6755,605.1556,532.8764,599.6277,527.47,607.86" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91.6792" x="595.79" y="574.2869">is_precharged</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0007" data-link-type="dependency" data-source-line="35" id="lnk9"><path d="M744.61,531.32 C773.54,579.48 818.95,658.53 850.79,730.39 C857.34,745.2 861.5472,755.8071 866.9672,771.2871" fill="none" id="Precharge-to-Error" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="868.95,776.95,869.7511,767.1338,867.2977,772.2309,862.2006,769.7775,868.95,776.95" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="837.79" y="658.8769">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0004" data-link-type="dependency" data-source-line="37" id="lnk11"><path d="M913.23,471.89 C934.34,474.44 947.92,478.86 947.92,485.13 C947.92,491.41 940.2967,495.1105 919.1867,497.6605" fill="none" id="Precharge-to-Precharge" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="913.23,498.38,922.6447,501.2718,918.1939,497.7804,921.6854,493.3296,913.23,498.38" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="953.92" y="489.6969">Update() received</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0006" data-link-type="dependency" data-source-line="49" id="lnk12"><path d="M308.81,664.77 C212.52,674.36 99.35,693.35 68.79,730.39 C50.22,752.89 56.6967,769.3563 80.3667,785.9463" fill="none" id="RFE-to-Ready2Drive" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="85.28,789.39,80.2058,780.9489,81.1855,786.5203,75.6142,787.5,85.28,789.39" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="343.9858" x="69.79" y="743.4569">R2D_Activate(true) requested &amp;&amp; FRG delay elapsed</text></g><g class="link" data-entity-1="ent0006" data-entity-2="ent0005" data-link-type="dependency" data-source-line="66" id="lnk18"><path d="M373.89,783.91 C389.94,773.3 405.08,761.16 417.79,747.39 C429.91,734.25 436.4897,722.3904 442.5397,706.2004" fill="none" id="Ready2Drive-to-RFE" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="444.64,700.58,437.7427,707.6104,442.8898,705.2637,445.2365,710.4108,444.64,700.58" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="198.4722" x="430.79" y="743.4569">R2D_Activate(false) requested</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0007" data-link-type="dependency" data-source-line="50" id="lnk13"><path d="M568.03,700.87 C591.14,710.5 615.3,720.69 637.79,730.39 C673.67,745.88 706.7643,760.5072 742.6843,776.5972" fill="none" id="RFE-to-Error" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="748.16,779.05,741.5816,771.7203,743.5969,777.006,738.3112,779.0213,748.16,779.05" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="673.79" y="743.4569">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0003" data-link-type="dependency" data-source-line="51" id="lnk14"><path d="M380.45,607.9 C354.27,587.98 328,562.05 313.79,531.22 C296.63,494.02 291.73,473.57 313.79,439.05 C353.59,376.76 420.9012,341.7964 487.5612,320.2364" fill="none" id="RFE-to-TS_ReadyForActivation" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="493.27,318.39,483.4758,317.3537,488.5126,319.9287,485.9377,324.9655,493.27,318.39" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187.3511" x="314.79" y="489.6969">TS_Activate(false) requested</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0005" data-link-type="dependency" data-source-line="52" id="lnk15"><path d="M604.64,640.11 C625.38,642.43 639.27,647.16 639.27,654.31 C639.27,661.45 631.3428,665.513 610.6028,667.833" fill="none" id="RFE-to-RFE" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="604.64,668.5,614.0289,671.4747,609.609,667.9442,613.1395,663.5243,604.64,668.5" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="645.27" y="658.8769">Update() received</text></g><g class="link" data-entity-1="ent0006" data-entity-2="ent0007" data-link-type="dependency" data-source-line="64" id="lnk16"><path d="M382.23,844.43 C491.84,844.43 634.11,844.43 742.09,844.43" fill="none" id="Ready2Drive-to-Error" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="748.09,844.43,739.09,840.43,743.09,844.43,739.09,848.43,748.09,844.43" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="481.3" y="837.4969">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0006" data-entity-2="ent0003" data-link-type="dependency" data-source-line="65" id="lnk17"><path d="M85.24,783.89 C72.47,773.5 61.22,761.41 52.79,747.39 C6,669.6 81.14,632.94 136.79,561.22 C207.32,470.3 232.86,449.12 332.79,392.05 C382.41,363.71 435.3216,343.3548 487.8616,326.9848" fill="none" id="Ready2Drive-to-TS_ReadyForActivation" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="493.59,325.2,483.8075,324.0583,488.8163,326.6873,486.1873,331.6961,493.59,325.2" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187.3511" x="137.79" y="574.2869">TS_Activate(false) requested</text></g><g class="link" data-entity-1="ent0007" data-entity-2="ent0007" data-link-type="dependency" data-source-line="82" id="lnk20"><path d="M1031.6,826.57 C1052.22,829.41 1066.11,835.36 1066.11,844.43 C1066.11,853.5 1058.1639,858.6313 1037.5439,861.4713" fill="none" id="Error-to-Error" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="1031.6,862.29,1041.0616,865.0246,1036.5532,861.6078,1039.9701,857.0994,1031.6,862.29" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="1072.11" y="848.9969">Update() received</text></g><?plantuml-src dLRlRzis4Fskl-BM0bqw837MZmPM88Zj81ZM1h8BR2WAWH7F5c59r4WgGLVqVz-HidvO8Zsj_c1Ruht7uxrt97yIPPhN724pfjBBnKAnbvk3C5dzL6jKgImDbkOcbSNY3t7CcCX_L-mPZLuKHovJdLHraIyAfWsgXScmGBtWk6TrRXQvE6JcnWP4qUTVli3rzNjuA8M98llj7dVR94R6lswakasDU6P6o79fNziGmNBn3_Ahjw0mHV6CF8gqOGOT3J0DhxemXtm5h__2F9SlzmgnX6yHqETd-FW1rXzswxXvj91bzsu9CVvTepPGeHAIWyiTx3Ir1bgEPWVKi5UoW48QgO0hoaHfFzaspP3NEPxOH0ePAxdEs958Z0IMvq15BJ4roA6K77MVvAV7rUrkFI9kNYv1w4JqDO7VkfhG7rt9KlSJz5CE2l3dmoxw7aNUYZij7eamO-g0u0GuZUALKJLQ1LoLQBetRsW2dQYwJ6IPOeXH4ULQAIhOilbDDYJArPxb6WU2XlFnZopXKyLjMbDJ-07M9Rijk17OKphzs1ox11pQAxwZEfyvmqfV2AFXwacQxEqybeyL9N3x4EjvuLiqrX26PB1n2QqhOLtaF8uOTSVYiFW_SLLh63uFk1AQFL5hl91OYhf0vg8yUDqVfcgxOUX0wWNhqP7N_oCb2fcmE6_Q9kbRmHentgnXELhm86AcqSyvG-OUDbx7SEgy4SMmNuCzqGVPFg2dQ_T8XIVptykS-rtVmORwtIjMcfExxLPZxGhNy8H41zM06bPtGDeUTPXhNGQiu8tU-emwDiqviZNANORf4SJUOzYpVT6AxCIsghnRsKwckiRlLXStmary3nnpzXNegz94x7XcMgATyuVCq2Nit1aqW1ssqiUI7gqs6u6aUbD_Vj4419tAR_bw2qnFn15eQvWohamjI1IelFgro5QvPab3hAkqfysxELrJD_lJ16Or7cWxMwCXveUr6f4qcfsPQu9fzHj0dOxk7AFIkrUNzUkXKns7adXrz8DFVRkJYlA4ExeUAfdd9qK3c5FtDYULaOcRfaauW7Yq7KNb0IthalilIESE6FCu9xYZUR3Gm2NE3svFgvbB7LXlkbRoNcEr2tTUT1xSamVTBUNzhw07eDQfmJvl0buRMJ0ZlNPm4RDkBlxmyolAP3XmdRWO5xoyJ53XkqDu0jzsFt1G3npjE4u9S4huTfpl_m80?></g></svg></div><div class="puml dark" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="STATE" height="917px" preserveAspectRatio="xMidYMid meet" style="width:1417px;height:917px;background:#1B1B1B;" version="1.1" viewBox="0 0 1417 917" width="1417px" zoomAndPan="magnify" class="diagram"><defs/><g><rect fill="#1B1B1B" height="917" style="stroke:none;stroke-width:1;" width="1417" x="0" y="0"/><g><rect fill="#9ACD32" height="50" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="105.374" x="585.1" y="87"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="585.1" x2="690.474" y1="113.2969" y2="113.2969"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="85.374" x="595.1" y="104.9951">Initialization</text></g><g><rect fill="#9ACD32" height="148.0469" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="288.0371" x="493.77" y="214"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="493.77" x2="781.8071" y1="240.2969" y2="240.2969"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="164.4658" x="555.5556" y="231.9951">TS Ready for Activation</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="268.0371" x="498.77" y="256.4355">ON ENTER: Take motor driver permits (both)</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="132.1055" x="498.77" y="270.4043">ON ENTER: Open AIRs</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="248.2852" x="498.77" y="284.373">ON ENTER: Set is_ts_ready_for_activation</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="176.7949" x="498.77" y="298.3418">ON ENTER: Reset is_ts_active</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="192.4043" x="498.77" y="312.3105">ON ENTER: Reset is_precharged</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.4063" x="498.77" y="326.2793">ON ENTER: Disable water cooling</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="203.0684" x="498.77" y="340.248">ON UPDATE: has_run_once = true</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="185.2793" x="498.77" y="354.2168">ON EXIT: has_run_once = false</text></g><g><rect fill="#FFD700" height="92.1719" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="392.2695" x="520.65" y="439.05"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="520.65" x2="912.9195" y1="465.3469" y2="465.3469"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.3047" x="672.1324" y="457.0451">Pre-charging</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="372.2695" x="525.65" y="481.4855">ON ENTER: Grant permit to AIRs - begin pre-charging DC links</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="195.7676" x="525.65" y="495.4543">ON ENTER: Enable water cooling</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="162.4395" x="525.65" y="509.423">ON ENTER: Set is_ts_active</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="215.2031" x="525.65" y="523.3918">ON UPDATE: Check if is_precharged</text></g><g><rect fill="#FFD700" height="92.1719" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="294.9688" x="309.3" y="608.22"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="309.3" x2="604.2688" y1="634.5169" y2="634.5169"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158.3066" x="377.6311" y="626.2151">Rotating Field Enabled</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="274.9688" x="314.3" y="650.6555">ON ENTER: Grant RFE permit to motor drivers</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="206.9063" x="314.3" y="664.6243">ON ENTER: Start FRG permit timer</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="230.3672" x="314.3" y="678.593">ON UPDATE: Update FRG permit delay</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.2598" x="314.3" y="692.5618">ON EXIT: Reset FRG permit delay</text></g><g><rect fill="#FFD700" height="120.1094" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="296.6855" x="85.44" y="784.38"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="85.44" x2="382.1255" y1="810.6769" y2="810.6769"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="104.3711" x="181.5972" y="802.3751">Ready to Drive</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="276.6855" x="90.44" y="826.8155">ON ENTER: Grant FRG permit to motor drivers</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="219.9082" x="90.44" y="840.7843">ON ENTER: Enable Torque Controller</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="197.8125" x="90.44" y="854.753">ON ENTER: Set is_ready_to_drive</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="274.8105" x="90.44" y="868.7218">ON EXIT: Take FRG permit from motor drivers</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="210.4102" x="90.44" y="882.6905">ON EXIT: Disable Torque Controller</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.0313" x="90.44" y="896.6593">ON EXIT: Reset is_ready_to_drive</text></g><g><rect fill="#FF6347" height="134.0781" rx="12.5" ry="12.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="282.6406" x="748.46" y="777.39"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="748.46" x2="1031.1006" y1="803.6869" y2="803.6869"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="34.6787" x="872.441" y="795.3851">Error</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="227.5898" x="753.46" y="819.8255">ON ENTER: Take motor driver permits</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="132.1055" x="753.46" y="833.7943">ON ENTER: Open AIRs</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="176.7949" x="753.46" y="847.763">ON ENTER: Reset is_ts_active</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="262.6406" x="753.46" y="861.7318">ON ENTER: Reset is_ts_ready_for_activation</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="199.4063" x="753.46" y="875.7005">ON ENTER: Disable water cooling</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="192.4043" x="753.46" y="889.6693">ON ENTER: Reset is_precharged</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="219.6152" x="753.46" y="903.638">ON UPDATE: Update error free delay</text></g><ellipse cx="637.79" cy="16" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:0.5;"/><g class="link" data-entity-1="ent0002" data-entity-2="ent0002" data-link-type="dependency" data-source-line="3" id="lnk3"><path d="M637.79,26.36 C637.79,40.29 637.79,60.95 637.79,80.65" fill="none" id="*start*-to-Init" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="637.79,86.65,641.79,77.65,637.79,81.65,633.79,77.65,637.79,86.65" style="stroke:#E7E7E7;stroke-width:1;"/></g><g class="link" data-entity-1="ent0002" data-entity-2="ent0003" data-link-type="dependency" data-source-line="5" id="lnk4"><path d="M637.79,137.2 C637.79,157.09 637.79,180.36 637.79,207.77" fill="none" id="Init-to-TS_ReadyForActivation" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="637.79,213.77,641.79,204.77,637.79,208.77,633.79,204.77,637.79,213.77" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="155.6699" x="638.79" y="180.0669">TS_Initialized() received</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0004" data-link-type="dependency" data-source-line="16" id="lnk5"><path d="M493.39,338.43 C461.62,357.25 442.88,381.03 463.79,409.05 C472.79,421.12 488.2102,429.9202 514.5602,439.3402" fill="none" id="TS_ReadyForActivation-to-Precharge" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="520.21,441.36,513.0818,434.5638,515.5018,439.6768,510.3887,442.0969,520.21,441.36" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="300.7837" x="464.79" y="405.1169">TS_Activate(true) requested &amp;&amp; has_run_once</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0003" data-link-type="dependency" data-source-line="36" id="lnk10"><path d="M762.73,438.9 C772.26,424.19 777.39,407.63 769.79,392.05 C764.56,381.34 761.5707,375.9258 753.6007,366.8158" fill="none" id="Precharge-to-TS_ReadyForActivation" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="749.65,362.3,752.5655,371.7074,752.9422,366.0631,758.5865,366.4399,749.65,362.3" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187.3511" x="774.79" y="405.1169">TS_Activate(false) requested</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0007" data-link-type="dependency" data-source-line="17" id="lnk6"><path d="M782.02,305.35 C909.19,322.11 1082.72,351.47 1138.79,392.05 C1209,442.86 1213.48,477.47 1235.79,561.22 C1257.26,641.85 1252.05,650.21 1138.79,747.39 C1108.02,773.79 1074.8,791.2321 1037.02,805.5621" fill="none" id="TS_ReadyForActivation-to-Error" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1031.41,807.69,1041.2436,808.2382,1036.085,805.9168,1038.4064,800.7582,1031.41,807.69" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="1240.79" y="574.2869">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0007" data-entity-2="ent0003" data-link-type="dependency" data-source-line="81" id="lnk19"><path d="M961.09,777.04 C1041.02,694.35 1150.49,550.39 1077.79,439.05 C1044.44,387.99 902.9747,346.2863 787.8747,319.5763" fill="none" id="Error-to-TS_ReadyForActivation" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="782.03,318.22,789.8928,324.1509,786.9006,319.3503,791.7012,316.358,782.03,318.22" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="120.6118" x="1096.79" y="574.2869">error_free for &gt;1 s</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0003" data-link-type="dependency" data-source-line="18" id="lnk7"><path d="M782.12,269.04 C802.86,272.08 816.8,278.41 816.8,288.02 C816.8,297.64 808.7966,303.0998 788.0566,306.1398" fill="none" id="TS_ReadyForActivation-to-TS_ReadyForActivation" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="782.12,307.01,791.605,309.6625,787.0671,306.2849,790.4447,301.747,782.12,307.01" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="822.8" y="292.5869">Update() received</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0005" data-link-type="dependency" data-source-line="34" id="lnk8"><path d="M646.08,531.59 C609.24,555.28 569.3566,580.9248 532.5166,604.6148" fill="none" id="Precharge-to-RFE" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="527.47,607.86,537.2034,606.3566,531.6755,605.1556,532.8764,599.6277,527.47,607.86" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91.6792" x="595.79" y="574.2869">is_precharged</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0007" data-link-type="dependency" data-source-line="35" id="lnk9"><path d="M744.61,531.32 C773.54,579.48 818.95,658.53 850.79,730.39 C857.34,745.2 861.5472,755.8071 866.9672,771.2871" fill="none" id="Precharge-to-Error" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="868.95,776.95,869.7511,767.1338,867.2977,772.2309,862.2006,769.7775,868.95,776.95" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="837.79" y="658.8769">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0004" data-link-type="dependency" data-source-line="37" id="lnk11"><path d="M913.23,471.89 C934.34,474.44 947.92,478.86 947.92,485.13 C947.92,491.41 940.2967,495.1105 919.1867,497.6605" fill="none" id="Precharge-to-Precharge" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="913.23,498.38,922.6447,501.2718,918.1939,497.7804,921.6854,493.3296,913.23,498.38" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="953.92" y="489.6969">Update() received</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0006" data-link-type="dependency" data-source-line="49" id="lnk12"><path d="M308.81,664.77 C212.52,674.36 99.35,693.35 68.79,730.39 C50.22,752.89 56.6967,769.3563 80.3667,785.9463" fill="none" id="RFE-to-Ready2Drive" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="85.28,789.39,80.2058,780.9489,81.1855,786.5203,75.6142,787.5,85.28,789.39" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="343.9858" x="69.79" y="743.4569">R2D_Activate(true) requested &amp;&amp; FRG delay elapsed</text></g><g class="link" data-entity-1="ent0006" data-entity-2="ent0005" data-link-type="dependency" data-source-line="66" id="lnk18"><path d="M373.89,783.91 C389.94,773.3 405.08,761.16 417.79,747.39 C429.91,734.25 436.4897,722.3904 442.5397,706.2004" fill="none" id="Ready2Drive-to-RFE" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="444.64,700.58,437.7427,707.6104,442.8898,705.2637,445.2365,710.4108,444.64,700.58" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="198.4722" x="430.79" y="743.4569">R2D_Activate(false) requested</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0007" data-link-type="dependency" data-source-line="50" id="lnk13"><path d="M568.03,700.87 C591.14,710.5 615.3,720.69 637.79,730.39 C673.67,745.88 706.7643,760.5072 742.6843,776.5972" fill="none" id="RFE-to-Error" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="748.16,779.05,741.5816,771.7203,743.5969,777.006,738.3112,779.0213,748.16,779.05" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="673.79" y="743.4569">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0003" data-link-type="dependency" data-source-line="51" id="lnk14"><path d="M380.45,607.9 C354.27,587.98 328,562.05 313.79,531.22 C296.63,494.02 291.73,473.57 313.79,439.05 C353.59,376.76 420.9012,341.7964 487.5612,320.2364" fill="none" id="RFE-to-TS_ReadyForActivation" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="493.27,318.39,483.4758,317.3537,488.5126,319.9287,485.9377,324.9655,493.27,318.39" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187.3511" x="314.79" y="489.6969">TS_Activate(false) requested</text></g><g class="link" data-entity-1="ent0005" data-entity-2="ent0005" data-link-type="dependency" data-source-line="52" id="lnk15"><path d="M604.64,640.11 C625.38,642.43 639.27,647.16 639.27,654.31 C639.27,661.45 631.3428,665.513 610.6028,667.833" fill="none" id="RFE-to-RFE" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="604.64,668.5,614.0289,671.4747,609.609,667.9442,613.1395,663.5243,604.64,668.5" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="645.27" y="658.8769">Update() received</text></g><g class="link" data-entity-1="ent0006" data-entity-2="ent0007" data-link-type="dependency" data-source-line="64" id="lnk16"><path d="M382.23,844.43 C491.84,844.43 634.11,844.43 742.09,844.43" fill="none" id="Ready2Drive-to-Error" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="748.09,844.43,739.09,840.43,743.09,844.43,739.09,848.43,748.09,844.43" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="168.7651" x="481.3" y="837.4969">Error_Free(false) received</text></g><g class="link" data-entity-1="ent0006" data-entity-2="ent0003" data-link-type="dependency" data-source-line="65" id="lnk17"><path d="M85.24,783.89 C72.47,773.5 61.22,761.41 52.79,747.39 C6,669.6 81.14,632.94 136.79,561.22 C207.32,470.3 232.86,449.12 332.79,392.05 C382.41,363.71 435.3216,343.3548 487.8616,326.9848" fill="none" id="Ready2Drive-to-TS_ReadyForActivation" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="493.59,325.2,483.8075,324.0583,488.8163,326.6873,486.1873,331.6961,493.59,325.2" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="187.3511" x="137.79" y="574.2869">TS_Activate(false) requested</text></g><g class="link" data-entity-1="ent0007" data-entity-2="ent0007" data-link-type="dependency" data-source-line="82" id="lnk20"><path d="M1031.6,826.57 C1052.22,829.41 1066.11,835.36 1066.11,844.43 C1066.11,853.5 1058.1639,858.6313 1037.5439,861.4713" fill="none" id="Error-to-Error" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="1031.6,862.29,1041.0616,865.0246,1036.5532,861.6078,1039.9701,857.0994,1031.6,862.29" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="117.3999" x="1072.11" y="848.9969">Update() received</text></g><?plantuml-src dLRlYziu4FtklsAkXTwsi1kk7mDNM3R9ifHh5oU57gKOhJLPYzYMJv9twPN-xnt9yO_OKixNV4XYQzxJQDuRIR-9CirhZf0PK-dbOg7OyzMZC5dzK6jKgImDbkOgbSNYBt78cCZVA_Q4HY-A0vUfJggwo1S5qmRLmcHOe5vmtBCwDmlErE7AZaVHbpTVuVBo7ToLmaIH_NQFksqI8-FVDb9TfqOyCIDakRIlROXWkVWN-SLhK9YYU48UHTemWuu6c8ONNPX3le2NVsEUo-TRXLZ2zmZeypjy_03h3xjrt3nQoB9xjuGO_wbH6wXG2Sd1fGvscbe3hKQpHzImLxA0GXgfW2lAH6a_sJRDaDSv7jb42XahkSxOWKYC19RdG3KjCJN8ePGSTP_af_lLzMuz8cvUBa7eHFGrWJ-xcj0VNSbIznFqKmuAyFbk5_s88c_5dHRtH9WnzOZW13YEueLHDLe5N9LekbUlQ0ATgBfCP9bYY54HvLefAjYo-Kqs9Ch5dkKQ1uA6y_6FBE5JnMrQKrFu0TObkosu4TXJEltO7Bi47DehlgCwdpZ3Iby8e-7YGPhizJoMZnKbS7qNwtdXMpJM48Pai749hIjXNUGyZXXrn-Am-3znLMiOFW-u4fezK6iyarYAka3cedpqkZzCrNR3q87K2zQZ8w__HqeKCc5nthHDqhU2DMAyMSDojE11n4oZdtA6p3ril8xXs7aZYc6_1dkY3x9zG4-Nxf4AJ-Q_bJdtkxw33VMxLQmqHtVRhSRQ5IxX0OaEgW4rh6w0j3teCDUw35Z16xtr6NLicbDaQvIR3DC3YBt7i2VxeXNPYMrLURkodKnrZT-kpcw4c_WMEERi6z1NfOdOySoqH3ldBvcXIzYvCsW0EsobZoKzMcqs0adrflxyh0a8EfNVylKMc9w88z3MC6LScLgGA51vzMkHhNBDaePOLsbFctTpkgPkzgS9p6eyq7QsHaFCBsir8caqEp7N1DFgDu0w7TqvHgLthyxhrqEdEWubyUhe1n_xTYSLvGatT3jKCi-FYWOmn-vjJYeZ4pTDat00SMyxYie3MjObzr-GJXqmvd5ES4VpOA61IvmVt9vMCvSwiDvqhUIzncfdxhpeFBWd3xfRohi_G0z0hLE3VTu4l3IoO4PwxU0YPjrS_E6dLvJ9SE0wSJOkU7cPeC9tX_04lkr-uA0UEDfnd1BWbF3jE3z-0W00?></g></svg></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 PK MechPower
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/puml.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/interaction.js"></script>
+      
+    
+  </body>
+</html>

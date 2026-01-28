@@ -1,0 +1,3111 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../unit_test/">
+      
+      
+        <link rel="next" href="../../common/network_manager/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../media/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Logger - PK MechPower Codebase</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/puml.css">
+    
+      <link rel="stylesheet" href="../../assets/mkdocs_puml/interaction.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#logger-and-loggerproxy-class" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="PK MechPower Codebase" class="md-header__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            PK MechPower Codebase
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Logger
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../library/torque_map/" class="md-tabs__link">
+          
+  
+  
+  Library
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../github_actions/" class="md-tabs__link">
+          
+  
+  
+  Infrastructure
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../common/network_manager/" class="md-tabs__link">
+          
+  
+  
+  Common
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mcs_front/architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Front
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mcs_back/architecture/" class="md-tabs__link">
+          
+  
+  
+  MCS_Back
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="PK MechPower Codebase" class="md-nav__button md-logo" aria-label="PK MechPower Codebase" data-md-component="logo">
+      
+  <img src="../../media/favicon.ico" alt="logo">
+
+    </a>
+    PK MechPower Codebase
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pkmechpower/Codebase" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pkmechpower/Codebase
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Library
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Library
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/torque_map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Torque Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastructure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Infrastructure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../github_actions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Github Actions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rtos_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RTOS Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unit Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logger
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Location
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logger-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logger Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logger Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#member-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Member Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor-and-destructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor and Destructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register_log_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_log_file()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#close_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        close_log()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stream()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operator&lt;&lt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loggerproxy-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LoggerProxy Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoggerProxy Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-design-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Design Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#member-variables_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Member Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operator&lt;&lt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Destructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helper-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helper Function
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helper Function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_logger_proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_logger_proxy()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-csv-writing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic CSV Writing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Data Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Enums
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complex Structures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timestamp Formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Mechanics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Internal Mechanics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#line-writing-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Line Writing Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logger-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logger Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-pointer-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Pointer Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-always-use-loggerproxy-for-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Always Use LoggerProxy for CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-one-proxy-per-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. One Proxy Per Line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-consistent-column-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Consistent Column Count
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-handle-commas-in-string-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Handle Commas in String Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-flush-critical-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Flush Critical Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Pitfalls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-forgetting-register_log_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Forgetting register_log_file()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-reusing-loggerproxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Reusing LoggerProxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-manual-vs-automatic-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Manual vs. Automatic Formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-expecting-custom-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Expecting Custom Precision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Common
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Common
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/network_manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/message_forwarders/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message Forwarders
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CAN
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CAN
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/can/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CAN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../common/can/message_definition_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Message definition guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCS_Front
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCS_Front
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_front/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_front/state_machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCS_Back
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCS_Back
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/state_machine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    State Machine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mcs_back/mcs_back_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Location
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logger-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logger Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logger Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#member-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Member Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor-and-destructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor and Destructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register_log_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        register_log_file()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#close_log" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        close_log()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stream()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operator&lt;&lt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#loggerproxy-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LoggerProxy Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LoggerProxy Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-design-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Design Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#member-variables_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Member Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#methods_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Methods
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#constructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operator_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operator&lt;&lt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destructor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Destructor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helper-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helper Function
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helper Function">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#get_logger_proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_logger_proxy()
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-csv-writing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic CSV Writing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-data-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiple Data Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Enums
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Complex Structures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conditional Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamp-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timestamp Formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internal-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Mechanics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Internal Mechanics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#line-writing-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Line Writing Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Trace
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Memory Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Memory Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logger-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logger Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-pointer-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Pointer Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-always-use-loggerproxy-for-csv" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Always Use LoggerProxy for CSV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-one-proxy-per-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. One Proxy Per Line
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-consistent-column-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Consistent Column Count
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-handle-commas-in-string-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Handle Commas in String Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-flush-critical-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Flush Critical Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Pitfalls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Pitfalls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-forgetting-register_log_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Forgetting register_log_file()
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-reusing-loggerproxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Reusing LoggerProxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-manual-vs-automatic-formatting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Manual vs. Automatic Formatting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-expecting-custom-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Expecting Custom Precision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See Also
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="logger-and-loggerproxy-class">Logger and LoggerProxy Class</h1>
+<h2 id="overview">Overview</h2>
+<p>The <code>Logger</code> and <code>LoggerProxy</code> classes provide a lightweight CSV logging facility for test data. <code>Logger</code> manages the file lifecycle and output stream, while <code>LoggerProxy</code> provides a convenient stream-based interface with automatic line termination and flushing.</p>
+<h2 id="location">Location</h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>software/tests/_test_helpers/mp_test_logger.h
+</code></pre></div></td></tr></table></div>
+<h2 id="architecture">Architecture</h2>
+<div class='puml-container'><div class="puml light" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="CLASS" height="469px" preserveAspectRatio="xMidYMid meet" style="width:258px;height:469px;background:#FFFFFF;" version="1.1" viewBox="0 0 258 469" width="258px" zoomAndPan="magnify" class="diagram"><defs/><g><g class="entity" data-qualified-name="UnitTest" data-source-line="3" id="ent0002"><rect fill="#F1F1F1" height="64.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="101.9951" x="79.92" y="7"/><ellipse cx="100.1165" cy="23" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M103.0853,28.6406 Q102.5072,28.9375 101.8665,29.0781 Q101.2259,29.2344 100.5228,29.2344 Q98.0228,29.2344 96.6947,27.5938 Q95.3822,25.9375 95.3822,22.8125 Q95.3822,19.6875 96.6947,18.0313 Q98.0228,16.375 100.5228,16.375 Q101.2259,16.375 101.8665,16.5313 Q102.5228,16.6875 103.0853,16.9844 L103.0853,19.7031 Q102.4603,19.125 101.8665,18.8594 Q101.2728,18.5781 100.6478,18.5781 Q99.304,18.5781 98.6165,19.6563 Q97.929,20.7188 97.929,22.8125 Q97.929,24.9063 98.6165,25.9844 Q99.304,27.0469 100.6478,27.0469 Q101.2728,27.0469 101.8665,26.7813 Q102.4603,26.5 103.0853,25.9219 L103.0853,28.6406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58.4473" x="115.2713" y="27.8467">UnitTest</text><line style="stroke:#181818;stroke-width:0.5;" x1="80.92" x2="180.9151" y1="39" y2="39"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.9951" x="85.92" y="55.9951">loggers_map</text><line style="stroke:#181818;stroke-width:0.5;" x1="80.92" x2="180.9151" y1="63.2969" y2="63.2969"/></g><g class="entity" data-qualified-name="Logger" data-source-line="7" id="ent0003"><rect fill="#F1F1F1" height="64.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="82.3008" x="89.77" y="148.3"/><ellipse cx="105.5768" cy="164.3" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M108.5456,169.9406 Q107.9675,170.2375 107.3268,170.3781 Q106.6862,170.5344 105.9831,170.5344 Q103.4831,170.5344 102.155,168.8938 Q100.8425,167.2375 100.8425,164.1125 Q100.8425,160.9875 102.155,159.3313 Q103.4831,157.675 105.9831,157.675 Q106.6862,157.675 107.3268,157.8313 Q107.9831,157.9875 108.5456,158.2844 L108.5456,161.0031 Q107.9206,160.425 107.3268,160.1594 Q106.7331,159.8781 106.1081,159.8781 Q104.7643,159.8781 104.0768,160.9563 Q103.3893,162.0188 103.3893,164.1125 Q103.3893,166.2063 104.0768,167.2844 Q104.7643,168.3469 106.1081,168.3469 Q106.7331,168.3469 107.3268,168.0813 Q107.9206,167.8 108.5456,167.2219 L108.5456,169.9406 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48.5078" x="119.7561" y="169.1467">Logger</text><line style="stroke:#181818;stroke-width:0.5;" x1="90.77" x2="171.0708" y1="180.3" y2="180.3"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.3008" x="95.77" y="197.2951">m_log_file</text><line style="stroke:#181818;stroke-width:0.5;" x1="90.77" x2="171.0708" y1="204.5969" y2="204.5969"/></g><g class="entity" data-qualified-name="LoggerProxy" data-source-line="11" id="ent0004"><rect fill="#F1F1F1" height="64.2969" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="119.8418" x="7" y="289.59"/><ellipse cx="22" cy="305.59" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M24.9688,311.2306 Q24.3906,311.5275 23.75,311.6681 Q23.1094,311.8244 22.4063,311.8244 Q19.9063,311.8244 18.5781,310.1838 Q17.2656,308.5275 17.2656,305.4025 Q17.2656,302.2775 18.5781,300.6213 Q19.9063,298.965 22.4063,298.965 Q23.1094,298.965 23.75,299.1213 Q24.4063,299.2775 24.9688,299.5744 L24.9688,302.2931 Q24.3438,301.715 23.75,301.4494 Q23.1563,301.1681 22.5313,301.1681 Q21.1875,301.1681 20.5,302.2463 Q19.8125,303.3088 19.8125,305.4025 Q19.8125,307.4963 20.5,308.5744 Q21.1875,309.6369 22.5313,309.6369 Q23.1563,309.6369 23.75,309.3713 Q24.3438,309.09 24.9688,308.5119 L24.9688,311.2306 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="87.8418" x="36" y="310.4367">LoggerProxy</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="125.8418" y1="321.59" y2="321.59"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.8955" x="13" y="338.5851">logger_ref</text><line style="stroke:#181818;stroke-width:0.5;" x1="8" x2="125.8418" y1="345.8869" y2="345.8869"/></g><g class="entity" data-qualified-name="Ofstream" data-source-line="15" id="ent0005"><rect fill="#F1F1F1" height="48" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;" width="125.9668" x="69.94" y="414.89"/><ellipse cx="84.94" cy="430.89" fill="#ADD1B2" rx="11" ry="11" style="stroke:#181818;stroke-width:1;"/><path d="M87.9088,436.5306 Q87.3306,436.8275 86.69,436.9681 Q86.0494,437.1244 85.3463,437.1244 Q82.8463,437.1244 81.5181,435.4838 Q80.2056,433.8275 80.2056,430.7025 Q80.2056,427.5775 81.5181,425.9213 Q82.8463,424.265 85.3463,424.265 Q86.0494,424.265 86.69,424.4213 Q87.3463,424.5775 87.9088,424.8744 L87.9088,427.5931 Q87.2838,427.015 86.69,426.7494 Q86.0963,426.4681 85.4713,426.4681 Q84.1275,426.4681 83.44,427.5463 Q82.7525,428.6088 82.7525,430.7025 Q82.7525,432.7963 83.44,433.8744 Q84.1275,434.9369 85.4713,434.9369 Q86.0963,434.9369 86.69,434.6713 Q87.2838,434.39 87.9088,433.8119 L87.9088,436.5306 Z " fill="#000000"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93.9668" x="98.94" y="435.7367">std::ofstream</text><line style="stroke:#181818;stroke-width:0.5;" x1="70.94" x2="194.9068" y1="446.89" y2="446.89"/><line style="stroke:#181818;stroke-width:0.5;" x1="70.94" x2="194.9068" y1="454.89" y2="454.89"/></g><g class="link" data-entity-1="ent0002" data-entity-2="ent0003" data-link-type="dependency" data-source-line="17" id="lnk6"><path codeLine="17" d="M130.92,71.76 C130.92,94.55 130.92,119.19 130.92,141.96" fill="none" id="UnitTest-to-Logger" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="130.92,147.96,134.92,138.96,130.92,142.96,126.92,138.96,130.92,147.96" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="83.5669" x="131.92" y="114.3669">loggers_map</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0004" data-link-type="dependency" data-source-line="18" id="lnk7"><path codeLine="18" d="M89.64,206.91 C77.8,216.5 66.36,228.54 59.92,242.59 C53.28,257.08 53.0055,268.7641 55.9355,283.5741" fill="none" id="Logger-to-LoggerProxy" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="57.1,289.46,59.2772,279.8548,56.1296,284.5551,51.4294,281.4074,57.1,289.46" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="112.6963" x="60.92" y="255.6569">get_logger_proxy</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0005" data-link-type="dependency" data-source-line="19" id="lnk8"><path codeLine="19" d="M161.4,213.06 C168.15,221.94 174.34,232.07 177.92,242.59 C198.52,303.21 169.0852,372.2868 149.3152,409.3268" fill="none" id="Logger-to-Ofstream" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="146.49,414.62,154.2567,408.5637,148.8444,410.209,147.199,404.7967,146.49,414.62" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="65.2793" x="184.92" y="326.3069">m_log_file</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0005" data-link-type="dependency" data-source-line="20" id="lnk9"><path codeLine="20" d="M84.96,354.21 C95.87,373.25 106.5754,391.925 116.5354,409.295" fill="none" id="LoggerProxy-to-Ofstream" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="119.52,414.5,118.5132,404.7027,117.0329,410.1625,111.5731,408.6822,119.52,414.5" style="stroke:#181818;stroke-width:1;"/></g><?plantuml-src NOxBSiCW34NtV0NDFcRF8Z-GTjf5isOKB0CJC1uayfXC_ZrEQpTEsUdgY7FVGczZRL5wve6qKWLEZGliwxuI5fjxnfuRcvFw20SF8MuB7959fKERBPcXfgWI46DHx34XgHOxg95L3Cvpym24i168vAuF_8t4yYha-69s3WkP18EupSpxJpWHoOoCwKB4_y1NoUVBop-cOFUaLiIjrhaZBWXf9O7avpG8yTTZlTxCGlrIPmgV-r-VbWxPJBxX4It9MJ1YY-BB-oLr1m00?></g></svg></div><div class="puml dark" style=""><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="CLASS" height="469px" preserveAspectRatio="xMidYMid meet" style="width:258px;height:469px;background:#1B1B1B;" version="1.1" viewBox="0 0 258 469" width="258px" zoomAndPan="magnify" class="diagram"><defs/><g><rect fill="#1B1B1B" height="469" style="stroke:none;stroke-width:1;" width="258" x="0" y="0"/><g class="entity" data-qualified-name="UnitTest" data-source-line="3" id="ent0002"><rect fill="#313139" height="64.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="101.9951" x="79.92" y="7"/><ellipse cx="100.1165" cy="23" fill="#2E5233" rx="11" ry="11" style="stroke:#E7E7E7;stroke-width:1;"/><path d="M103.0853,28.6406 Q102.5072,28.9375 101.8665,29.0781 Q101.2259,29.2344 100.5228,29.2344 Q98.0228,29.2344 96.6947,27.5938 Q95.3822,25.9375 95.3822,22.8125 Q95.3822,19.6875 96.6947,18.0313 Q98.0228,16.375 100.5228,16.375 Q101.2259,16.375 101.8665,16.5313 Q102.5228,16.6875 103.0853,16.9844 L103.0853,19.7031 Q102.4603,19.125 101.8665,18.8594 Q101.2728,18.5781 100.6478,18.5781 Q99.304,18.5781 98.6165,19.6563 Q97.929,20.7188 97.929,22.8125 Q97.929,24.9063 98.6165,25.9844 Q99.304,27.0469 100.6478,27.0469 Q101.2728,27.0469 101.8665,26.7813 Q102.4603,26.5 103.0853,25.9219 L103.0853,28.6406 Z " fill="#FFFFFF"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="58.4473" x="115.2713" y="27.8467">UnitTest</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="80.92" x2="180.9151" y1="39" y2="39"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="89.9951" x="85.92" y="55.9951">loggers_map</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="80.92" x2="180.9151" y1="63.2969" y2="63.2969"/></g><g class="entity" data-qualified-name="Logger" data-source-line="7" id="ent0003"><rect fill="#313139" height="64.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="82.3008" x="89.77" y="148.3"/><ellipse cx="105.5768" cy="164.3" fill="#2E5233" rx="11" ry="11" style="stroke:#E7E7E7;stroke-width:1;"/><path d="M108.5456,169.9406 Q107.9675,170.2375 107.3268,170.3781 Q106.6862,170.5344 105.9831,170.5344 Q103.4831,170.5344 102.155,168.8938 Q100.8425,167.2375 100.8425,164.1125 Q100.8425,160.9875 102.155,159.3313 Q103.4831,157.675 105.9831,157.675 Q106.6862,157.675 107.3268,157.8313 Q107.9831,157.9875 108.5456,158.2844 L108.5456,161.0031 Q107.9206,160.425 107.3268,160.1594 Q106.7331,159.8781 106.1081,159.8781 Q104.7643,159.8781 104.0768,160.9563 Q103.3893,162.0188 103.3893,164.1125 Q103.3893,166.2063 104.0768,167.2844 Q104.7643,168.3469 106.1081,168.3469 Q106.7331,168.3469 107.3268,168.0813 Q107.9206,167.8 108.5456,167.2219 L108.5456,169.9406 Z " fill="#FFFFFF"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48.5078" x="119.7561" y="169.1467">Logger</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="90.77" x2="171.0708" y1="180.3" y2="180.3"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.3008" x="95.77" y="197.2951">m_log_file</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="90.77" x2="171.0708" y1="204.5969" y2="204.5969"/></g><g class="entity" data-qualified-name="LoggerProxy" data-source-line="11" id="ent0004"><rect fill="#313139" height="64.2969" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="119.8418" x="7" y="289.59"/><ellipse cx="22" cy="305.59" fill="#2E5233" rx="11" ry="11" style="stroke:#E7E7E7;stroke-width:1;"/><path d="M24.9688,311.2306 Q24.3906,311.5275 23.75,311.6681 Q23.1094,311.8244 22.4063,311.8244 Q19.9063,311.8244 18.5781,310.1838 Q17.2656,308.5275 17.2656,305.4025 Q17.2656,302.2775 18.5781,300.6213 Q19.9063,298.965 22.4063,298.965 Q23.1094,298.965 23.75,299.1213 Q24.4063,299.2775 24.9688,299.5744 L24.9688,302.2931 Q24.3438,301.715 23.75,301.4494 Q23.1563,301.1681 22.5313,301.1681 Q21.1875,301.1681 20.5,302.2463 Q19.8125,303.3088 19.8125,305.4025 Q19.8125,307.4963 20.5,308.5744 Q21.1875,309.6369 22.5313,309.6369 Q23.1563,309.6369 23.75,309.3713 Q24.3438,309.09 24.9688,308.5119 L24.9688,311.2306 Z " fill="#FFFFFF"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="87.8418" x="36" y="310.4367">LoggerProxy</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="8" x2="125.8418" y1="321.59" y2="321.59"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="70.8955" x="13" y="338.5851">logger_ref</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="8" x2="125.8418" y1="345.8869" y2="345.8869"/></g><g class="entity" data-qualified-name="Ofstream" data-source-line="15" id="ent0005"><rect fill="#313139" height="48" rx="2.5" ry="2.5" style="stroke:#E7E7E7;stroke-width:0.5;" width="125.9668" x="69.94" y="414.89"/><ellipse cx="84.94" cy="430.89" fill="#2E5233" rx="11" ry="11" style="stroke:#E7E7E7;stroke-width:1;"/><path d="M87.9088,436.5306 Q87.3306,436.8275 86.69,436.9681 Q86.0494,437.1244 85.3463,437.1244 Q82.8463,437.1244 81.5181,435.4838 Q80.2056,433.8275 80.2056,430.7025 Q80.2056,427.5775 81.5181,425.9213 Q82.8463,424.265 85.3463,424.265 Q86.0494,424.265 86.69,424.4213 Q87.3463,424.5775 87.9088,424.8744 L87.9088,427.5931 Q87.2838,427.015 86.69,426.7494 Q86.0963,426.4681 85.4713,426.4681 Q84.1275,426.4681 83.44,427.5463 Q82.7525,428.6088 82.7525,430.7025 Q82.7525,432.7963 83.44,433.8744 Q84.1275,434.9369 85.4713,434.9369 Q86.0963,434.9369 86.69,434.6713 Q87.2838,434.39 87.9088,433.8119 L87.9088,436.5306 Z " fill="#FFFFFF"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="93.9668" x="98.94" y="435.7367">std::ofstream</text><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="70.94" x2="194.9068" y1="446.89" y2="446.89"/><line style="stroke:#E7E7E7;stroke-width:0.5;" x1="70.94" x2="194.9068" y1="454.89" y2="454.89"/></g><g class="link" data-entity-1="ent0002" data-entity-2="ent0003" data-link-type="dependency" data-source-line="17" id="lnk6"><path codeLine="17" d="M130.92,71.76 C130.92,94.55 130.92,119.19 130.92,141.96" fill="none" id="UnitTest-to-Logger" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="130.92,147.96,134.92,138.96,130.92,142.96,126.92,138.96,130.92,147.96" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="83.5669" x="131.92" y="114.3669">loggers_map</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0004" data-link-type="dependency" data-source-line="18" id="lnk7"><path codeLine="18" d="M89.64,206.91 C77.8,216.5 66.36,228.54 59.92,242.59 C53.28,257.08 53.0055,268.7641 55.9355,283.5741" fill="none" id="Logger-to-LoggerProxy" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="57.1,289.46,59.2772,279.8548,56.1296,284.5551,51.4294,281.4074,57.1,289.46" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="112.6963" x="60.92" y="255.6569">get_logger_proxy</text></g><g class="link" data-entity-1="ent0003" data-entity-2="ent0005" data-link-type="dependency" data-source-line="19" id="lnk8"><path codeLine="19" d="M161.4,213.06 C168.15,221.94 174.34,232.07 177.92,242.59 C198.52,303.21 169.0852,372.2868 149.3152,409.3268" fill="none" id="Logger-to-Ofstream" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="146.49,414.62,154.2567,408.5637,148.8444,410.209,147.199,404.7967,146.49,414.62" style="stroke:#E7E7E7;stroke-width:1;"/><text fill="#FFFFFF" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="65.2793" x="184.92" y="326.3069">m_log_file</text></g><g class="link" data-entity-1="ent0004" data-entity-2="ent0005" data-link-type="dependency" data-source-line="20" id="lnk9"><path codeLine="20" d="M84.96,354.21 C95.87,373.25 106.5754,391.925 116.5354,409.295" fill="none" id="LoggerProxy-to-Ofstream" style="stroke:#E7E7E7;stroke-width:1;"/><polygon fill="#E7E7E7" points="119.52,414.5,118.5132,404.7027,117.0329,410.1625,111.5731,408.6822,119.52,414.5" style="stroke:#E7E7E7;stroke-width:1;"/></g><?plantuml-src NOwzRiCm38HtFOMQFTQkeI_G5ktGp08hqRPWoJ98gZy8ykvr4hjnoert7tdt44UVQa3TYqniZI7uQheeVVseZEJBA3XAuqisBt7e8QOdWayKDda8nRERQauc0mkIaHupiWdOGarY0j3Gd7sbV09cVHYZl2EBFYezJofTXyGkmwHEA_Dy4HSYkvbnRKpu7tYZylrpzySHjZTgnnAiBIqB8UIT1jQlowBKNu_z_d4Dj7Tr5l7cN_Eixb3SaZUTfIsv1ipOflZsValz0W00?></g></svg></div></div>
+
+<h2 id="logger-class">Logger Class</h2>
+<h3 id="overview_1">Overview</h3>
+<p><code>Logger</code> manages a single CSV output file. It handles file creation, directory management, and provides low-level stream access.</p>
+<h3 id="member-variables">Member Variables</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">private</span><span class="o">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">path</span><span class="w"> </span><span class="n">m_log_directory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;logs&quot;</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">ofstream</span><span class="w"> </span><span class="o">*</span><span class="n">m_log_file</span><span class="p">{</span><span class="k">nullptr</span><span class="p">};</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li><code>m_log_directory</code>: Static path to the logs directory (shared across all Logger instances)</li>
+<li><code>m_log_file</code>: Pointer to the output file stream (dynamically allocated)</li>
+</ul>
+<h3 id="methods">Methods</h3>
+<h4 id="constructor-and-destructor">Constructor and Destructor</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="n">Logger</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="o">~</span><span class="n">Logger</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Destructor Behavior:</strong>
+Automatically frees the <code>m_log_file</code> pointer if it was allocated.</p>
+<h4 id="register_log_file">register_log_file()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span>
+<span class="normal"><a href="#__codelineno-3-2">2</a></span>
+<span class="normal"><a href="#__codelineno-3-3">3</a></span>
+<span class="normal"><a href="#__codelineno-3-4">4</a></span>
+<span class="normal"><a href="#__codelineno-3-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">register_log_file</span><span class="p">(</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">test_suite_name</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">test_name</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">suffix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Creates and opens a log file with automatic naming.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>test_suite_name</code>: Name of the test suite (from Google Test)</li>
+<li><code>test_name</code>: Name of the test case (from Google Test)</li>
+<li><code>suffix</code>: Optional suffix to distinguish multiple loggers in the same test</li>
+</ul>
+<p><strong>File Naming:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>logs/&lt;test_suite_name&gt;_&lt;test_name&gt;_&lt;suffix&gt;.csv
+</code></pre></div></td></tr></table></div>
+<p><strong>Behavior:</strong></p>
+<ol>
+<li>Creates <code>logs/</code> directory if it doesn't exist</li>
+<li>Constructs filename from parameters</li>
+<li>Replaces whitespace in suffix with underscores</li>
+<li>Deletes previous file pointer if exists</li>
+<li>Allocates new <code>std::ofstream</code> and opens file</li>
+</ol>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;SystemTest&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Voltage&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Main Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="c1">// Creates: logs/SystemTest_Voltage_Main_Data.csv</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="close_log">close_log()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">close_log</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<p>Closes the log file if it's open.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
+<span class="normal"><a href="#__codelineno-7-2">2</a></span>
+<span class="normal"><a href="#__codelineno-7-3">3</a></span>
+<span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3"></a><span class="c1">// ... write data ...</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="n">logger</span><span class="p">.</span><span class="n">close_log</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Note:</strong> Typically not needed as destructor handles cleanup.</p>
+<h4 id="stream">stream()</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="nf">stream</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<p>Provides direct access to the underlying output stream.</p>
+<p><strong>Returns:</strong> Reference to the <code>std::ofstream</code></p>
+<p><strong>Assertions:</strong> Asserts if <code>m_log_file</code> is null</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
+<span class="normal"><a href="#__codelineno-9-2">2</a></span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="n">logger</span><span class="p">.</span><span class="n">stream</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Direct write&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="operator">operator&lt;&lt;</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
+<span class="normal"><a href="#__codelineno-10-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="n">Logger</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Writes a value to the log file and returns the logger for chaining.</p>
+<p><strong>Type Requirements:</strong> <code>T</code> must be streamable to <code>std::ostream</code></p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
+<span class="normal"><a href="#__codelineno-11-2">2</a></span>
+<span class="normal"><a href="#__codelineno-11-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="n">logger</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">1.23</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Note:</strong> Manual comma insertion required. Prefer using <code>LoggerProxy</code> for automatic CSV formatting.</p>
+<h2 id="loggerproxy-class">LoggerProxy Class</h2>
+<h3 id="overview_2">Overview</h3>
+<p><code>LoggerProxy</code> wraps a <code>Logger</code> reference and provides automatic CSV formatting with comma separation and line termination. It's designed to be used in a single expression for writing a complete CSV row.</p>
+<h3 id="key-design-features">Key Design Features</h3>
+<ol>
+<li><strong>RAII Pattern</strong>: Destructor automatically completes the CSV row</li>
+<li><strong>Automatic Commas</strong>: Each <code>operator&lt;&lt;</code> call adds a trailing comma</li>
+<li><strong>Line Completion</strong>: Destructor removes the trailing comma and adds newline</li>
+<li><strong>Automatic Flush</strong>: Ensures data is written to disk immediately</li>
+</ol>
+<h3 id="member-variables_1">Member Variables</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-12-1">1</a></span>
+<span class="normal"><a href="#__codelineno-12-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="k">private</span><span class="o">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="w">    </span><span class="n">Logger</span><span class="w"> </span><span class="o">&amp;</span><span class="n">logger_</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<ul>
+<li><code>logger_</code>: Reference to the underlying <code>Logger</code> object</li>
+</ul>
+<h3 id="methods_1">Methods</h3>
+<h4 id="constructor">Constructor</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-13-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="n">LoggerProxy</span><span class="p">(</span><span class="n">Logger</span><span class="w"> </span><span class="o">&amp;</span><span class="n">logger</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Creates a proxy for the given logger.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>logger</code>: Reference to the <code>Logger</code> to wrap</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1">1</a></span>
+<span class="normal"><a href="#__codelineno-14-2">2</a></span>
+<span class="normal"><a href="#__codelineno-14-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="n">LoggerProxy</span><span class="w"> </span><span class="nf">proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Note:</strong> Typically created via <code>get_logger_proxy()</code> helper function, not directly.</p>
+<h4 id="operator_1">operator&lt;&lt;</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-15-1">1</a></span>
+<span class="normal"><a href="#__codelineno-15-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="n">LoggerProxy</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Writes a value followed by a comma to the logger.</p>
+<p><strong>Type Requirements:</strong> <code>T</code> must be streamable to <code>std::ostream</code></p>
+<p><strong>Returns:</strong> Reference to itself for chaining</p>
+<p><strong>Example:</strong>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-16-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="n">proxy</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">1.23</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">45.6</span><span class="p">;</span><span class="w">  </span><span class="c1">// Writes: Time,1.23,45.6</span>
+</code></pre></div></td></tr></table></div></p>
+<h4 id="destructor">Destructor</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-17-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="o">~</span><span class="n">LoggerProxy</span><span class="p">();</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Behavior:</strong></p>
+<ol>
+<li>Seeks back one character in the stream (removes trailing comma)</li>
+<li>Writes newline character</li>
+<li>Flushes the stream to ensure data is written</li>
+</ol>
+<p><strong>Example Flow:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-18-1">1</a></span>
+<span class="normal"><a href="#__codelineno-18-2">2</a></span>
+<span class="normal"><a href="#__codelineno-18-3">3</a></span>
+<span class="normal"><a href="#__codelineno-18-4">4</a></span>
+<span class="normal"><a href="#__codelineno-18-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="p">{</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="w">    </span><span class="n">LoggerProxy</span><span class="w"> </span><span class="nf">proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">);</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="w">    </span><span class="n">proxy</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Stream contains: A,B,C,</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="p">}</span><span class="w">  </span><span class="c1">// Destructor: removes last comma, adds newline, flushes</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="w">   </span><span class="c1">// Final stream: A,B,C\n</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="helper-function">Helper Function</h2>
+<h3 id="get_logger_proxy">get_logger_proxy()</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="n">LoggerProxy</span><span class="w"> </span><span class="nf">get_logger_proxy</span><span class="p">(</span><span class="n">Logger</span><span class="w"> </span><span class="o">&amp;</span><span class="n">logger</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p>Factory function that creates a <code>LoggerProxy</code> for the given logger.</p>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>logger</code>: Reference to the <code>Logger</code> to wrap</li>
+</ul>
+<p><strong>Returns:</strong> <code>LoggerProxy</code> object (by value)</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1">1</a></span>
+<span class="normal"><a href="#__codelineno-20-2">2</a></span>
+<span class="normal"><a href="#__codelineno-20-3">3</a></span>
+<span class="normal"><a href="#__codelineno-20-4">4</a></span>
+<span class="normal"><a href="#__codelineno-20-5">5</a></span>
+<span class="normal"><a href="#__codelineno-20-6">6</a></span>
+<span class="normal"><a href="#__codelineno-20-7">7</a></span>
+<span class="normal"><a href="#__codelineno-20-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3"></a>
+<a id="__codelineno-20-4" name="__codelineno-20-4"></a><span class="c1">// Using helper function</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value&quot;</span><span class="p">;</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6"></a>
+<a id="__codelineno-20-7" name="__codelineno-20-7"></a><span class="c1">// Equivalent to:</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="n">LoggerProxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value&quot;</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="usage-patterns">Usage Patterns</h2>
+<h3 id="basic-csv-writing">Basic CSV Writing</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1">1</a></span>
+<span class="normal"><a href="#__codelineno-21-2">2</a></span>
+<span class="normal"><a href="#__codelineno-21-3">3</a></span>
+<span class="normal"><a href="#__codelineno-21-4">4</a></span>
+<span class="normal"><a href="#__codelineno-21-5">5</a></span>
+<span class="normal"><a href="#__codelineno-21-6">6</a></span>
+<span class="normal"><a href="#__codelineno-21-7">7</a></span>
+<span class="normal"><a href="#__codelineno-21-8">8</a></span>
+<span class="normal"><a href="#__codelineno-21-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;MyTest&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3"></a>
+<a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="c1">// Write header</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Temperature&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Pressure&quot;</span><span class="p">;</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6"></a>
+<a id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="c1">// Write data rows</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">20.5</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">101.3</span><span class="p">;</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">0.1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">20.6</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">101.4</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Output (Data.csv):</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
+<span class="normal"><a href="#__codelineno-22-2">2</a></span>
+<span class="normal"><a href="#__codelineno-22-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a>Time,Temperature,Pressure
+<a id="__codelineno-22-2" name="__codelineno-22-2"></a>0.0,20.5,101.3
+<a id="__codelineno-22-3" name="__codelineno-22-3"></a>0.1,20.6,101.4
+</code></pre></div></td></tr></table></div>
+<h3 id="multiple-data-types">Multiple Data Types</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
+<span class="normal"><a href="#__codelineno-23-2">2</a></span>
+<span class="normal"><a href="#__codelineno-23-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Name&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Count&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Active&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value&quot;</span><span class="p">;</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Sensor1&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="nb">true</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">3.14159</span><span class="p">;</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Sensor2&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">17</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">2.71828</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Output:</strong>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1">1</a></span>
+<span class="normal"><a href="#__codelineno-24-2">2</a></span>
+<span class="normal"><a href="#__codelineno-24-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a>Name,Count,Active,Value
+<a id="__codelineno-24-2" name="__codelineno-24-2"></a>Sensor1,42,1,3.14159
+<a id="__codelineno-24-3" name="__codelineno-24-3"></a>Sensor2,17,0,2.71828
+</code></pre></div></td></tr></table></div></p>
+<p><strong>Note:</strong> Boolean values are output as <code>1</code> (true) or <code>0</code> (false).</p>
+<h3 id="with-enums">With Enums</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-25-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-25-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-25-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-25-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-25-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-25-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-25-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-25-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-25-10">10</a></span>
+<span class="normal"><a href="#__codelineno-25-11">11</a></span>
+<span class="normal"><a href="#__codelineno-25-12">12</a></span>
+<span class="normal"><a href="#__codelineno-25-13">13</a></span>
+<span class="normal"><a href="#__codelineno-25-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">State</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">IDLE</span><span class="p">,</span><span class="w"> </span><span class="n">RUNNING</span><span class="p">,</span><span class="w"> </span><span class="n">ERROR</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">State</span><span class="o">::</span><span class="no">IDLE</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;IDLE&quot;</span><span class="p">;</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">State</span><span class="o">::</span><span class="no">RUNNING</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;RUNNING&quot;</span><span class="p">;</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7"></a><span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="no">State</span><span class="o">::</span><span class="no">ERROR</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;ERROR&quot;</span><span class="p">;</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">os</span><span class="p">;</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10"></a><span class="p">}</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11"></a>
+<a id="__codelineno-25-12" name="__codelineno-25-12"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;State&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Code&quot;</span><span class="p">;</span>
+<a id="__codelineno-25-13" name="__codelineno-25-13"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">State</span><span class="o">::</span><span class="n">RUNNING</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span>
+<a id="__codelineno-25-14" name="__codelineno-25-14"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">State</span><span class="o">::</span><span class="n">ERROR</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Output:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1"></a>Time,State,Code
+<a id="__codelineno-26-2" name="__codelineno-26-2"></a>1.0,RUNNING,200
+<a id="__codelineno-26-3" name="__codelineno-26-3"></a>2.0,ERROR,500
+</code></pre></div></td></tr></table></div>
+<h3 id="complex-structures">Complex Structures</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-27-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-27-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-27-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-27-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-27-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-27-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-27-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-27-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-27-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-27-10">10</a></span>
+<span class="normal"><a href="#__codelineno-27-11">11</a></span>
+<span class="normal"><a href="#__codelineno-27-12">12</a></span>
+<span class="normal"><a href="#__codelineno-27-13">13</a></span>
+<span class="normal"><a href="#__codelineno-27-14">14</a></span>
+<span class="normal"><a href="#__codelineno-27-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">SensorData</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">temperature</span><span class="p">;</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">pressure</span><span class="p">;</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">valid</span><span class="p">;</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5"></a><span class="p">};</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6"></a>
+<a id="__codelineno-27-7" name="__codelineno-27-7"></a><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="o">&amp;</span><span class="w"> </span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">SensorData</span><span class="o">&amp;</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">os</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">temperature</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">pressure</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">data</span><span class="p">.</span><span class="n">valid</span><span class="p">;</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9"></a><span class="p">}</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10"></a>
+<a id="__codelineno-27-11" name="__codelineno-27-11"></a><span class="c1">// Note: Custom operator&lt;&lt; should NOT add trailing comma</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12"></a><span class="c1">// LoggerProxy handles comma separation</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13"></a><span class="n">SensorData</span><span class="w"> </span><span class="n">data1</span><span class="p">{</span><span class="mf">20.5f</span><span class="p">,</span><span class="w"> </span><span class="mf">101.3f</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">};</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Time&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Sensor&quot;</span><span class="p">;</span>
+<a id="__codelineno-27-15" name="__codelineno-27-15"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">data1</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Important:</strong> When overloading <code>operator&lt;&lt;</code> for custom types used with <code>LoggerProxy</code>, the custom operator should format the data without trailing commas, as <code>LoggerProxy</code> handles comma separation.</p>
+<h3 id="conditional-logging">Conditional Logging</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-28-1">1</a></span>
+<span class="normal"><a href="#__codelineno-28-2">2</a></span>
+<span class="normal"><a href="#__codelineno-28-3">3</a></span>
+<span class="normal"><a href="#__codelineno-28-4">4</a></span>
+<span class="normal"><a href="#__codelineno-28-5">5</a></span>
+<span class="normal"><a href="#__codelineno-28-6">6</a></span>
+<span class="normal"><a href="#__codelineno-28-7">7</a></span>
+<span class="normal"><a href="#__codelineno-28-8">8</a></span>
+<span class="normal"><a href="#__codelineno-28-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3"></a>
+<a id="__codelineno-28-4" name="__codelineno-28-4"></a><span class="w">    </span><span class="c1">// Log only significant changes</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">abs</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">last_value</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6"></a><span class="w">        </span><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7"></a><span class="w">        </span><span class="n">last_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-28-8" name="__codelineno-28-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-28-9" name="__codelineno-28-9"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="timestamp-formatting">Timestamp Formatting</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-29-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-29-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-29-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-29-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-29-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-29-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-29-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-29-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-29-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-29-10">10</a></span>
+<span class="normal"><a href="#__codelineno-29-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iomanip&gt;</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sstream&gt;</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4"></a><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="nf">format_timestamp</span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">time</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span><span class="w"> </span><span class="n">oss</span><span class="p">;</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6"></a><span class="w">    </span><span class="n">oss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fixed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">setprecision</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">time</span><span class="p">;</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">oss</span><span class="p">.</span><span class="n">str</span><span class="p">();</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8"></a><span class="p">}</span>
+<a id="__codelineno-29-9" name="__codelineno-29-9"></a>
+<a id="__codelineno-29-10" name="__codelineno-29-10"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">format_timestamp</span><span class="p">(</span><span class="mf">1.23456</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Value&quot;</span><span class="p">;</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11"></a><span class="c1">// Outputs: 1.235,Value</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="internal-mechanics">Internal Mechanics</h2>
+<h3 id="line-writing-process">Line Writing Process</h3>
+<ol>
+<li><strong>Creation</strong>: <code>LoggerProxy</code> is created with a reference to <code>Logger</code></li>
+<li><strong>Data Writing</strong>: Each <code>operator&lt;&lt;</code> call writes value + comma</li>
+<li><strong>Destruction</strong>: Destructor performs cleanup:</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-30-1">1</a></span>
+<span class="normal"><a href="#__codelineno-30-2">2</a></span>
+<span class="normal"><a href="#__codelineno-30-3">3</a></span>
+<span class="normal"><a href="#__codelineno-30-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1"></a><span class="kt">long</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">logger_</span><span class="p">.</span><span class="n">stream</span><span class="p">().</span><span class="n">tellp</span><span class="p">();</span><span class="w">           </span><span class="c1">// Get current position</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2"></a><span class="n">logger_</span><span class="p">.</span><span class="n">stream</span><span class="p">().</span><span class="n">seekp</span><span class="p">(</span><span class="n">pos</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">               </span><span class="c1">// Back up one char</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3"></a><span class="n">logger_</span><span class="p">.</span><span class="n">stream</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w">                 </span><span class="c1">// Write newline</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4"></a><span class="n">logger_</span><span class="p">.</span><span class="n">stream</span><span class="p">().</span><span class="n">flush</span><span class="p">();</span><span class="w">                      </span><span class="c1">// Force write to disk</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="example-trace">Example Trace</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-31-1">1</a></span>
+<span class="normal"><a href="#__codelineno-31-2">2</a></span>
+<span class="normal"><a href="#__codelineno-31-3">3</a></span>
+<span class="normal"><a href="#__codelineno-31-4">4</a></span>
+<span class="normal"><a href="#__codelineno-31-5">5</a></span>
+<span class="normal"><a href="#__codelineno-31-6">6</a></span>
+<span class="normal"><a href="#__codelineno-31-7">7</a></span>
+<span class="normal"><a href="#__codelineno-31-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1"></a><span class="c1">// Code:</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">;</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4"></a><span class="c1">// Step-by-step stream contents:</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5"></a><span class="c1">// 1. After &lt;&lt; &quot;A&quot;:  &quot;A,&quot;</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6"></a><span class="c1">// 2. After &lt;&lt; &quot;B&quot;:  &quot;A,B,&quot;</span>
+<a id="__codelineno-31-7" name="__codelineno-31-7"></a><span class="c1">// 3. After &lt;&lt; &quot;C&quot;:  &quot;A,B,C,&quot;</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8"></a><span class="c1">// 4. Destructor:    &quot;A,B,C\n&quot; (comma removed, newline added, flushed)</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="memory-management">Memory Management</h2>
+<h3 id="logger-lifecycle">Logger Lifecycle</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-32-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-32-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-32-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-32-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-32-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-32-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-32-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-32-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-32-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-32-10">10</a></span>
+<span class="normal"><a href="#__codelineno-32-11">11</a></span>
+<span class="normal"><a href="#__codelineno-32-12">12</a></span>
+<span class="normal"><a href="#__codelineno-32-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1"></a><span class="c1">// Typical lifecycle managed by UnitTest</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">UnitTest</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">Logger</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_loggers</span><span class="p">;</span><span class="w">  </span><span class="c1">// Stored by value</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4"></a>
+<a id="__codelineno-32-5" name="__codelineno-32-5"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="nf">create_logger</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">&amp;</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6"></a><span class="w">        </span><span class="n">m_loggers</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Logger</span><span class="p">();</span><span class="w">  </span><span class="c1">// Default constructed</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7"></a><span class="w">        </span><span class="n">m_loggers</span><span class="p">[</span><span class="n">name</span><span class="p">].</span><span class="n">register_log_file</span><span class="p">(</span><span class="n">suite</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10"></a>
+<a id="__codelineno-32-11" name="__codelineno-32-11"></a><span class="w">    </span><span class="c1">// Automatic cleanup in map destructor</span>
+<a id="__codelineno-32-12" name="__codelineno-32-12"></a><span class="w">    </span><span class="o">~</span><span class="n">UnitTest</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span><span class="w">  </span><span class="c1">// m_loggers destroyed, Logger destructors called</span>
+<a id="__codelineno-32-13" name="__codelineno-32-13"></a><span class="p">};</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="file-pointer-management">File Pointer Management</h3>
+<p>The <code>Logger</code> class uses a raw pointer (<code>std::ofstream*</code>) for the file:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-33-1">1</a></span>
+<span class="normal"><a href="#__codelineno-33-2">2</a></span>
+<span class="normal"><a href="#__codelineno-33-3">3</a></span>
+<span class="normal"><a href="#__codelineno-33-4">4</a></span>
+<span class="normal"><a href="#__codelineno-33-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1"></a><span class="n">Logger</span><span class="o">::~</span><span class="n">Logger</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_log_file</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3"></a><span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">m_log_file</span><span class="p">);</span><span class="w">  </span><span class="c1">// Note: Should be &#39;delete&#39;, not &#39;free&#39;</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Potential Issue:</strong> The destructor uses <code>free()</code> instead of <code>delete</code>. This is likely a bug since <code>m_log_file</code> is allocated with <code>new</code>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-34-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1"></a><span class="n">m_log_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ofstream</span><span class="p">(</span><span class="n">filepath</span><span class="p">);</span><span class="w">  </span><span class="c1">// allocated with new</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>Should be:</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-35-1">1</a></span>
+<span class="normal"><a href="#__codelineno-35-2">2</a></span>
+<span class="normal"><a href="#__codelineno-35-3">3</a></span>
+<span class="normal"><a href="#__codelineno-35-4">4</a></span>
+<span class="normal"><a href="#__codelineno-35-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1"></a><span class="n">Logger</span><span class="o">::~</span><span class="n">Logger</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_log_file</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3"></a><span class="w">        </span><span class="k">delete</span><span class="w"> </span><span class="n">m_log_file</span><span class="p">;</span><span class="w">  </span><span class="c1">// Correct: delete matches new</span>
+<a id="__codelineno-35-4" name="__codelineno-35-4"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-35-5" name="__codelineno-35-5"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-always-use-loggerproxy-for-csv">1. Always Use LoggerProxy for CSV</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-36-1">1</a></span>
+<span class="normal"><a href="#__codelineno-36-2">2</a></span>
+<span class="normal"><a href="#__codelineno-36-3">3</a></span>
+<span class="normal"><a href="#__codelineno-36-4">4</a></span>
+<span class="normal"><a href="#__codelineno-36-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1"></a><span class="c1">// GOOD - Automatic CSV formatting</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">;</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3"></a>
+<a id="__codelineno-36-4" name="__codelineno-36-4"></a><span class="c1">// BAD - Manual formatting required</span>
+<a id="__codelineno-36-5" name="__codelineno-36-5"></a><span class="n">logger</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="2-one-proxy-per-line">2. One Proxy Per Line</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-37-1">1</a></span>
+<span class="normal"><a href="#__codelineno-37-2">2</a></span>
+<span class="normal"><a href="#__codelineno-37-3">3</a></span>
+<span class="normal"><a href="#__codelineno-37-4">4</a></span>
+<span class="normal"><a href="#__codelineno-37-5">5</a></span>
+<span class="normal"><a href="#__codelineno-37-6">6</a></span>
+<span class="normal"><a href="#__codelineno-37-7">7</a></span>
+<span class="normal"><a href="#__codelineno-37-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1"></a><span class="c1">// GOOD - Each statement is one CSV row</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Header1&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Header2&quot;</span><span class="p">;</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data1&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data2&quot;</span><span class="p">;</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4"></a>
+<a id="__codelineno-37-5" name="__codelineno-37-5"></a><span class="c1">// BAD - Don&#39;t reuse proxy across lines</span>
+<a id="__codelineno-37-6" name="__codelineno-37-6"></a><span class="k">auto</span><span class="w"> </span><span class="n">proxy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">);</span>
+<a id="__codelineno-37-7" name="__codelineno-37-7"></a><span class="n">proxy</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Header1&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Header2&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// This line is complete when proxy destructs</span>
+<a id="__codelineno-37-8" name="__codelineno-37-8"></a><span class="n">proxy</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data1&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data2&quot;</span><span class="p">;</span><span class="w">      </span><span class="c1">// This won&#39;t work as expected</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="3-consistent-column-count">3. Consistent Column Count</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-38-1">1</a></span>
+<span class="normal"><a href="#__codelineno-38-2">2</a></span>
+<span class="normal"><a href="#__codelineno-38-3">3</a></span>
+<span class="normal"><a href="#__codelineno-38-4">4</a></span>
+<span class="normal"><a href="#__codelineno-38-5">5</a></span>
+<span class="normal"><a href="#__codelineno-38-6">6</a></span>
+<span class="normal"><a href="#__codelineno-38-7">7</a></span>
+<span class="normal"><a href="#__codelineno-38-8">8</a></span>
+<span class="normal"><a href="#__codelineno-38-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1"></a><span class="c1">// GOOD</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">;</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<a id="__codelineno-38-4" name="__codelineno-38-4"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
+<a id="__codelineno-38-5" name="__codelineno-38-5"></a>
+<a id="__codelineno-38-6" name="__codelineno-38-6"></a><span class="c1">// BAD - Inconsistent columns</span>
+<a id="__codelineno-38-7" name="__codelineno-38-7"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">;</span>
+<a id="__codelineno-38-8" name="__codelineno-38-8"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w">           </span><span class="c1">// Missing column!</span>
+<a id="__codelineno-38-9" name="__codelineno-38-9"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"> </span><span class="c1">// Extra column!</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="4-handle-commas-in-string-data">4. Handle Commas in String Data</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-39-1">1</a></span>
+<span class="normal"><a href="#__codelineno-39-2">2</a></span>
+<span class="normal"><a href="#__codelineno-39-3">3</a></span>
+<span class="normal"><a href="#__codelineno-39-4">4</a></span>
+<span class="normal"><a href="#__codelineno-39-5">5</a></span>
+<span class="normal"><a href="#__codelineno-39-6">6</a></span>
+<span class="normal"><a href="#__codelineno-39-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1"></a><span class="c1">// Be aware: commas in strings will break CSV format</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2"></a><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Temperature, degrees C&quot;</span><span class="p">;</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">description</span><span class="p">;</span><span class="w">  </span><span class="c1">// Results in extra columns!</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4"></a>
+<a id="__codelineno-39-5" name="__codelineno-39-5"></a><span class="c1">// Solution: Quote strings with commas (manual handling required)</span>
+<a id="__codelineno-39-6" name="__codelineno-39-6"></a><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">safe_description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">Temperature, degrees C</span><span class="se">\&quot;</span><span class="s">&quot;</span><span class="p">;</span>
+<a id="__codelineno-39-7" name="__codelineno-39-7"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">safe_description</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="5-flush-critical-data">5. Flush Critical Data</h3>
+<p><code>LoggerProxy</code> automatically flushes after each line, ensuring data persistence:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-40-1">1</a></span>
+<span class="normal"><a href="#__codelineno-40-2">2</a></span>
+<span class="normal"><a href="#__codelineno-40-3">3</a></span>
+<span class="normal"><a href="#__codelineno-40-4">4</a></span>
+<span class="normal"><a href="#__codelineno-40-5">5</a></span>
+<span class="normal"><a href="#__codelineno-40-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3"></a><span class="w">        </span><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compute</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4"></a><span class="w">        </span><span class="c1">// Flushed automatically - safe even if test crashes</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-40-6" name="__codelineno-40-6"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="common-pitfalls">Common Pitfalls</h2>
+<h3 id="1-forgetting-register_log_file">1. Forgetting register_log_file()</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-41-1">1</a></span>
+<span class="normal"><a href="#__codelineno-41-2">2</a></span>
+<span class="normal"><a href="#__codelineno-41-3">3</a></span>
+<span class="normal"><a href="#__codelineno-41-4">4</a></span>
+<span class="normal"><a href="#__codelineno-41-5">5</a></span>
+<span class="normal"><a href="#__codelineno-41-6">6</a></span>
+<span class="normal"><a href="#__codelineno-41-7">7</a></span>
+<span class="normal"><a href="#__codelineno-41-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1"></a><span class="c1">// WRONG - will assert</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-41-3" name="__codelineno-41-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// m_log_file is nullptr!</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4"></a>
+<a id="__codelineno-41-5" name="__codelineno-41-5"></a><span class="c1">// CORRECT</span>
+<a id="__codelineno-41-6" name="__codelineno-41-6"></a><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="p">;</span>
+<a id="__codelineno-41-7" name="__codelineno-41-7"></a><span class="n">logger</span><span class="p">.</span><span class="n">register_log_file</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Case&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">);</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Data&quot;</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="2-reusing-loggerproxy">2. Reusing LoggerProxy</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-42-1">1</a></span>
+<span class="normal"><a href="#__codelineno-42-2">2</a></span>
+<span class="normal"><a href="#__codelineno-42-3">3</a></span>
+<span class="normal"><a href="#__codelineno-42-4">4</a></span>
+<span class="normal"><a href="#__codelineno-42-5">5</a></span>
+<span class="normal"><a href="#__codelineno-42-6">6</a></span>
+<span class="normal"><a href="#__codelineno-42-7">7</a></span>
+<span class="normal"><a href="#__codelineno-42-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1"></a><span class="c1">// WRONG - proxy destructor is called when line ends</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2"></a><span class="k">auto</span><span class="w"> </span><span class="n">proxy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">);</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3"></a><span class="n">proxy</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Line written here when expression ends</span>
+<a id="__codelineno-42-4" name="__codelineno-42-4"></a><span class="n">proxy</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;D&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Doesn&#39;t work - proxy is already used</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5"></a>
+<a id="__codelineno-42-6" name="__codelineno-42-6"></a><span class="c1">// CORRECT - new proxy for each line</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">;</span>
+<a id="__codelineno-42-8" name="__codelineno-42-8"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;D&quot;</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="3-manual-vs-automatic-formatting">3. Manual vs. Automatic Formatting</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-43-1">1</a></span>
+<span class="normal"><a href="#__codelineno-43-2">2</a></span>
+<span class="normal"><a href="#__codelineno-43-3">3</a></span>
+<span class="normal"><a href="#__codelineno-43-4">4</a></span>
+<span class="normal"><a href="#__codelineno-43-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1"></a><span class="c1">// Mixing styles leads to confusion</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2"></a><span class="n">logger</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="p">;</span><span class="w">                    </span><span class="c1">// Manual</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// Automatic</span>
+<a id="__codelineno-43-4" name="__codelineno-43-4"></a>
+<a id="__codelineno-43-5" name="__codelineno-43-5"></a><span class="c1">// Pick one style and stick with it</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="4-expecting-custom-precision">4. Expecting Custom Precision</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-44-1">1</a></span>
+<span class="normal"><a href="#__codelineno-44-2">2</a></span>
+<span class="normal"><a href="#__codelineno-44-3">3</a></span>
+<span class="normal"><a href="#__codelineno-44-4">4</a></span>
+<span class="normal"><a href="#__codelineno-44-5">5</a></span>
+<span class="normal"><a href="#__codelineno-44-6">6</a></span>
+<span class="normal"><a href="#__codelineno-44-7">7</a></span>
+<span class="normal"><a href="#__codelineno-44-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1"></a><span class="c1">// Default precision may not be what you want</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2"></a><span class="kt">float</span><span class="w"> </span><span class="n">pi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14159265359</span><span class="p">;</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">pi</span><span class="p">;</span><span class="w">  </span><span class="c1">// Output depends on default precision</span>
+<a id="__codelineno-44-4" name="__codelineno-44-4"></a>
+<a id="__codelineno-44-5" name="__codelineno-44-5"></a><span class="c1">// Solution: Format before logging</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6"></a><span class="n">std</span><span class="o">::</span><span class="n">ostringstream</span><span class="w"> </span><span class="n">oss</span><span class="p">;</span>
+<a id="__codelineno-44-7" name="__codelineno-44-7"></a><span class="n">oss</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">fixed</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">setprecision</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">pi</span><span class="p">;</span>
+<a id="__codelineno-44-8" name="__codelineno-44-8"></a><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">oss</span><span class="p">.</span><span class="n">str</span><span class="p">();</span><span class="w">  </span><span class="c1">// 3.141593</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="performance-considerations">Performance Considerations</h2>
+<ol>
+<li>
+<p><strong>Flushing Overhead</strong>: Each line is flushed, ensuring data safety but impacting performance for high-frequency logging</p>
+</li>
+<li>
+<p><strong>File I/O</strong>: Consider logging frequency in tight loops:</p>
+</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-45-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-45-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-45-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-45-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-45-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-45-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-45-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-45-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-45-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-45-10">10</a></span>
+<span class="normal"><a href="#__codelineno-45-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1"></a><span class="c1">// High overhead - 1M file operations</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3"></a><span class="w">    </span><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compute</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4"></a><span class="p">}</span>
+<a id="__codelineno-45-5" name="__codelineno-45-5"></a>
+<a id="__codelineno-45-6" name="__codelineno-45-6"></a><span class="c1">// Better - 1000 file operations</span>
+<a id="__codelineno-45-7" name="__codelineno-45-7"></a><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-45-8" name="__codelineno-45-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-45-9" name="__codelineno-45-9"></a><span class="w">        </span><span class="n">get_logger_proxy</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">compute</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-45-10" name="__codelineno-45-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-45-11" name="__codelineno-45-11"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<ol>
+<li><strong>String Allocation</strong>: <code>LoggerProxy</code> is lightweight but each call creates a temporary object</li>
+</ol>
+<h2 id="limitations">Limitations</h2>
+<ol>
+<li><strong>CSV Only</strong>: No support for other formats (JSON, XML, binary)</li>
+<li><strong>No Buffering Control</strong>: Flushing is automatic and cannot be disabled</li>
+<li><strong>No Escaping</strong>: Strings containing commas break CSV format</li>
+<li><strong>No Quoting</strong>: No automatic quoting for string fields</li>
+<li><strong>Fixed Delimiter</strong>: Comma is hardcoded, no alternative delimiters</li>
+<li><strong>No Compression</strong>: Large logs consume significant disk space</li>
+</ol>
+<h2 id="see-also">See Also</h2>
+<ul>
+<li><a href="../unit_test/">UnitTest</a> - Primary user of Logger and LoggerProxy classes</li>
+<li><a href="../rtos_test/">RTOS_Test</a> - Uses logging for integration test data capture</li>
+<li><a href="../../mcs_back/mcs_back_test/">MCS_Back_Test</a> - Examples of real-world logger usage</li>
+<li>CSV format specification</li>
+<li>C++ stream I/O documentation</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 PK MechPower
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/puml.js"></script>
+      
+        <script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+      
+        <script src="../../assets/mkdocs_puml/interaction.js"></script>
+      
+    
+  </body>
+</html>

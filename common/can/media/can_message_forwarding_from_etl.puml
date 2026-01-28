@@ -1,0 +1,53 @@
+```puml
+@startuml message-forwarding-from-etl
+
+participant CAN_Peripheral
+participant ETL_Bus
+participant ETL_to_CAN_Message_Forwarder
+participant Active_Bus
+participant Scheduler
+participant Task_A
+participant Task_B
+
+' Task_A
+Scheduler -> Task_A: Process task
+
+note over Task_A: Process queued messages
+note over Task_A: Do some calculation
+
+Task_A -> Active_Bus: Send Calculation_Results_Msg
+
+
+Active_Bus -> ETL_Bus
+note over ETL_Bus: Check if any of connected routers expects the message
+
+' Handling the message internally
+alt Message is expected by Task_B
+ETL_Bus -> Task_B: Receive Calculation_Results_Msg
+
+note over Task_B: Enqueue the message
+
+Task_B -> ETL_Bus
+end
+ETL_Bus -> Active_Bus
+
+' Message forwarding
+Active_Bus -> ETL_to_CAN_Message_Forwarder: Try forwarding the message
+
+alt Message SHOULD be forwarded to CAN net.
+note over ETL_to_CAN_Message_Forwarder: Encode the message to CAN frame
+ETL_to_CAN_Message_Forwarder -> CAN_Peripheral: Transmit the message
+end
+
+ETL_to_CAN_Message_Forwarder -> Active_Bus
+Active_Bus -> Task_A
+Task_A -> Scheduler
+
+' Task_B
+Scheduler -> Task_B
+
+note over Task_B: Process queued messages
+note over Task_B: Do some calculation...
+
+@enduml
+```
