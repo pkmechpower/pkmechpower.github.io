@@ -1,0 +1,1 @@
+genhtml coverage-filtered.info --output-directory coverage-report --title 'PK MechPower Coverage' --legend --show-details
